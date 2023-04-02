@@ -1,5 +1,6 @@
 <script setup>
   const { asideNav, toggleNav } = useNav()
+  const {isConnected, isOnMainnet, address, connect, disconnect} = useConnect();
 </script>
 
 <template>
@@ -18,15 +19,29 @@
         </li>
       </ul>
     </nav>
+    
     <div class="aside-bottom">
-      <div class="aside-profil">
+      <div class="aside-profil" v-if="isConnected">
         <div class="aside-profil-photo">
           <Icon name="mdi:ethereum" />
         </div>
         <div class="aside-profil-right">
-          <address class="grad-1">0xDeFE33795803f2353C69FD8cdb432F9d5cEE6762</address>
-          <button class="logout">
+          <address class="grad-1">{{ address }}</address>
+          <button class="logout" @click="disconnect">
             <span>Logout</span>
+            <Icon name="material-symbols:exit-to-app-rounded" />
+          </button>
+        </div>
+      </div>
+      
+      <div class="aside-profil" v-else>
+        <div class="aside-profil-photo">
+          <Icon name="mdi:ethereum" />
+        </div>
+        <div class="aside-profil-right">
+          <address class="grad-1">Not connected</address>
+          <button class="logout" @click="connect">
+            <span>Connect</span>
             <Icon name="material-symbols:exit-to-app-rounded" />
           </button>
         </div>

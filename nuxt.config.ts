@@ -1,6 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
+  runtimeConfig: {
+    public: {
+      walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID
+    }
+  },
+
+  plugins: [
+    { src: '~/plugins/global.client.js' }
+  ],
+
   css: [
     '@/assets/css/main.css'
   ],
