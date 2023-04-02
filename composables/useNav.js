@@ -23,10 +23,7 @@ export const useNav = () => {
 
   const asideNav = [
     { title: 'aside.home', link: '/app', icon: 'ph:house-simple' },
-    { title: 'aside.rubrique', link: '/', icon: 'ph:brackets-curly' },
-    { title: 'aside.rubrique', link: '/', icon: 'ph:swimming-pool' },
-    { title: 'aside.rubrique', link: '/', icon: 'ph:user-circle' },
-    { title: 'aside.rubrique', link: '/', icon: 'ph:gear-six' }
+    { title: 'aside.pools_listing', link: '/pools', icon: 'carbon:load-balancer-pool' },
   ]
 
   return {

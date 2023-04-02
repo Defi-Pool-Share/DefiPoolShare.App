@@ -311,6 +311,10 @@ html::-webkit-scrollbar-thumb {
   display: none;
 }
 
+.field-input input[readonly] {
+  cursor: initial;
+}
+
 .field-input input::placeholder, .field-input textarea::placeholder {
   opacity: .5;
 }

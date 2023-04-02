@@ -19,9 +19,11 @@
     "@walletconnect/client": "^1.8.0",
     "@walletconnect/qrcode-modal": "^1.8.0",
     "buffer": "^6.0.3",
+    "dayjs": "^1.11.7",
     "ethers": "^5.7.2",
     "gsap": "^3.11.4",
     "nuxt-swiper": "^1.0.1",
+    "sass": "^1.60.0",
     "smooth-scrollbar": "^8.8.1"
   }
 }

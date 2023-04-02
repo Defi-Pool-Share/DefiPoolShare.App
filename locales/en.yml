@@ -36,7 +36,7 @@ step:
     2:
       title: How it works
       txt: |
-       Potential borrowers can bid on your locked NFT LPs, offering a price to borrow it for a set period. Once a bid is accepted, the borrower pays you the lending fee you asked for having access to your LP for the period and gains access to the Uniswap V3 pool fees. At the end of the loan period, our smart-contract returns the pool share to you, and you receive your NFT back.
+        Potential borrowers can bid on your locked NFT LPs, offering a price to borrow it for a set period. Once a bid is accepted, the borrower pays you the lending fee you asked for having access to your LP for the period and gains access to the Uniswap V3 pool fees. At the end of the loan period, our smart-contract returns the pool share to you, and you receive your NFT back.
     3:
       title: Benefits
       txt: |
@@ -45,26 +45,30 @@ step:
 roadmap:
   sub: Discover our <strong>roadmap</strong>
   title: Our Roadmap for Success
-  q1: [
-    "Launch the DeFi Pool Share platform, with initial support for Uniswap V3 pool shares and&nbsp;lending.",
-    "Begin marketing and outreach efforts to attract early adopters and liquidity&nbsp;providers.",
-    "Launch a token associated with the DeFi Pool Share platform to provide users with additional benefits and&nbsp;features.",
-  ]
-  q2: [
-    "Introduce a staking mechanism to allow users to earn additional yield on their NFT pool&nbsp;shares.",
-    "Expand the platform to support additional lending protocols, such as SushiSwap and&nbsp;Curve.",
-    "Introduce a governance mechanism to allow users to vote on important platform&nbsp;decisions."
-  ]
-  q3: [
-    "Begin building partnerships with other companies in the DeFi space to expand the platform's&nbsp;reach.",
-    "Introduce a fee-sharing mechanism to distribute a portion of the platform's revenue to token&nbsp;holders.",
-    "Expand the platform to support additional DeFi services, such as margin lending and decentralized&nbsp;insurance."
-  ]
-  q4: [
-    "Launch a mobile app for DeFi Pool Share to make the lending process even more accessible and&nbsp;user-friendly.",
-    "Continue building partnerships with other companies in the DeFi space to expand the platform's reach and&nbsp;capabilities.",
-    "Launch a marketing campaign to attract a wider audience of investors and liquidity&nbsp;providers."
-  ]
+  q1:
+    [
+      "Launch the DeFi Pool Share platform, with initial support for Uniswap V3 pool shares and&nbsp;lending.",
+      "Begin marketing and outreach efforts to attract early adopters and liquidity&nbsp;providers.",
+      "Launch a token associated with the DeFi Pool Share platform to provide users with additional benefits and&nbsp;features.",
+    ]
+  q2:
+    [
+      "Introduce a staking mechanism to allow users to earn additional yield on their NFT pool&nbsp;shares.",
+      "Expand the platform to support additional lending protocols, such as SushiSwap and&nbsp;Curve.",
+      "Introduce a governance mechanism to allow users to vote on important platform&nbsp;decisions.",
+    ]
+  q3:
+    [
+      "Begin building partnerships with other companies in the DeFi space to expand the platform's&nbsp;reach.",
+      "Introduce a fee-sharing mechanism to distribute a portion of the platform's revenue to token&nbsp;holders.",
+      "Expand the platform to support additional DeFi services, such as margin lending and decentralized&nbsp;insurance.",
+    ]
+  q4:
+    [
+      "Launch a mobile app for DeFi Pool Share to make the lending process even more accessible and&nbsp;user-friendly.",
+      "Continue building partnerships with other companies in the DeFi space to expand the platform's reach and&nbsp;capabilities.",
+      "Launch a marketing campaign to attract a wider audience of investors and liquidity&nbsp;providers.",
+    ]
 
 tokenomics:
   sub: <strong>Tokenomics</strong> for the community
@@ -101,11 +105,22 @@ team:
 
 footer:
   desc: |
-        Maximize your earnings and minimize your risks with <strong class="grad-1">DeFi Pool Share</strong>. Lend your Uniswap V3 pool shares and earn instant ETH, without worrying about impermanent loss or LP management.
+    Maximize your earnings and minimize your risks with <strong class="grad-1">DeFi Pool Share</strong>. Lend your Uniswap V3 pool shares and earn instant ETH, without worrying about impermanent loss or LP management.
   nav: Navigation
   info: Informations
   copyright: DeFi Pool Share © 2023. All rights reserved.
 
 aside:
-  home: Home
-  rubrique: Rubrique
+  home: Dashboard
+  pools_listing: Pools
+
+pool:
+  item:
+    title:
+      personal: Owned pool
+      rented: Rented pool
+    label:
+      balance: Balance
+      interests: Claimable funds
+    cta:
+      claim: Claim
