@@ -1,21 +1,15 @@
-import { Currency } from "./types"
+import { Currency } from "./types";
 
 const eth: Currency = {
-    name: 'Ethereum',
-    code: 'eth'
-}
+  id: "ethereum",
+};
 
 const glq: Currency = {
-    name: 'Graphlinq',
-    code: 'glq'
-}
+  id: "graphlinq-protocol",
+};
 
 const btc: Currency = {
-    name: 'Bitcoin',
-    code: 'btc'
-}
+  id: "bitcoin",
+};
 
-export {
-    eth, glq, btc
-}
-
+export { eth, glq, btc };

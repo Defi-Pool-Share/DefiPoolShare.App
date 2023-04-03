@@ -1,58 +1,133 @@
 <template>
-  <div class="double grid">
-    <div>
-      <div class="field-input">
-        <input
-          type="text"
-          :value="`${displayCryptoPrice(
-            props.firstCurrency.value
-          )} ${props.firstCurrency.currency.code.toUpperCase()}`"
-          readonly
-        />
+  <div class="double-currencies">
+    <div class="title">{{ props.title }}</div>
+    <div class="volume" v-if="displayVolume">{{ volume }}</div>
+    <div class="content">
+      <div class="row">
+        <div class="left">
+          <img
+            :src="firstCoinData.image"
+            width="20"
+            height="20"
+            alt=""
+            v-if="firstCoinData"
+          />
+          <div class="coin-img" v-else />
+          <span v-if="firstCoinData">{{
+            firstCoinData.symbol.toUpperCase()
+          }}</span>
+        </div>
+        <div class="right">
+          <span>{{ displayCryptoPrice(props.firstCurrency.value) }}</span>
+        </div>
       </div>
-    </div>
 
-    <div class="icon-wrap">
-      <IconCSS class="icon" name="ic:round-swap-horiz" />
-    </div>
-
-    <div>
-      <div class="field-input">
-        <input
-          type="text"
-          :value="`${displayCryptoPrice(
-            props.secondCurrency.value
-          )} ${props.secondCurrency.currency.code.toUpperCase()}`"
-          readonly
-        />
+      <div class="row">
+        <div class="left">
+          <img
+            :src="secondCoinData.image"
+            width="20"
+            height="20"
+            alt=""
+            v-if="secondCoinData"
+          />
+          <div class="coin-img" v-else />
+          <span v-if="secondCoinData">{{
+            secondCoinData.symbol.toUpperCase()
+          }}</span>
+        </div>
+        <div class="right">
+          <span>{{ displayCryptoPrice(props.secondCurrency.value) }}</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { CurrencyAmount } from "~/lib/data/types";
+import { CGCoin, CurrencyAmount } from "~/lib/data/types";
+import { isValue } from "~/lib/modules/definition";
 import { displayCryptoPrice } from "~/utils/prices";
 
 type Props = {
+  title: string;
   firstCurrency: CurrencyAmount;
   secondCurrency: CurrencyAmount;
+  displayBalance?: boolean;
+  displayVolume?: boolean;
 };
 
 const props = defineProps<Props>();
+
+const { getCoinData, getTwoCoinsVolume } = useCoinGecko();
+const firstCoinData: Ref<CGCoin | null> = ref(null);
+const secondCoinData: Ref<CGCoin | null> = ref(null);
+
+const fetchData = async () => {
+  firstCoinData.value = await getCoinData(props.firstCurrency.currency.id);
+  secondCoinData.value = await getCoinData(props.secondCurrency.currency.id);
+};
+
+const volume = computed(() =>
+  displayDollars(
+    isValue(firstCoinData.value) && isValue(secondCoinData.value)
+      ? getTwoCoinsVolume({
+          first: {
+            value: props.firstCurrency.value,
+            price: firstCoinData.value.current_price,
+          },
+          second: {
+            value: props.secondCurrency.value,
+            price: secondCoinData.value.current_price,
+          },
+        })
+      : 0
+  )
+);
+
+fetchData();
 </script>
 
 <style lang="scss">
-.grid {
-  > div {
-    width: calc(50% - 20px);
+.double-currencies {
+  .content {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 12px;
+    padding: 12px;
+    border-radius: var(--main-radius);
+    margin-top: 12px;
   }
 
-  > .icon-wrap {
+  .volume {
+    font-size: 32px;
+    color: var(--color-1);
+    margin-top: 8px;
+  }
+
+  .row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 40px;
+    justify-content: space-between;
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  img {
+    border-radius: 50%;
+  }
+
+  .coin-img {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border-radius: 50%;
   }
 }
 </style>

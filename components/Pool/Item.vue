@@ -1,37 +1,35 @@
 <template>
   <div class="defi-PoolItem app-card">
-    <h3 class="h3">
-      <span class="grad-1">{{
-        $t(`pool.item.title.${props.rented ? "rented" : "personal"}`)
-      }}</span>
-      <i>{{ props.shared }}%</i>
-    </h3>
+    <div class="header">
+      <h3 class="h3">
+        <span class="grad-1">{{
+          $t(`pool.item.title.${props.rented ? "rented" : "personal"}`)
+        }}</span>
+        <i v-if="props.rented">{{ props.shared }}%</i>
+      </h3>
+      <a href="" class="btn-sm uni">
+        <span>UniSwap</span>
+        <IconCSS name="material-symbols:arrow-outward" />
+      </a>
+    </div>
+
     <div class="field" v-if="!props.rented">
-      <label for="text">{{ $t("pool.item.label.balance") }}</label>
-      <DoubleCurrencies v-bind="props.balance" />
+      <DoubleCurrencies
+        :title="$t('pool.item.label.balance')"
+        :display-volume="true"
+        :display-balance="true"
+        v-bind="props.balance"
+      />
     </div>
 
     <hr class="app-hr" v-if="!props.rented" />
 
     <div class="field">
-      <label for="text">{{ $t("pool.item.label.interests") }}</label>
-      <DoubleCurrencies v-bind="props.interests" />
-    </div>
-
-    <div class="field">
-      <div class="field-input">
-        <Icon name="ph:currency-circle-dollar" />
-        <input
-          type="text"
-          :value="
-            displayCryptoPrice(
-              currencyToDollar(props.interests.firstCurrency) +
-                currencyToDollar(props.interests.secondCurrency)
-            )
-          "
-          readonly
-        />
-      </div>
+      <DoubleCurrencies
+        :display-volume="true"
+        :title="$t('pool.item.label.interests')"
+        v-bind="props.interests"
+      />
     </div>
 
     <button
@@ -51,7 +49,7 @@
     <div class="app-paragraphe" v-if="props.rented">
       <ul>
         <li>
-          Remaining time :
+          {{ $t("pool.item.label.end_loan") }} :
           <span class="grad-1">{{ dayjs(props.rent.endDate).fromNow() }}</span>
         </li>
       </ul>
@@ -98,6 +96,19 @@ dayjs.extend(relativeTime);
   display: flex;
   flex-direction: column;
   gap: var(--main-gap);
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .uni {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 
   h3 {
     display: flex;

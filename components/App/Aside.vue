@@ -1,8 +1,3 @@
-<script setup>
-  const { asideNav, toggleNav } = useNav()
-  const {isConnected, isOnMainnet, address, connect, disconnect} = useConnect();
-</script>
-
 <template>
   <aside class="aside">
     <NuxtLink to="/" class="aside-logo">
@@ -19,7 +14,7 @@
         </li>
       </ul>
     </nav>
-    
+
     <div class="aside-bottom">
       <div class="aside-profil" v-if="isConnected">
         <div class="aside-profil-photo">
@@ -33,7 +28,7 @@
           </button>
         </div>
       </div>
-      
+
       <div class="aside-profil" v-else>
         <div class="aside-profil-photo">
           <Icon name="mdi:ethereum" />
@@ -56,3 +51,11 @@
     </svg>
   </button>
 </template>
+
+<script setup>
+const { asideNav, toggleNav } = useNav();
+const { isConnected, isOnMainnet, address, connect, disconnect } = useConnect();
+const { getAllCoinsData } = useCoinGecko();
+
+// getAllCoinsData();
+</script>

@@ -1,6 +1,13 @@
-export type Currency = {
+export type CGCoin = {
+  id: string;
+  symbol: string;
   name: string;
-  code: string;
+  image: string;
+  current_price: number;
+};
+
+export type Currency = {
+  id: string;
 };
 
 export type CurrencyAmount = {

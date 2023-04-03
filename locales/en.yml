@@ -112,7 +112,7 @@ footer:
 
 aside:
   home: Dashboard
-  pools_listing: Pools
+  my_pools: My pools
 
 pool:
   item:
@@ -120,7 +120,8 @@ pool:
       personal: Owned pool
       rented: Rented pool
     label:
-      balance: Balance
-      interests: Claimable funds
+      balance: Liquidity
+      interests: Unclaimed fees
+      end_loan: End of loan
     cta:
       claim: Claim

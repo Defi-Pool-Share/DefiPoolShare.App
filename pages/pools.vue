@@ -1,11 +1,10 @@
 <template>
   <div class="defi-Pools">
     <h1 class="h1">
-      <span class="grad-1">Pools</span>
+      <span class="grad-1">{{ $t("aside.my_pools") }}</span>
     </h1>
 
     <div class="defi-Pools-section">
-      <h2 class="h2">My pools</h2>
       <div class="app-paragraphe">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
@@ -37,7 +36,7 @@ const myPools: Pool[] = [
     shared: 100,
     balance: {
       firstCurrency: {
-        currency: eth,
+        currency: glq,
         value: 10.0598888,
       },
       secondCurrency: {
@@ -51,7 +50,7 @@ const myPools: Pool[] = [
     },
     interests: {
       firstCurrency: {
-        currency: eth,
+        currency: glq,
         value: 5.646235,
       },
       secondCurrency: {
@@ -66,42 +65,10 @@ const myPools: Pool[] = [
   },
   {
     rented: true,
-    shared: 10,
-    balance: {
-      firstCurrency: {
-        currency: glq,
-        value: 0.0598888,
-      },
-      secondCurrency: {
-        currency: eth,
-        value: 12.24226475,
-      },
-    },
-    price: {
-      currency: eth,
-      value: 6.5,
-    },
-    interests: {
-      firstCurrency: {
-        currency: eth,
-        value: 1.16448,
-      },
-      secondCurrency: {
-        currency: btc,
-        value: 0.000655,
-      },
-    },
-    rent: {
-      monthsDuration: 1,
-      endDate: new Date("2023-06-23"),
-    },
-  },
-  {
-    rented: true,
     shared: 5,
     balance: {
       firstCurrency: {
-        currency: glq,
+        currency: btc,
         value: 0.0598888,
       },
       secondCurrency: {
@@ -115,17 +82,49 @@ const myPools: Pool[] = [
     },
     interests: {
       firstCurrency: {
-        currency: eth,
-        value: 0,
+        currency: btc,
+        value: 0.06464,
       },
       secondCurrency: {
-        currency: btc,
-        value: 0,
+        currency: eth,
+        value: 0.0886,
       },
     },
     rent: {
       monthsDuration: 1,
       endDate: new Date("2023-05-17"),
+    },
+  },
+  {
+    rented: true,
+    shared: 10,
+    balance: {
+      firstCurrency: {
+        currency: eth,
+        value: 0.0598888,
+      },
+      secondCurrency: {
+        currency: glq,
+        value: 12.24226475,
+      },
+    },
+    price: {
+      currency: eth,
+      value: 6.5,
+    },
+    interests: {
+      firstCurrency: {
+        currency: eth,
+        value: 0,
+      },
+      secondCurrency: {
+        currency: glq,
+        value: 0,
+      },
+    },
+    rent: {
+      monthsDuration: 1,
+      endDate: new Date("2023-06-23"),
     },
   },
 ];
