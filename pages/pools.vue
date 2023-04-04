@@ -4,6 +4,8 @@
       <span class="grad-1">{{ $t("aside.my_pools") }}</span>
     </h1>
 
+    <button class="btn" @click="handleClick">getLoanInfo</button>
+
     <div class="defi-Pools-section">
       <div class="app-paragraphe">
         <p>
@@ -29,6 +31,13 @@
 <script setup lang="ts">
 import { Pool } from "@/lib/data/types";
 import { eth, btc, glq } from "@/lib/data/currencies";
+
+const { getLoanInfo } = useContractLending();
+
+const handleClick = async () => {
+  const res = await getLoanInfo(0);
+  console.log(res);
+};
 
 const myPools: Pool[] = [
   {

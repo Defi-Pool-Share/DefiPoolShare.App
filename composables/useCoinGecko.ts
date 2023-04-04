@@ -47,8 +47,6 @@ export const useCoinGecko = () => {
   const getCoinData = async (id: string) => {
     let coin = coinsStore.data.find((coin) => coin.id === id);
 
-    console.log("find");
-
     if (!isValue(coin)) {
       const res = await fetch(
         baseUrl +

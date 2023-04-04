@@ -6,10 +6,21 @@ export const useConnect = () => {
   const isConnected = ref(false);
   const isOnMainnet = ref(false);
   const address = ref(null);
-  const provider = ref(null);
+
+  const getProvider = () => {
+    let provider;
+
+    if ((window as any).ethereum) {
+      provider = new ethers.providers.Web3Provider((window as any).ethereum);
+    } else {
+      provider = ethers.providers.getDefaultProvider();
+    }
+
+    return provider;
+  };
 
   const connect = async () => {
-    const { accounts } = window.ethereum
+    const { accounts } = (window as any).ethereum
       ? await connectMetamask()
       : await connectWalletConnect();
 
@@ -25,7 +36,7 @@ export const useConnect = () => {
   };
 
   const connectMetamask = async () => {
-    const accounts = await window.ethereum.request({
+    const accounts = await (window as any).ethereum.request({
       method: "eth_requestAccounts",
     });
 
@@ -56,22 +67,13 @@ export const useConnect = () => {
     };
   };
 
-  const initData = async () => {
-    const tmpProvider =
-      window.ethereum != null
-        ? new ethers.providers.Web3Provider(window.ethereum)
-        : ethers.providers.getDefaultProvider();
+  const checkNetwork = async () => {
+    const provider = getProvider();
 
-    const network = await tmpProvider.getNetwork();
+    const network = await provider.getNetwork();
 
     isOnMainnet.value = network.chainId === 1;
-    provider.value = tmpProvider;
   };
-
-  onMounted(() => {
-    initData();
-    connect();
-  });
 
   return {
     connect,
@@ -79,6 +81,6 @@ export const useConnect = () => {
     isConnected,
     isOnMainnet,
     address,
-    provider,
+    getProvider,
   };
 };
