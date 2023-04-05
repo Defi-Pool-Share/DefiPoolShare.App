@@ -30,18 +30,120 @@ export const useContractLending = () => {
     return contractCode !== "0x" ? contract : null;
   };
 
-  const getLoanInfo = async (index: number) => {
+  const borrowNFT = async (loanIndex: number) => {
     const contract = await getContract();
     if (!contract) {
       return null;
     }
 
-    const res = await contract.getLoanInfo(index);
+    const res = await contract.borrowNFT(loanIndex);
+
+    return res;
+  };
+
+  const claimFees = async (loanIndex: number) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract.claimFees(loanIndex);
+
+    return res;
+  };
+
+  const depositNFT = async (
+    tokenId: number,
+    loanAmount: number,
+    loanDuration: number,
+    acceptedToken: string
+  ) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract.depositNFT(
+      tokenId,
+      loanAmount,
+      loanDuration,
+      acceptedToken
+    );
+
+    return res;
+  };
+
+  const reactivateLoan = async (
+    loanIndex: number,
+    loanDuration: number,
+    loanAmount: number
+  ) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract.reactivateLoan(
+      loanIndex,
+      loanDuration,
+      loanAmount
+    );
+
+    return res;
+  };
+
+  const whitelistToken = async (token: string, state: boolean) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract.whitelistToken(token, state);
+
+    return res;
+  };
+
+  const withdrawNFT = async (loanIndex: number) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract.withdrawNFT(loanIndex);
+
+    return res;
+  };
+
+  const canClaimFees = async (loanIndex: number) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract.getLoanInfo(loanIndex);
+
+    return res;
+  };
+
+  const getLoanInfo = async (loanIndex: number) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract.getLoanInfo(loanIndex);
 
     return res;
   };
 
   return {
+    borrowNFT,
+    claimFees,
+    depositNFT,
+    reactivateLoan,
+    whitelistToken,
+    withdrawNFT,
+    canClaimFees,
     getLoanInfo,
   };
 };

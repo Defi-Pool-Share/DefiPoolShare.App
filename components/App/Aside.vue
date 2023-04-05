@@ -22,10 +22,12 @@
         </div>
         <div class="aside-profil-right">
           <address class="grad-1">{{ address }}</address>
-          <button class="logout" @click="disconnect">
-            <span>Logout</span>
-            <Icon name="material-symbols:exit-to-app-rounded" />
-          </button>
+          <span class="aside-profil-network" data-success v-if="isOnMainnet">{{
+            $t("network.mainnet.true")
+          }}</span>
+          <span class="aside-profil-network" data-error v-else>{{
+            $t("network.mainnet.false")
+          }}</span>
         </div>
       </div>
 
@@ -54,8 +56,9 @@
 
 <script setup>
 const { asideNav, toggleNav } = useNav();
-const { isConnected, isOnMainnet, address, connect, disconnect } = useConnect();
-const { getAllCoinsData } = useCoinGecko();
+const { isConnected, isOnMainnet, address, connect } = useConnect();
 
-// getAllCoinsData();
+onMounted(() => {
+  connect();
+});
 </script>

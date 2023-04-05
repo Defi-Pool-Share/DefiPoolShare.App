@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
+      networkId: process.env.NETWORK_ID,
       contract: {
         lending: process.env.LENDING_CONTRACT_ADDRESS,
       },

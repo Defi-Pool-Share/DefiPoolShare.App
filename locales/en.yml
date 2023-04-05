@@ -114,6 +114,11 @@ aside:
   home: Dashboard
   my_pools: My pools
 
+network:
+  mainnet:
+    true: Mainnet network
+    false: Not on Mainnet network
+
 pool:
   item:
     title:
