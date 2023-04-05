@@ -8,6 +8,7 @@ export type CGCoin = {
 
 export type Currency = {
   id: string;
+  symbol: string;
 };
 
 export type CurrencyAmount = {

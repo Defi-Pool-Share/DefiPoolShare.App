@@ -112,6 +112,7 @@ footer:
 
 aside:
   home: Dashboard
+  pools: Pools
   my_pools: My pools
 
 network:
@@ -120,13 +121,22 @@ network:
     false: Not on Mainnet network
 
 pool:
+  title:
+    owned: Owned pools
+    loaned: Loaned pools
   item:
     title:
       personal: Owned pool
       rented: Rented pool
+      loan: Loan this pool
     label:
       balance: Liquidity
       interests: Unclaimed fees
       end_loan: End of loan
     cta:
       claim: Claim
+      submit: Submit
+  form:
+    label:
+      amount: Amount
+      duration: Duration

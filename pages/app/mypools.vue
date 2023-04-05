@@ -4,25 +4,47 @@
       <span class="grad-1">{{ $t("aside.my_pools") }}</span>
     </h1>
 
-    <div class="defi-Pools-section">
-      <div class="app-paragraphe">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-          reprehenderit eum, neque voluptas possimus quidem libero praesentium
-          sed earum saepe doloremque architecto aliquid consequatur vitae
-          dolorem alias quod temporibus voluptate!
-        </p>
+    <div class="defi-Pools-wrapper">
+      <div class="defi-Pools-section">
+        <h2 class="h2">{{ $t("pool.title.owned") }}</h2>
+        <div class="app-paragraphe">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Perspiciatis reprehenderit eum, neque voluptas possimus quidem
+            libero praesentium sed earum saepe doloremque architecto aliquid
+            consequatur vitae dolorem alias quod temporibus voluptate!
+          </p>
+        </div>
+        <div class="defi-Pools-list">
+          <div class="grid-x2">
+            <div :key="index" v-for="(pool, index) in myPools">
+              <PoolItem v-bind="pool" />
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="defi-Pools-list">
-        <div class="grid-x2">
-          <div :key="index" v-for="(pool, index) in myPools">
-            <PoolItem v-bind="pool" />
+
+      <hr class="app-hr" />
+
+      <div class="defi-Pools-section">
+        <h2 class="h2">{{ $t("pool.title.loaned") }}</h2>
+        <div class="app-paragraphe">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Perspiciatis reprehenderit eum, neque voluptas possimus quidem
+            libero praesentium sed earum saepe doloremque architecto aliquid
+            consequatur vitae dolorem alias quod temporibus voluptate!
+          </p>
+        </div>
+        <div class="defi-Pools-list">
+          <div class="grid-x2">
+            <div :key="index" v-for="(pool, index) in loanPools">
+              <PoolItem v-bind="pool" />
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <hr class="app-hr" />
   </div>
 </template>
 
@@ -63,6 +85,9 @@ const myPools: Pool[] = [
       endDate: new Date("2023-06-23"),
     },
   },
+];
+
+const loanPools = [
   {
     rented: true,
     shared: 5,
@@ -130,10 +155,15 @@ const myPools: Pool[] = [
 ];
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .defi-Pools {
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--main-padding) * 2);
+  }
   &-list {
-    margin: var(--main-padding) 0;
+    margin-top: var(--main-padding);
   }
 }
 </style>

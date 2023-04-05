@@ -8,5 +8,5 @@
 </template>
 
 <style>
-  @import url('/assets/css/app.css');
+@import url("/assets/css/app.css");
 </style>

@@ -3,7 +3,7 @@
     <div class="header">
       <h3 class="h3">
         <span class="grad-1">{{
-          $t(`pool.item.title.${props.rented ? "rented" : "personal"}`)
+          `${props.balance.firstCurrency.currency.symbol} / ${props.balance.secondCurrency.currency.symbol}`
         }}</span>
         <i v-if="props.rented">{{ props.shared }}%</i>
       </h3>
@@ -55,9 +55,11 @@
       </ul>
     </div>
 
-    <!-- Price : {{ `${props.price.value} ${props.price.currency.code}` }}
-    <br />
-    Duration : {{ `${props.duration} months` }} -->
+    <hr class="app-hr" v-if="!props.rented" />
+
+    <div class="field" v-if="!props.rented">
+      <PoolLoanForm />
+    </div>
   </div>
 </template>
 
@@ -116,6 +118,10 @@ dayjs.extend(relativeTime);
     align-items: center;
     justify-content: center;
     text-align: center;
+
+    span {
+      text-transform: uppercase;
+    }
 
     i {
       display: flex;
