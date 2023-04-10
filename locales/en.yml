@@ -119,6 +119,8 @@ network:
   mainnet:
     true: Mainnet network
     false: Not on Mainnet network
+  guard:
+    not_connected: You're currently not connected, please login.
 
 pool:
   title:
@@ -138,5 +140,9 @@ pool:
       submit: Submit
   form:
     label:
-      amount: Amount
+      amount: Price
+      currency: Currency
       duration: Duration
+    popin:
+      title: Loan summary
+      warning: You will set your ownership on loan for a certain duration in-wait for someone to buy it.

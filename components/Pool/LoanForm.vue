@@ -14,6 +14,29 @@
         />
       </div>
     </div>
+
+    <div class="field">
+      <label for="text">{{ $t("pool.form.label.currency") }}</label>
+      <div class="fields">
+        <label
+          class="check-button"
+          v-for="(input, index) in currencyInputs"
+          :key="index"
+        >
+          <input
+            :id="`currency_${input.value}`"
+            type="radio"
+            name="currency"
+            v-model="currency"
+            :value="input.value"
+          />
+          <span>
+            <IconCSS class="icon" :name="input.label"></IconCSS>
+          </span>
+        </label>
+      </div>
+    </div>
+
     <div class="field">
       <label for="text">{{ $t("pool.form.label.duration") }}</label>
       <div class="fields">
@@ -27,7 +50,6 @@
             type="radio"
             name="duration"
             v-model="duration"
-            :checked="index === 0"
             :value="input.value"
           />
           <span>{{ input.label }}</span>
@@ -35,17 +57,61 @@
       </div>
     </div>
     <div class="field">
-      <button class="btn" :disabled="!isSubmittable">
+      <button class="btn" :disabled="!isSubmittable" @click="openPopin">
         {{ $t("pool.item.cta.submit") }}
       </button>
     </div>
+    <AppPopin
+      v-if="popinOpen"
+      :title="$t('pool.form.popin.title')"
+      :close="closePopin"
+    >
+      <template #content>
+        <ul>
+          <li>
+            Amount :
+            <span class="grad-1"
+              >{{ amount }}
+              {{ getCurrencyByAddress(currency).symbol.toUpperCase() }}</span
+            >
+          </li>
+          <li>
+            Duration : <span class="grad-1">{{ duration }} month(s)</span>
+          </li>
+        </ul>
+
+        <AppBanner type="warning">{{
+          $t("pool.form.popin.warning")
+        }}</AppBanner>
+      </template>
+      <template #actions>
+        <button @click="closePopin" class="btn">Close</button>
+        <button @click="handleSubmit" class="btn-success">Confirm</button>
+      </template>
+    </AppPopin>
   </div>
 </template>
 
 <script setup>
+import { whitelistedTokens, getCurrencyByAddress } from "@/lib/data/currencies";
+import { isValue } from "~/lib/modules/definition";
 const amount = ref(null);
-const duration = ref(1);
-const isSubmittable = computed(() => !!amount.value);
+const currency = ref(null);
+const duration = ref(null);
+const popinOpen = ref(false);
+const isSubmittable = computed(
+  () =>
+    isValue(amount.value) && isValue(currency.value) && isValue(duration.value)
+);
+
+const { depositNFT } = useContractLending();
+
+const currencyInputs = computed(() =>
+  whitelistedTokens.map((token) => ({
+    label: `cryptocurrency:${token.symbol}`,
+    value: token.address,
+  }))
+);
 
 const durationInputs = [
   {
@@ -61,6 +127,25 @@ const durationInputs = [
     value: 6,
   },
 ];
+
+function openPopin() {
+  popinOpen.value = true;
+}
+function closePopin() {
+  popinOpen.value = false;
+}
+async function handleSubmit() {
+  const tokenId = 0; // NFT id of the Uniswap V3 pool representation
+
+  const res = await depositNFT(
+    tokenId,
+    amount.value,
+    duration.value,
+    currency.value
+  );
+
+  console.log(res);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -78,12 +163,21 @@ const durationInputs = [
   .check-button {
     flex: 1;
 
+    .icon {
+      background-color: var(--txt-1);
+      font-size: 24px;
+    }
+
     input {
       display: none;
 
       &:checked + span {
         border-color: var(--color-1);
         color: var(--color-1);
+
+        .icon {
+          background-color: var(--color-1);
+        }
       }
     }
 

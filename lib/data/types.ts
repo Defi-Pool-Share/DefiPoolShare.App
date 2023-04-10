@@ -1,3 +1,8 @@
+export type User = {
+  address: string;
+  isConnected: boolean;
+};
+
 export type CGCoin = {
   id: string;
   symbol: string;
@@ -9,6 +14,7 @@ export type CGCoin = {
 export type Currency = {
   id: string;
   symbol: string;
+  address: string;
 };
 
 export type CurrencyAmount = {

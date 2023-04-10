@@ -16,15 +16,18 @@
     </nav>
 
     <div class="aside-bottom">
-      <div class="aside-profil" v-if="isConnected">
+      <div class="aside-profil" v-if="userStore.user?.isConnected">
         <div class="aside-profil-photo">
           <Icon name="mdi:ethereum" />
         </div>
         <div class="aside-profil-right">
-          <address class="grad-1">{{ address }}</address>
-          <span class="aside-profil-network" data-success v-if="isOnMainnet">{{
-            $t("network.mainnet.true")
-          }}</span>
+          <address class="grad-1">{{ userStore.user?.address }}</address>
+          <span
+            class="aside-profil-network"
+            data-success
+            v-if="userStore.isOnMainnet"
+            >{{ $t("network.mainnet.true") }}</span
+          >
           <span class="aside-profil-network" data-error v-else>{{
             $t("network.mainnet.false")
           }}</span>
@@ -55,10 +58,9 @@
 </template>
 
 <script setup>
-const { asideNav, toggleNav } = useNav();
-const { isConnected, isOnMainnet, address, connect } = useConnect();
+import { useUserStore } from "~/stores/user";
 
-onMounted(() => {
-  connect();
-});
+const { asideNav, toggleNav } = useNav();
+const userStore = useUserStore();
+const { connect } = useConnect();
 </script>

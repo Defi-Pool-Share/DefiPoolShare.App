@@ -1,13 +1,11 @@
 import { ethers } from "ethers";
 import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
+import user, { useUserStore } from "~/stores/user";
 
 export const useConnect = () => {
   const config = useRuntimeConfig();
-
-  const isConnected = ref(false);
-  const isOnMainnet = ref(false);
-  const address = ref(null);
+  const userStore = useUserStore();
 
   const getProvider = () => {
     let provider;
@@ -27,8 +25,10 @@ export const useConnect = () => {
       : await connectWalletConnect();
 
     if (accounts && accounts.length) {
-      isConnected.value = true;
-      address.value = accounts[0];
+      userStore.setUser({
+        address: accounts[0],
+        isConnected: true,
+      });
 
       listenNetworkChange();
       checkNetwork();
@@ -37,8 +37,7 @@ export const useConnect = () => {
   };
 
   const disconnect = async () => {
-    isConnected.value = false;
-    address.value = null;
+    userStore.setUser(null);
   };
 
   const connectMetamask = async () => {
@@ -78,8 +77,9 @@ export const useConnect = () => {
 
     const network = await provider.getNetwork();
 
-    isOnMainnet.value =
-      network.chainId === parseInt(config.public.networkId, 10);
+    userStore.setIsOnMainnet(
+      network.chainId === parseInt(config.public.networkId, 10)
+    );
   };
 
   const redirectToMainnet = async () => {
@@ -110,9 +110,6 @@ export const useConnect = () => {
   return {
     connect,
     disconnect,
-    isConnected,
-    isOnMainnet,
-    address,
     getProvider,
   };
 };
