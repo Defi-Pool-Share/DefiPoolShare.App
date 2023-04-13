@@ -4,6 +4,7 @@
       <span class="grad-1">{{ $t("aside.my_pools") }}</span>
     </h1>
     <AppGuard>
+      <button class="btn" @click="withdrawNFT(2)">withdrawNFT 2</button>
       <div class="defi-Pools-wrapper">
         <div class="defi-Pools-section">
           <h2 class="h2">{{ $t("pool.title.owned") }}</h2>
@@ -18,7 +19,7 @@
           <div class="defi-Pools-list">
             <div class="grid-x2">
               <div :key="index" v-for="(pool, index) in myPools">
-                <PoolItem v-bind="pool" />
+                <PoolItem v-bind="pool" :owned="true" />
               </div>
             </div>
           </div>
@@ -52,108 +53,128 @@
 <script setup lang="ts">
 import { Pool } from "@/lib/data/types";
 import { eth, btc, glq } from "@/lib/data/currencies";
+import { useUserStore } from "~/stores/user";
+import { UniPool } from "~/lib/data/types";
 
-const myPools: Pool[] = [
-  {
-    rented: false,
-    shared: 100,
-    balance: {
-      firstCurrency: {
-        currency: glq,
-        value: 10.0598888,
-      },
-      secondCurrency: {
-        currency: btc,
-        value: 1.65222475,
-      },
-    },
-    price: {
-      currency: glq,
-      value: 10,
-    },
-    interests: {
-      firstCurrency: {
-        currency: glq,
-        value: 5.646235,
-      },
-      secondCurrency: {
-        currency: btc,
-        value: 0.3584295,
-      },
-    },
-    rent: {
-      monthsDuration: 3,
-      endDate: new Date("2023-06-23"),
-    },
-  },
-];
+const userStore = useUserStore();
+const { getMyPools } = useUniswap();
+const { withdrawNFT } = useContractLending();
 
-const loanPools = [
-  {
-    rented: true,
-    shared: 5,
-    balance: {
-      firstCurrency: {
-        currency: btc,
-        value: 0.0598888,
-      },
-      secondCurrency: {
-        currency: eth,
-        value: 12.24226475,
-      },
-    },
-    price: {
-      currency: eth,
-      value: 6.5,
-    },
-    interests: {
-      firstCurrency: {
-        currency: btc,
-        value: 0.06464,
-      },
-      secondCurrency: {
-        currency: eth,
-        value: 0.0886,
-      },
-    },
-    rent: {
-      monthsDuration: 1,
-      endDate: new Date("2023-05-17"),
-    },
+const myPools: Ref<UniPool[]> = ref([]);
+
+watch(
+  () => userStore.user,
+  async (newUser) => {
+    if (newUser && newUser.address) {
+      myPools.value = await getMyPools(newUser.address);
+    }
   },
   {
-    rented: true,
-    shared: 10,
-    balance: {
-      firstCurrency: {
-        currency: eth,
-        value: 0.0598888,
-      },
-      secondCurrency: {
-        currency: glq,
-        value: 12.24226475,
-      },
-    },
-    price: {
-      currency: eth,
-      value: 6.5,
-    },
-    interests: {
-      firstCurrency: {
-        currency: eth,
-        value: 0,
-      },
-      secondCurrency: {
-        currency: glq,
-        value: 0,
-      },
-    },
-    rent: {
-      monthsDuration: 1,
-      endDate: new Date("2023-06-23"),
-    },
-  },
-];
+    immediate: true,
+  }
+);
+
+// const myPools: Pool[] = [
+//   {
+//     rented: false,
+//     shared: 100,
+//     balance: {
+//       firstCurrency: {
+//         currency: glq,
+//         value: 10.0598888,
+//       },
+//       secondCurrency: {
+//         currency: btc,
+//         value: 1.65222475,
+//       },
+//     },
+//     price: {
+//       currency: glq,
+//       value: 10,
+//     },
+//     interests: {
+//       firstCurrency: {
+//         currency: glq,
+//         value: 5.646235,
+//       },
+//       secondCurrency: {
+//         currency: btc,
+//         value: 0.3584295,
+//       },
+//     },
+//     rent: {
+//       monthsDuration: 3,
+//       endDate: new Date("2023-06-23"),
+//     },
+//   },
+// ];
+
+// const loanPools = [
+//   {
+//     rented: true,
+//     shared: 5,
+//     balance: {
+//       firstCurrency: {
+//         currency: btc,
+//         value: 0.0598888,
+//       },
+//       secondCurrency: {
+//         currency: eth,
+//         value: 12.24226475,
+//       },
+//     },
+//     price: {
+//       currency: eth,
+//       value: 6.5,
+//     },
+//     interests: {
+//       firstCurrency: {
+//         currency: btc,
+//         value: 0.06464,
+//       },
+//       secondCurrency: {
+//         currency: eth,
+//         value: 0.0886,
+//       },
+//     },
+//     rent: {
+//       monthsDuration: 1,
+//       endDate: new Date("2023-05-17"),
+//     },
+//   },
+//   {
+//     rented: true,
+//     shared: 10,
+//     balance: {
+//       firstCurrency: {
+//         currency: eth,
+//         value: 0.0598888,
+//       },
+//       secondCurrency: {
+//         currency: glq,
+//         value: 12.24226475,
+//       },
+//     },
+//     price: {
+//       currency: eth,
+//       value: 6.5,
+//     },
+//     interests: {
+//       firstCurrency: {
+//         currency: eth,
+//         value: 0,
+//       },
+//       secondCurrency: {
+//         currency: glq,
+//         value: 0,
+//       },
+//     },
+//     rent: {
+//       monthsDuration: 1,
+//       endDate: new Date("2023-06-23"),
+//     },
+//   },
+// ];
 </script>
 
 <style lang="scss" scoped>

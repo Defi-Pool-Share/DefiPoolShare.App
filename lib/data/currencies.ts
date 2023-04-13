@@ -1,11 +1,5 @@
 import { Currency } from "./types";
 
-const eth: Currency = {
-  id: "ethereum",
-  symbol: "eth",
-  address: "",
-};
-
 const glq: Currency = {
   id: "graphlinq-protocol",
   symbol: "glq",
@@ -36,16 +30,22 @@ const wbtc: Currency = {
   address: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
 };
 
+const weth: Currency = {
+  id: "weth",
+  symbol: "eth",
+  address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+};
+
 const dpst: Currency = {
   id: "defipool-share",
   symbol: "dpst",
   address: "0x0Cb80b1c0E6AeBB031a7Ec26219ab162f0F9bC2B",
 };
 
-const whitelistedTokens = [eth, usdc, usdt, wbtc, dpst];
+const whitelistedTokens = [dpst, usdt, usdc, weth, wbtc];
 
 function getCurrencyByAddress(address: string) {
   return whitelistedTokens.find((token) => token.address === address);
 }
 
-export { eth, glq, btc, whitelistedTokens, getCurrencyByAddress };
+export { weth, glq, btc, whitelistedTokens, getCurrencyByAddress };

@@ -4,8 +4,13 @@ export default defineNuxtConfig({
     public: {
       walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
       networkId: process.env.NETWORK_ID,
+      api: {
+        uniswap: process.env.UNISWAP_API,
+        coingecko: process.env.COINGECKO_API,
+      },
       contract: {
         lending: process.env.LENDING_CONTRACT_ADDRESS,
+        uniswap: process.env.UNISWAP_CONTRACT_ADDRESS,
       },
     },
   },

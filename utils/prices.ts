@@ -5,7 +5,7 @@ const currencyToDollar = (currency: CurrencyAmount) => {
 };
 
 const displayCryptoPrice = (price: number) => {
-  return price.toFixed(8);
+  return price.toFixed(2);
 };
 
 const displayDollars = (price: number) => {

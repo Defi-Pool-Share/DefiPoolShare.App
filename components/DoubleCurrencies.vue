@@ -13,9 +13,7 @@
             v-if="firstCoinData"
           />
           <div class="coin-img" v-else />
-          <span v-if="firstCoinData">{{
-            firstCoinData.symbol.toUpperCase()
-          }}</span>
+          <span>{{ props.firstCurrency.token.symbol.toUpperCase() }}</span>
         </div>
         <div class="right">
           <span>{{ displayCryptoPrice(props.firstCurrency.value) }}</span>
@@ -32,9 +30,7 @@
             v-if="secondCoinData"
           />
           <div class="coin-img" v-else />
-          <span v-if="secondCoinData">{{
-            secondCoinData.symbol.toUpperCase()
-          }}</span>
+          <span>{{ props.secondCurrency.token.symbol.toUpperCase() }}</span>
         </div>
         <div class="right">
           <span>{{ displayCryptoPrice(props.secondCurrency.value) }}</span>
@@ -45,14 +41,14 @@
 </template>
 
 <script setup lang="ts">
-import { CGCoin, CurrencyAmount } from "~/lib/data/types";
+import { CGCoin, TokenAmount } from "~/lib/data/types";
 import { isValue } from "~/lib/modules/definition";
 import { displayCryptoPrice } from "~/utils/prices";
 
 type Props = {
   title: string;
-  firstCurrency: CurrencyAmount;
-  secondCurrency: CurrencyAmount;
+  firstCurrency: TokenAmount;
+  secondCurrency: TokenAmount;
   displayBalance?: boolean;
   displayVolume?: boolean;
 };
@@ -64,8 +60,8 @@ const firstCoinData: Ref<CGCoin | null> = ref(null);
 const secondCoinData: Ref<CGCoin | null> = ref(null);
 
 const fetchData = async () => {
-  firstCoinData.value = await getCoinData(props.firstCurrency.currency.id);
-  secondCoinData.value = await getCoinData(props.secondCurrency.currency.id);
+  firstCoinData.value = await getCoinData(props.firstCurrency.token.address);
+  secondCoinData.value = await getCoinData(props.secondCurrency.token.address);
 };
 
 const volume = computed(() =>

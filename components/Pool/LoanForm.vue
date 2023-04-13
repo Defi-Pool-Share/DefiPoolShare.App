@@ -37,25 +37,38 @@
       </div>
     </div>
 
-    <div class="field">
-      <label for="text">{{ $t("pool.form.label.duration") }}</label>
-      <div class="fields">
-        <label
-          class="check-button"
-          v-for="(input, index) in durationInputs"
-          :key="index"
-        >
+    <div class="wrap">
+      <div class="field small">
+        <label for="text">{{ $t("pool.form.label.duration") }}</label>
+        <div class="field-input">
           <input
-            :id="`duration_${input.value}`"
-            type="radio"
-            name="duration"
-            v-model="duration"
-            :value="input.value"
+            id="duration_time"
+            type="number"
+            name="duration_time"
+            v-model="duration_time"
           />
-          <span>{{ input.label }}</span>
-        </label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="fields">
+          <label
+            class="check-button"
+            v-for="(input, index) in durationInputs"
+            :key="index"
+          >
+            <input
+              :id="`duration_${input.value}`"
+              type="radio"
+              name="duration"
+              v-model="duration"
+              :value="input.value"
+            />
+            <span>{{ input.label }}</span>
+          </label>
+        </div>
       </div>
     </div>
+
     <div class="field">
       <button class="btn" :disabled="!isSubmittable" @click="openPopin">
         {{ $t("pool.item.cta.submit") }}
@@ -76,12 +89,22 @@
             >
           </li>
           <li>
-            Duration : <span class="grad-1">{{ duration }} month(s)</span>
+            Duration :
+            <span class="grad-1"
+              >{{ duration_time }}
+              {{
+                durationInputs.find((input) => input.value === duration).label
+              }}</span
+            >
           </li>
         </ul>
 
         <AppBanner type="warning">{{
           $t("pool.form.popin.warning")
+        }}</AppBanner>
+
+        <AppBanner type="info" v-if="depositFeedback">{{
+          depositFeedback
         }}</AppBanner>
       </template>
       <template #actions>
@@ -92,19 +115,39 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import dayjs from "dayjs";
 import { whitelistedTokens, getCurrencyByAddress } from "@/lib/data/currencies";
 import { isValue } from "~/lib/modules/definition";
+import { useUserStore } from "~/stores/user";
+
+type Props = {
+  tokenId: number;
+};
+
+const props = defineProps<Props>();
+
 const amount = ref(null);
 const currency = ref(null);
 const duration = ref(null);
+const duration_time = ref(null);
 const popinOpen = ref(false);
+const depositFeedback = ref("");
 const isSubmittable = computed(
   () =>
-    isValue(amount.value) && isValue(currency.value) && isValue(duration.value)
+    isValue(amount.value) &&
+    amount.value > 0 &&
+    isValue(currency.value) &&
+    isValue(duration.value) &&
+    isValue(duration_time.value) &&
+    duration_time.value > 0
 );
 
 const { depositNFT } = useContractLending();
+const { isApprovalForAll, setApprovalForAll, getProvider } =
+  useContractUniswap();
+
+const userStore = useUserStore();
 
 const currencyInputs = computed(() =>
   whitelistedTokens.map((token) => ({
@@ -115,16 +158,16 @@ const currencyInputs = computed(() =>
 
 const durationInputs = [
   {
-    label: "1 month",
-    value: 1,
+    label: "day(s)",
+    value: 86400000,
   },
   {
-    label: "3 months",
-    value: 3,
+    label: "month(s)",
+    value: 2592000000,
   },
   {
-    label: "6 months",
-    value: 6,
+    label: "year(s)",
+    value: 31536000000,
   },
 ];
 
@@ -135,16 +178,63 @@ function closePopin() {
   popinOpen.value = false;
 }
 async function handleSubmit() {
-  const tokenId = 0; // NFT id of the Uniswap V3 pool representation
+  if (!userStore.user) {
+    return;
+  }
 
-  const res = await depositNFT(
-    tokenId,
-    amount.value,
-    duration.value,
-    currency.value
-  );
+  const tokenId = props.tokenId; // NFT id of the Uniswap V3 pool representation
+  const wantedDuration = dayjs().add(3, "minute").valueOf();
 
-  console.log(res);
+  const provider = await getProvider();
+
+  console.log("provider");
+
+  if (!provider) {
+    return;
+  }
+
+  console.log("po");
+
+  try {
+    depositFeedback.value = "Checking approval for your pool NFT.";
+    let isApproved = await isApprovalForAll(userStore.user.address);
+
+    if (isApproved !== null && !isApproved) {
+      depositFeedback.value = "Setting approval for your pool NFT.";
+      const res = await setApprovalForAll(userStore.user.address);
+      if (res) {
+        await provider.waitForTransaction(res.hash, 1);
+        depositFeedback.value = "Re-Checking approval for your pool NFT.";
+      }
+
+      isApproved = await isApprovalForAll(userStore.user.address);
+    }
+
+    if (isApproved !== null && isApproved) {
+      depositFeedback.value = "Deposit of your pool NFT in progress.";
+      const res2 = await depositNFT(
+        tokenId,
+        amount.value!,
+        wantedDuration,
+        currency.value!
+      );
+      if (res2) {
+        depositFeedback.value = "Waiting for transaction confirmation.";
+        await provider.waitForTransaction(res2.hash, 1);
+        depositFeedback.value = "Deposit done !";
+      }
+    } else {
+      depositFeedback.value = "Approval not passed.";
+    }
+  } catch (e: any) {
+    // if (e.error && e.error.message) {
+    //   depositFeedback.value = e.error.message;
+    // } else if (e.message) {
+    //   depositFeedback.value = e.message;
+    // } else {
+    //   (depositFeedback.value = "Error : "), e;
+    // }
+  }
 }
 </script>
 
@@ -159,6 +249,22 @@ async function handleSubmit() {
   .fields {
     display: flex;
     gap: var(--main-gap);
+  }
+  .wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--main-gap);
+
+    > * {
+      flex-shrink: 0;
+      flex-grow: 1;
+    }
+
+    > .small {
+      flex-shrink: 1;
+      flex-grow: 0;
+      width: 100px;
+    }
   }
   .check-button {
     flex: 1;

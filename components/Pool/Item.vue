@@ -3,26 +3,31 @@
     <div class="header">
       <h3 class="h3">
         <span class="grad-1">{{
-          `${props.balance.firstCurrency.currency.symbol} / ${props.balance.secondCurrency.currency.symbol}`
+          `${props.token0.token.symbol} / ${props.token1.token.symbol}`
         }}</span>
-        <i v-if="props.rented">{{ props.shared }}%</i>
+        <!-- <i v-if="props.rented">{{ props.shared }}%</i> -->
       </h3>
-      <a href="" class="btn-sm uni">
+      <a
+        :href="`https://app.uniswap.org/#/pools/${props.id}`"
+        target="_blank"
+        class="btn-sm uni"
+      >
         <span>UniSwap</span>
         <IconCSS name="material-symbols:arrow-outward" />
       </a>
     </div>
 
-    <div class="field" v-if="!props.rented">
+    <div class="field" v-if="props.owned">
       <DoubleCurrencies
         :title="$t('pool.item.label.balance')"
         :display-volume="true"
         :display-balance="true"
-        v-bind="props.balance"
+        :first-currency="props.token0"
+        :second-currency="props.token1"
       />
     </div>
 
-    <hr class="app-hr" v-if="!props.rented" />
+    <!-- <hr class="app-hr" v-if="props.owned" />
 
     <div class="field">
       <DoubleCurrencies
@@ -42,23 +47,23 @@
       "
     >
       {{ $t("pool.item.cta.claim") }}
-    </button>
+    </button> -->
 
-    <hr class="app-hr" v-if="props.rented" />
+    <!-- <hr class="app-hr" v-if="!props.owned" />
 
-    <div class="app-paragraphe" v-if="props.rented">
+    <div class="app-paragraphe" v-if="!props.owned">
       <ul>
         <li>
           {{ $t("pool.item.label.end_loan") }} :
           <span class="grad-1">{{ dayjs(props.rent.endDate).fromNow() }}</span>
         </li>
       </ul>
-    </div>
+    </div> -->
 
-    <hr class="app-hr" v-if="!props.rented" />
+    <hr class="app-hr" v-if="props.owned" />
 
-    <div class="field" v-if="!props.rented">
-      <PoolLoanForm />
+    <div class="field" v-if="props.owned">
+      <PoolLoanForm :token-id="props.id" />
     </div>
   </div>
 </template>
@@ -66,26 +71,15 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { CurrencyAmount } from "~/lib/data/types";
-import { currencyToDollar } from "~/utils/prices";
+import { TokenAmount } from "~/lib/data/types";
 
 // type Pool
 type Props = {
-  rented: boolean;
-  shared: number;
-  balance: {
-    firstCurrency: CurrencyAmount;
-    secondCurrency: CurrencyAmount;
-  };
-  interests: {
-    firstCurrency: CurrencyAmount;
-    secondCurrency: CurrencyAmount;
-  };
-  price: CurrencyAmount;
-  rent: {
-    monthsDuration: number;
-    endDate: Date;
-  };
+  id: number;
+  owner: string;
+  token0: TokenAmount;
+  token1: TokenAmount;
+  owned: boolean;
 };
 
 const props = defineProps<Props>();

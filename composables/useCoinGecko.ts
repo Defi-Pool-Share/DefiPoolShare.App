@@ -3,9 +3,10 @@ import { isValue } from "~/lib/modules/definition";
 import { CGCoin } from "~/lib/data/types";
 
 export const useCoinGecko = () => {
+  const config = useRuntimeConfig();
   const coinsStore = useCoinsStore();
 
-  const baseUrl = "https://api.coingecko.com/api/v3";
+  const baseUrl = config.public.api.coingecko;
 
   type Coin = {
     value: number;
@@ -44,32 +45,19 @@ export const useCoinGecko = () => {
       });
   };
 
-  const getCoinData = async (id: string) => {
-    let coin = coinsStore.data.find((coin) => coin.id === id);
+  const getCoinData = async (address: string) => {
+    let coin = coinsStore.data.find((coin) => coin.address === address);
 
     if (!isValue(coin)) {
-      const res = await fetch(
-        baseUrl +
-          "/coins/" +
-          id +
-          "?" +
-          new URLSearchParams({
-            localization: "false",
-            tickers: "false",
-            community_data: "false",
-            developer_data: "false",
-            sparkline: "false",
-          }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "GET",
-        }
-      );
+      const res = await fetch(baseUrl + "/coins/ethereum/contract/" + address, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      });
       const data = await res.json();
 
-      if (data) {
+      if (data && !data.error) {
         const newCoin: CGCoin = {
           id: data.id,
           symbol: data.symbol,
