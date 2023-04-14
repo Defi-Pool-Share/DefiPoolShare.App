@@ -80,32 +80,32 @@
       :close="closePopin"
     >
       <template #content>
-        <ul>
-          <li>
-            Amount :
-            <span class="grad-1"
-              >{{ amount }}
-              {{ getCurrencyByAddress(currency).symbol.toUpperCase() }}</span
-            >
-          </li>
-          <li>
-            Duration :
-            <span class="grad-1"
-              >{{ duration_time }}
+        <div class="grid-x2">
+          <div>
+            <div class="title">{{ $t("pool.form.label.amount") }}</div>
+            <div class="volume">
+              {{ amount }}
+              {{ getCurrencyByAddress(currency)?.symbol.toUpperCase() }}
+            </div>
+          </div>
+          <div>
+            <div class="title">{{ $t("pool.form.label.duration") }}</div>
+            <div class="volume">
+              {{ duration_time }}
               {{
-                durationInputs.find((input) => input.value === duration).label
-              }}</span
-            >
-          </li>
-        </ul>
+                durationInputs.find((input) => input.value === duration)?.label
+              }}
+            </div>
+          </div>
+        </div>
 
-        <AppBanner type="warning">{{
-          $t("pool.form.popin.warning")
-        }}</AppBanner>
+        <AppBanner type="danger">{{ $t("pool.form.popin.warning") }}</AppBanner>
 
-        <AppBanner type="info" v-if="depositFeedback">{{
-          depositFeedback
-        }}</AppBanner>
+        <AppBanner
+          v-bind="depositFeedback"
+          v-if="depositFeedback.text !== ''"
+          >{{ depositFeedback.text }}</AppBanner
+        >
       </template>
       <template #actions>
         <button @click="closePopin" class="btn">Close</button>
@@ -120,6 +120,7 @@ import dayjs from "dayjs";
 import { whitelistedTokens, getCurrencyByAddress } from "@/lib/data/currencies";
 import { isValue } from "~/lib/modules/definition";
 import { useUserStore } from "~/stores/user";
+import { Feedback } from "@/lib/data/types";
 
 type Props = {
   tokenId: number;
@@ -132,7 +133,11 @@ const currency = ref(null);
 const duration = ref(null);
 const duration_time = ref(null);
 const popinOpen = ref(false);
-const depositFeedback = ref("");
+const depositFeedback: Feedback = reactive({
+  text: "",
+  loading: false,
+  type: "info",
+});
 const isSubmittable = computed(
   () =>
     isValue(amount.value) &&
@@ -176,6 +181,7 @@ function openPopin() {
 }
 function closePopin() {
   popinOpen.value = false;
+  depositFeedback.text = "";
 }
 async function handleSubmit() {
   if (!userStore.user) {
@@ -187,31 +193,29 @@ async function handleSubmit() {
 
   const provider = await getProvider();
 
-  console.log("provider");
-
   if (!provider) {
     return;
   }
 
-  console.log("po");
-
   try {
-    depositFeedback.value = "Checking approval for your pool NFT.";
+    depositFeedback.loading = true;
+    depositFeedback.type = "info";
+    depositFeedback.text = "Checking approval for your pool NFT.";
     let isApproved = await isApprovalForAll(userStore.user.address);
 
     if (isApproved !== null && !isApproved) {
-      depositFeedback.value = "Setting approval for your pool NFT.";
+      depositFeedback.text = "Setting approval for your pool NFT.";
       const res = await setApprovalForAll(userStore.user.address);
       if (res) {
         await provider.waitForTransaction(res.hash, 1);
-        depositFeedback.value = "Re-Checking approval for your pool NFT.";
+        depositFeedback.text = "Re-Checking approval for your pool NFT.";
       }
 
       isApproved = await isApprovalForAll(userStore.user.address);
     }
 
     if (isApproved !== null && isApproved) {
-      depositFeedback.value = "Deposit of your pool NFT in progress.";
+      depositFeedback.text = "Deposit of your pool NFT in progress.";
       const res2 = await depositNFT(
         tokenId,
         amount.value!,
@@ -219,22 +223,33 @@ async function handleSubmit() {
         currency.value!
       );
       if (res2) {
-        depositFeedback.value = "Waiting for transaction confirmation.";
+        depositFeedback.text = "Waiting for transaction confirmation.";
         await provider.waitForTransaction(res2.hash, 1);
-        depositFeedback.value = "Deposit done !";
+        depositFeedback.text = "Deposit done !";
+        depositFeedback.type = "success";
+
+        setTimeout(() => {
+          document.body.dispatchEvent(new Event("needRefreshData"));
+          depositFeedback.text = "";
+        }, 1000);
       }
     } else {
-      depositFeedback.value = "Approval not passed.";
+      depositFeedback.text = "Approval not passed.";
+      depositFeedback.type = "danger";
     }
   } catch (e: any) {
-    // if (e.error && e.error.message) {
-    //   depositFeedback.value = e.error.message;
-    // } else if (e.message) {
-    //   depositFeedback.value = e.message;
-    // } else {
-    //   (depositFeedback.value = "Error : "), e;
-    // }
+    depositFeedback.type = "danger";
+
+    if (e.error && e.error.message) {
+      depositFeedback.text = e.error.message;
+    } else if (e.message) {
+      depositFeedback.text = e.message;
+    } else {
+      (depositFeedback.text = "Error : "), e;
+    }
   }
+
+  depositFeedback.loading = false;
 }
 </script>
 

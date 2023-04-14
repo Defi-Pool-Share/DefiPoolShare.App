@@ -4,10 +4,9 @@
       <span class="grad-1">{{ $t("aside.my_pools") }}</span>
     </h1>
     <AppGuard>
-      <button class="btn" @click="withdrawNFT(2)">withdrawNFT 2</button>
       <div class="defi-Pools-wrapper">
         <div class="defi-Pools-section">
-          <h2 class="h2">{{ $t("pool.title.owned") }}</h2>
+          <h2 class="h2">{{ $t("pool.title.uniswap") }}</h2>
           <div class="app-paragraphe">
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -16,19 +15,27 @@
               consequatur vitae dolorem alias quod temporibus voluptate!
             </p>
           </div>
-          <div class="defi-Pools-list">
+          <div class="defi-Pools-list" v-if="myUniswapPools.length">
             <div class="grid-x2">
-              <div :key="index" v-for="(pool, index) in myPools">
+              <div :key="index" v-for="(pool, index) in myUniswapPools">
                 <PoolItem v-bind="pool" :owned="true" />
               </div>
             </div>
           </div>
+          <div class="defi-Pools-loading" v-else-if="isLoading">
+            <AppBanner type="info" :loading="true">{{
+              $t("global.loading")
+            }}</AppBanner>
+          </div>
+          <div class="defi-Pools-empty" v-else>
+            <AppBanner type="warning">{{ $t("pool.list.empty") }}</AppBanner>
+          </div>
         </div>
 
-        <hr class="app-hr" />
+        <div class="app-hr"></div>
 
         <div class="defi-Pools-section">
-          <h2 class="h2">{{ $t("pool.title.loaned") }}</h2>
+          <h2 class="h2">{{ $t("pool.title.lenders") }}</h2>
           <div class="app-paragraphe">
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -37,12 +44,20 @@
               consequatur vitae dolorem alias quod temporibus voluptate!
             </p>
           </div>
-          <div class="defi-Pools-list">
+          <div class="defi-Pools-list" v-if="myLendedPools.length">
             <div class="grid-x2">
-              <div :key="index" v-for="(pool, index) in loanPools">
-                <PoolItem v-bind="pool" />
+              <div :key="index" v-for="(pool, index) in myLendedPools">
+                <PoolLendedItem v-bind="pool" :owned="true" />
               </div>
             </div>
+          </div>
+          <div class="defi-Pools-loading" v-else-if="isLoading">
+            <AppBanner type="info" :loading="true">{{
+              $t("global.loading")
+            }}</AppBanner>
+          </div>
+          <div class="defi-Pools-empty" v-else>
+            <AppBanner type="warning">{{ $t("pool.list.empty") }}</AppBanner>
           </div>
         </div>
       </div>
@@ -51,29 +66,49 @@
 </template>
 
 <script setup lang="ts">
-import { Pool } from "@/lib/data/types";
-import { eth, btc, glq } from "@/lib/data/currencies";
 import { useUserStore } from "~/stores/user";
 import { UniPool } from "~/lib/data/types";
-import { ethers } from "ethers";
 
 const userStore = useUserStore();
 const { getMyPools } = useUniswap();
-const { withdrawNFT } = useContractLending();
+const { getLoansByLenders } = useContractLending();
 
-const myPools: Ref<UniPool[]> = ref([]);
+const myUniswapPools: Ref<UniPool[]> = ref([]);
+const myLendedPools: Ref<UniPool[]> = ref([]);
+const isLoading = ref(false);
+
+async function refreshData() {
+  if (!userStore.user) {
+    return;
+  }
+
+  isLoading.value = true;
+  myUniswapPools.value = [];
+  myUniswapPools.value = await getMyPools(userStore.user.address);
+  myLendedPools.value = [];
+  myLendedPools.value = await getLoansByLenders(userStore.user.address);
+  isLoading.value = false;
+}
 
 watch(
   () => userStore.user,
   async (newUser) => {
     if (newUser && newUser.address) {
-      myPools.value = await getMyPools(newUser.address);
+      refreshData();
     }
   },
   {
     immediate: true,
   }
 );
+
+onMounted(() => {
+  document.body.addEventListener("needRefreshData", refreshData);
+});
+
+onUnmounted(() => {
+  document.body.removeEventListener("needRefreshData", refreshData);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -83,7 +118,9 @@ watch(
     flex-direction: column;
     gap: calc(var(--main-padding) * 2);
   }
-  &-list {
+  &-list,
+  &-empty,
+  &-loading {
     margin-top: var(--main-padding);
   }
 }

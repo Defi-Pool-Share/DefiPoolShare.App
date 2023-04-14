@@ -99,6 +99,7 @@ fetchData();
 
   .volume {
     font-size: 32px;
+    line-height: 1;
     color: var(--color-1);
     margin-top: 8px;
   }

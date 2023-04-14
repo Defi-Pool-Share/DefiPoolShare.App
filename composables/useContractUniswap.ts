@@ -13,14 +13,14 @@ export const useContractUniswap = () => {
       signer = provider.getSigner();
       contract = new ethers.Contract(
         config.public.contract.uniswap,
-        contractUniswapV3Abi.result,
+        contractUniswapV3Abi,
         signer
       );
     } else {
       provider = ethers.providers.getDefaultProvider();
       contract = new ethers.Contract(
         config.public.contract.uniswap,
-        contractUniswapV3Abi.result,
+        contractUniswapV3Abi,
         provider
       );
     }
@@ -32,7 +32,7 @@ export const useContractUniswap = () => {
 
   const getProvider = async () => {
     const contract = await getContract();
-    console.log(contract);
+
     if (!contract) {
       return null;
     }

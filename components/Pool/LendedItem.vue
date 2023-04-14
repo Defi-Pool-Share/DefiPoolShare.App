@@ -1,5 +1,5 @@
 <template>
-  <div class="defi-PoolItem app-card">
+  <div class="defi-PoolItem app-card" v-if="props.loan">
     <div class="header">
       <h3 class="h3">
         <span class="grad-1">{{
@@ -27,51 +27,22 @@
       />
     </div>
 
-    <!-- <hr class="app-hr" v-if="props.owned" />
+    <hr class="app-hr" />
 
-    <div class="field">
-      <DoubleCurrencies
-        :display-volume="true"
-        :title="$t('pool.item.label.interests')"
-        v-bind="props.interests"
-      />
-    </div>
+    <AppBanner v-bind="withdrawFeedback" v-if="withdrawFeedback.text !== ''">{{
+      withdrawFeedback.text
+    }}</AppBanner>
 
-    <button
-      class="btn"
-      :disabled="
-        !(
-          props.interests.firstCurrency.value ||
-          props.interests.secondCurrency.value
-        )
-      "
-    >
-      {{ $t("pool.item.cta.claim") }}
-    </button> -->
-
-    <!-- <hr class="app-hr" v-if="!props.owned" />
-
-    <div class="app-paragraphe" v-if="!props.owned">
-      <ul>
-        <li>
-          {{ $t("pool.item.label.end_loan") }} :
-          <span class="grad-1">{{ dayjs(props.rent.endDate).fromNow() }}</span>
-        </li>
-      </ul>
-    </div> -->
-
-    <hr class="app-hr" v-if="props.owned" />
-
-    <div class="field" v-if="props.owned">
-      <PoolLoanForm :token-id="props.id" />
-    </div>
+    <button class="btn" @click="handleWithdraw">
+      {{ $t("pool.item.cta.withdraw") }}
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { TokenAmount } from "~/lib/data/types";
+import { Loan, TokenAmount, Feedback } from "~/lib/data/types";
 
 // type Pool
 type Props = {
@@ -79,12 +50,58 @@ type Props = {
   owner: string;
   token0: TokenAmount;
   token1: TokenAmount;
-  owned: boolean;
+  loan?: Loan;
 };
 
 const props = defineProps<Props>();
 
+const { withdrawNFT, getProvider } = useContractLending();
+
+const withdrawFeedback: Feedback = reactive({
+  text: "",
+  loading: false,
+  type: "info",
+});
+
 dayjs.extend(relativeTime);
+
+async function handleWithdraw() {
+  const provider = await getProvider();
+
+  if (!props.loan || !provider) {
+    return;
+  }
+
+  try {
+    withdrawFeedback.loading = true;
+    withdrawFeedback.type = "info";
+    withdrawFeedback.text = "Withdraw of your pool NFT in progress.";
+    const res = await withdrawNFT(props.loan.loanIndex);
+
+    if (res) {
+      withdrawFeedback.text = "Waiting for transaction confirmation.";
+      await provider.waitForTransaction(res.hash, 1);
+      withdrawFeedback.type = "success";
+      withdrawFeedback.text = "Withdraw successful !";
+
+      setTimeout(() => {
+        document.body.dispatchEvent(new Event("needRefreshData"));
+      }, 1000);
+    }
+  } catch (e: any) {
+    withdrawFeedback.type = "danger";
+
+    if (e.error && e.error.message) {
+      withdrawFeedback.text = e.error.message;
+    } else if (e.message) {
+      withdrawFeedback.text = e.message;
+    } else {
+      (withdrawFeedback.text = "Error : "), e;
+    }
+  }
+
+  withdrawFeedback.loading = false;
+}
 </script>
 
 <style lang="scss">

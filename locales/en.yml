@@ -124,8 +124,9 @@ network:
 
 pool:
   title:
-    owned: Owned pools
-    loaned: Loaned pools
+    uniswap: Your Uniswap pools
+    lenders: Your lended pools
+    loaned: Your loaned pools
   list:
     empty: No pools avaiable at the moment.
   item:
@@ -140,6 +141,7 @@ pool:
     cta:
       claim: Claim
       submit: Submit
+      withdraw: Withdraw your pool NFT
   form:
     label:
       amount: Price
@@ -148,3 +150,6 @@ pool:
     popin:
       title: Loan summary
       warning: You will set your ownership on loan for a certain duration in-wait for someone to buy it.
+
+global:
+  loading: Loading in progress

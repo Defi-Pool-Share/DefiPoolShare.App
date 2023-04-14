@@ -25,7 +25,7 @@
 <script lang="ts" setup>
 type Props = {
   title?: string;
-  close: () => {};
+  close: () => void;
 };
 
 const props = defineProps<Props>();
@@ -52,6 +52,7 @@ const props = defineProps<Props>();
     padding: 90px 40px 40px;
     background-color: var(--bg-3);
     border-radius: var(--main-radius);
+    max-width: 600px;
   }
 
   &-close {

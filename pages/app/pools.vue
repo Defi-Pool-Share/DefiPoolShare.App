@@ -13,15 +13,20 @@
             consequatur vitae dolorem alias quod temporibus voluptate!
           </p>
         </div>
-        <div class="defi-Pools-list" v-if="allLoans.length">
+        <div class="defi-Pools-list" v-if="allPoolsByLoan.length">
           <div class="grid-x2">
-            <div :key="index" v-for="(loan, index) in allLoans">
-              <PoolItem v-bind="loan.pool" :owned="false" v-if="loan.pool" />
+            <div :key="index" v-for="(pool, index) in allPoolsByLoan">
+              <PoolLoanItem v-bind="pool" :owned="false" />
             </div>
           </div>
         </div>
+        <div class="defi-Pools-loading" v-else-if="isLoading">
+          <AppBanner type="info" :loading="true">{{
+            $t("global.loading")
+          }}</AppBanner>
+        </div>
         <div class="defi-Pools-empty" v-else>
-          <AppBanner type="info">{{ $t("pool.list.empty") }}</AppBanner>
+          <AppBanner type="warning">{{ $t("pool.list.empty") }}</AppBanner>
         </div>
       </div>
     </AppGuard>
@@ -29,23 +34,26 @@
 </template>
 
 <script setup lang="ts">
-import { Loan } from "@/lib/data/types";
+import { UniPool } from "@/lib/data/types";
 import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
-const { getAllLoans } = useContractLending();
+const { getAllPoolsWithLoan } = useContractLending();
 
-const allLoans: Ref<Loan[]> = ref([]);
+const allPoolsByLoan: Ref<UniPool[]> = ref([]);
+const isLoading = ref(false);
 
 watch(
   () => userStore.user,
   async (newUser) => {
     if (newUser && newUser.address) {
-      const loans = await getAllLoans();
+      isLoading.value = true;
+      const pools = await getAllPoolsWithLoan();
 
-      if (loans) {
-        allLoans.value = loans;
+      if (pools) {
+        allPoolsByLoan.value = pools;
       }
+      isLoading.value = false;
     }
   },
   {
@@ -62,7 +70,8 @@ watch(
     gap: calc(var(--main-padding) * 2);
   }
   &-list,
-  &-empty {
+  &-empty,
+  &-loading {
     margin-top: var(--main-padding);
   }
 }

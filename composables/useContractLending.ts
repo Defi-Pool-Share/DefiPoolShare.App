@@ -1,6 +1,6 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import contractLendingAbi from "@/lib/contracts/contractLendingAbi.json";
-import { Loan } from "@/lib/data/types";
+import { Loan, UniPool } from "@/lib/data/types";
 
 export const useContractLending = () => {
   const config = useRuntimeConfig();
@@ -15,14 +15,14 @@ export const useContractLending = () => {
       signer = provider.getSigner();
       contract = new ethers.Contract(
         config.public.contract.lending,
-        contractLendingAbi.abi,
+        contractLendingAbi,
         signer
       );
     } else {
       provider = ethers.providers.getDefaultProvider();
       contract = new ethers.Contract(
         config.public.contract.lending,
-        contractLendingAbi.abi,
+        contractLendingAbi,
         provider
       );
     }
@@ -30,6 +30,15 @@ export const useContractLending = () => {
     let contractCode = await contract.provider.getCode(contract.address);
 
     return contractCode !== "0x" ? contract : null;
+  };
+
+  const getProvider = async () => {
+    const contract = await getContract();
+
+    if (!contract) {
+      return null;
+    }
+    return contract.provider;
   };
 
   const borrowNFT = async (loanIndex: number) => {
@@ -138,14 +147,14 @@ export const useContractLending = () => {
     return res;
   };
 
-  const getAllLoans = async () => {
+  const getAllPoolsWithLoan = async () => {
     const contract = await getContract();
     if (!contract) {
       return null;
     }
 
-    let res: Loan[] = [];
-    for (let index = 0; index < 3; index++) {
+    const res: Loan[] = [];
+    for (let index = 0; index < 1; index++) {
       const loan = await getLoanInfo(index);
       if (loan) {
         res.push(loan);
@@ -156,38 +165,78 @@ export const useContractLending = () => {
 
     const pools = await getPoolsByIds(tokenIds);
 
-    let loans: Loan[] = [];
+    const poolsWithLoan: UniPool[] = mergePoolsAndLoans(pools, res, true);
 
-    res.forEach((loan) => {
-      const matchingPool = pools.find(
-        (pool) => pool.id.toString() === loan.tokenId.toString()
-      );
-
-      if (loan.isActive && matchingPool) {
-        loans.push({
-          ...loan,
-          pool: matchingPool,
-        });
-      } else if (loan.isActive) {
-        loans.push(loan);
-      }
-    });
-
-    return loans;
+    return poolsWithLoan;
   };
 
-  const getLoanByBorrowers = async (owner: string) => {
+  const getLoansByBorrowers = async (owner: string) => {
     const contract = await getContract();
     if (!contract) {
-      return null;
+      return [];
     }
 
-    const res = await contract._loanByBorrowers(owner);
+    const res = await contract.getLoanByBorrowersByAddress(owner);
 
     return res;
   };
 
+  const getLoansByLenders = async (owner: string) => {
+    const contract = await getContract();
+    if (!contract) {
+      return [];
+    }
+
+    const res = await contract.getLoanByLendersByAddress(owner);
+
+    const loans: Loan[] = [];
+
+    if (res) {
+      const promises: Promise<Loan | null>[] = [];
+      res.forEach((index: BigNumber) => {
+        promises.push(getLoanInfo(parseInt(index.toString(), 10)));
+      });
+      const tempLoans = await Promise.all(promises);
+      tempLoans.forEach((tempLoan) => {
+        if (tempLoan) {
+          loans.push(tempLoan);
+        }
+      });
+    }
+
+    const tokenIds = loans.map((loan) => loan.tokenId.toString());
+
+    const pools = await getPoolsByIds(tokenIds);
+    const poolsWithLoan: UniPool[] = mergePoolsAndLoans(pools, loans, false);
+
+    return poolsWithLoan;
+  };
+
+  const mergePoolsAndLoans = (
+    pools: UniPool[],
+    loans: Loan[],
+    onlyActive: boolean
+  ) => {
+    let poolsWithLoan: UniPool[] = [];
+
+    pools.forEach((pool) => {
+      const matchingLoan = loans.find(
+        (loan) => loan.tokenId.toString() === pool.id.toString()
+      );
+
+      if (matchingLoan && matchingLoan.isActive) {
+        poolsWithLoan.push({
+          ...pool,
+          loan: matchingLoan,
+        });
+      }
+    });
+
+    return poolsWithLoan;
+  };
+
   return {
+    getProvider,
     borrowNFT,
     claimFees,
     depositNFT,
@@ -196,7 +245,8 @@ export const useContractLending = () => {
     withdrawNFT,
     canClaimFees,
     getLoanInfo,
-    getAllLoans,
-    getLoanByBorrowers,
+    getAllPoolsWithLoan,
+    getLoansByBorrowers,
+    getLoansByLenders,
   };
 };

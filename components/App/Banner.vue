@@ -1,5 +1,6 @@
 <template>
   <div class="defi-Banner" :data-type="props.type">
+    <SvgSpinner v-if="loading" />
     <slot />
   </div>
 </template>
@@ -7,6 +8,8 @@
 <script lang="ts" setup>
 type Props = {
   type: "info" | "success" | "warning" | "danger";
+  icon?: string;
+  loading?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -14,15 +17,23 @@ const props = defineProps<Props>();
 
 <style lang="scss">
 .defi-Banner {
+  display: flex;
+  align-items: center;
+  gap: var(--main-gap);
   background-color: var(--bg-3);
   border-radius: var(--main-radius);
   padding: calc(var(--main-padding) / 1.5);
   width: 100%;
+  word-break: break-word;
 
   &[data-type="info"] {
     border: 1px solid rgb(82, 82, 239);
     background-color: rgba(82, 82, 239, 0.3);
     color: rgb(82, 82, 239);
+
+    path {
+      fill: rgb(82, 82, 239);
+    }
   }
 
   &[data-type="success"] {

@@ -1,5 +1,5 @@
 <template>
-  <div class="defi-PoolItem app-card">
+  <div class="defi-PoolItem app-card" v-if="props.loan">
     <div class="header">
       <h3 class="h3">
         <span class="grad-1">{{
@@ -17,53 +17,20 @@
       </a>
     </div>
 
-    <div class="field">
-      <DoubleCurrencies
-        :title="$t('pool.item.label.balance')"
-        :display-volume="true"
-        :display-balance="true"
-        :first-currency="props.token0"
-        :second-currency="props.token1"
-      />
-    </div>
-
-    <!-- <hr class="app-hr" v-if="props.owned" />
-
-    <div class="field">
-      <DoubleCurrencies
-        :display-volume="true"
-        :title="$t('pool.item.label.interests')"
-        v-bind="props.interests"
-      />
-    </div>
-
-    <button
-      class="btn"
-      :disabled="
-        !(
-          props.interests.firstCurrency.value ||
-          props.interests.secondCurrency.value
-        )
-      "
-    >
-      {{ $t("pool.item.cta.claim") }}
-    </button> -->
-
-    <!-- <hr class="app-hr" v-if="!props.owned" />
-
-    <div class="app-paragraphe" v-if="!props.owned">
-      <ul>
-        <li>
-          {{ $t("pool.item.label.end_loan") }} :
-          <span class="grad-1">{{ dayjs(props.rent.endDate).fromNow() }}</span>
-        </li>
-      </ul>
-    </div> -->
-
-    <hr class="app-hr" v-if="props.owned" />
-
-    <div class="field" v-if="props.owned">
-      <PoolLoanForm :token-id="props.id" />
+    <div class="grid-x2">
+      <div>
+        <div class="title">{{ $t("pool.form.label.amount") }}</div>
+        <div class="volume">
+          {{ props.loan.loanAmount }}
+          {{
+            getCurrencyByAddress(props.loan.acceptedToken)?.symbol.toUpperCase()
+          }}
+        </div>
+      </div>
+      <div>
+        <div class="title">{{ $t("pool.form.label.duration") }}</div>
+        <div class="volume">{{ dayjs(startTime?.to(endTime)) }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -71,7 +38,10 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { TokenAmount } from "~/lib/data/types";
+import { TokenAmount, Loan } from "~/lib/data/types";
+import { getCurrencyByAddress } from "@/lib/data/currencies";
+
+dayjs.extend(relativeTime);
 
 // type Pool
 type Props = {
@@ -80,11 +50,17 @@ type Props = {
   token0: TokenAmount;
   token1: TokenAmount;
   owned: boolean;
+  loan?: Loan;
 };
 
 const props = defineProps<Props>();
 
-dayjs.extend(relativeTime);
+const startTime = computed(
+  () => props.loan && dayjs(props.loan.startTime.toString())
+);
+const endTime = computed(
+  () => props.loan && dayjs(props.loan.endTime.toString())
+);
 </script>
 
 <style lang="scss">
@@ -97,6 +73,13 @@ dayjs.extend(relativeTime);
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .volume {
+    font-size: 32px;
+    line-height: 1;
+    color: var(--color-1);
+    margin-top: 8px;
   }
 
   .app-hr {

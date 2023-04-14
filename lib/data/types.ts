@@ -57,6 +57,7 @@ export type UniPool = {
   owner: string;
   token0: TokenAmount;
   token1: TokenAmount;
+  loan?: Loan;
 };
 
 export type Loan = {
@@ -70,5 +71,10 @@ export type Loan = {
   acceptedToken: string; // token contract adress
   isActive: boolean;
   loanIndex: number;
-  pool?: UniPool;
+};
+
+export type Feedback = {
+  text: string;
+  type: "info" | "success" | "warning" | "danger";
+  loading: boolean;
 };
