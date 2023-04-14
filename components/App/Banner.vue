@@ -20,15 +20,15 @@ const props = defineProps<Props>();
   width: 100%;
 
   &[data-type="info"] {
-    border: 1px solid blue;
-    background-color: rgba(blue, 0.3);
-    color: blue;
+    border: 1px solid rgb(82, 82, 239);
+    background-color: rgba(82, 82, 239, 0.3);
+    color: rgb(82, 82, 239);
   }
 
   &[data-type="success"] {
-    border: 1px solid green;
-    background-color: rgba(green, 0.3);
-    color: green;
+    border: 1px solid var(--success);
+    background-color: rgba(var(--success-rgb), 0.3);
+    color: var(--success);
   }
 
   &[data-type="warning"] {
@@ -38,9 +38,9 @@ const props = defineProps<Props>();
   }
 
   &[data-type="danger"] {
-    border: 1px solid red;
-    background-color: rgba(red, 0.3);
-    color: red;
+    border: 1px solid var(--danger);
+    background-color: rgba(var(--danger-rgb), 0.3);
+    color: var(--danger);
   }
 }
 </style>

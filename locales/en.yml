@@ -126,6 +126,8 @@ pool:
   title:
     owned: Owned pools
     loaned: Loaned pools
+  list:
+    empty: No pools avaiable at the moment.
   item:
     title:
       personal: Owned pool

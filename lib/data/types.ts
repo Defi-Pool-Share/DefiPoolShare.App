@@ -70,4 +70,5 @@ export type Loan = {
   acceptedToken: string; // token contract adress
   isActive: boolean;
   loanIndex: number;
+  pool?: UniPool;
 };

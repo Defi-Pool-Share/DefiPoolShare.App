@@ -17,7 +17,7 @@
       </a>
     </div>
 
-    <div class="field" v-if="props.owned">
+    <div class="field">
       <DoubleCurrencies
         :title="$t('pool.item.label.balance')"
         :display-volume="true"

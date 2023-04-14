@@ -1,8 +1,10 @@
 import { ethers } from "ethers";
 import contractLendingAbi from "@/lib/contracts/contractLendingAbi.json";
+import { Loan } from "@/lib/data/types";
 
 export const useContractLending = () => {
   const config = useRuntimeConfig();
+  const { getPoolsByIds } = useUniswap();
 
   const getContract = async () => {
     let provider, signer, contract;
@@ -131,7 +133,56 @@ export const useContractLending = () => {
       return null;
     }
 
-    const res = await contract.getLoanInfo(loanIndex);
+    const res: Loan = await contract.getLoanInfo(loanIndex);
+
+    return res;
+  };
+
+  const getAllLoans = async () => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    let res: Loan[] = [];
+    for (let index = 0; index < 3; index++) {
+      const loan = await getLoanInfo(index);
+      if (loan) {
+        res.push(loan);
+      }
+    }
+
+    let tokenIds = res.map((loan) => loan.tokenId.toString());
+
+    const pools = await getPoolsByIds(tokenIds);
+
+    let loans: Loan[] = [];
+
+    res.forEach((loan) => {
+      const matchingPool = pools.find(
+        (pool) => pool.id.toString() === loan.tokenId.toString()
+      );
+
+      if (loan.isActive && matchingPool) {
+        loans.push({
+          ...loan,
+          pool: matchingPool,
+        });
+      } else if (loan.isActive) {
+        loans.push(loan);
+      }
+    });
+
+    return loans;
+  };
+
+  const getLoanByBorrowers = async (owner: string) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract._loanByBorrowers(owner);
 
     return res;
   };
@@ -145,5 +196,7 @@ export const useContractLending = () => {
     withdrawNFT,
     canClaimFees,
     getLoanInfo,
+    getAllLoans,
+    getLoanByBorrowers,
   };
 };

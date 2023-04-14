@@ -55,6 +55,7 @@ import { Pool } from "@/lib/data/types";
 import { eth, btc, glq } from "@/lib/data/currencies";
 import { useUserStore } from "~/stores/user";
 import { UniPool } from "~/lib/data/types";
+import { ethers } from "ethers";
 
 const userStore = useUserStore();
 const { getMyPools } = useUniswap();
@@ -73,108 +74,6 @@ watch(
     immediate: true,
   }
 );
-
-// const myPools: Pool[] = [
-//   {
-//     rented: false,
-//     shared: 100,
-//     balance: {
-//       firstCurrency: {
-//         currency: glq,
-//         value: 10.0598888,
-//       },
-//       secondCurrency: {
-//         currency: btc,
-//         value: 1.65222475,
-//       },
-//     },
-//     price: {
-//       currency: glq,
-//       value: 10,
-//     },
-//     interests: {
-//       firstCurrency: {
-//         currency: glq,
-//         value: 5.646235,
-//       },
-//       secondCurrency: {
-//         currency: btc,
-//         value: 0.3584295,
-//       },
-//     },
-//     rent: {
-//       monthsDuration: 3,
-//       endDate: new Date("2023-06-23"),
-//     },
-//   },
-// ];
-
-// const loanPools = [
-//   {
-//     rented: true,
-//     shared: 5,
-//     balance: {
-//       firstCurrency: {
-//         currency: btc,
-//         value: 0.0598888,
-//       },
-//       secondCurrency: {
-//         currency: eth,
-//         value: 12.24226475,
-//       },
-//     },
-//     price: {
-//       currency: eth,
-//       value: 6.5,
-//     },
-//     interests: {
-//       firstCurrency: {
-//         currency: btc,
-//         value: 0.06464,
-//       },
-//       secondCurrency: {
-//         currency: eth,
-//         value: 0.0886,
-//       },
-//     },
-//     rent: {
-//       monthsDuration: 1,
-//       endDate: new Date("2023-05-17"),
-//     },
-//   },
-//   {
-//     rented: true,
-//     shared: 10,
-//     balance: {
-//       firstCurrency: {
-//         currency: eth,
-//         value: 0.0598888,
-//       },
-//       secondCurrency: {
-//         currency: glq,
-//         value: 12.24226475,
-//       },
-//     },
-//     price: {
-//       currency: eth,
-//       value: 6.5,
-//     },
-//     interests: {
-//       firstCurrency: {
-//         currency: eth,
-//         value: 0,
-//       },
-//       secondCurrency: {
-//         currency: glq,
-//         value: 0,
-//       },
-//     },
-//     rent: {
-//       monthsDuration: 1,
-//       endDate: new Date("2023-06-23"),
-//     },
-//   },
-// ];
 </script>
 
 <style lang="scss" scoped>

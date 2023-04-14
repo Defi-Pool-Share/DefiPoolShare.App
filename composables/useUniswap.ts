@@ -1,4 +1,5 @@
 import getMyPoolsGQL from "@/lib/queries/getMyPools";
+import getPoolsByIdsGQL from "@/lib/queries/getPoolsByIds";
 import { UniPool } from "~/lib/data/types";
 import { isValue } from "~/lib/modules/definition";
 
@@ -32,9 +33,34 @@ export const useUniswap = () => {
     return pools;
   };
 
+  const getPoolsByIds = async (tokenIds: string[]) => {
+    const res = await fetch(baseUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: getPoolsByIdsGQL,
+        variables: {
+          tokenIds: tokenIds,
+        },
+      }),
+    });
+
+    const data = await res.json();
+
+    let pools: UniPool[] = [];
+
+    if (isValue(data) && isValue(data.data) && isValue(data.data.positions)) {
+      pools = data.data.positions.map(mapUniPool);
+    }
+
+    return pools;
+  };
+
   const mapUniPool = (pool) => {
     return {
-      id: pool.id,
+      id: parseInt(pool.id, 10),
       owner: pool.owner,
       token0: {
         token: {
@@ -57,5 +83,6 @@ export const useUniswap = () => {
 
   return {
     getMyPools,
+    getPoolsByIds,
   };
 };

@@ -1,6 +1,6 @@
 export default `
-query GetMyPools($address: String) {
-  positions(where: { owner: $address }) {
+query GetPoolsByIds($tokenIds: [String]) {
+  positions(where: { id_in: $tokenIds }) {
     id
     owner
     depositedToken0
