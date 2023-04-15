@@ -23,13 +23,13 @@ export const useNav = () => {
   const asideNav = [
     { title: "aside.home", link: "/app/home", icon: "ph:house-simple" },
     {
-      title: "aside.my_pools",
-      link: "/app/mypools",
+      title: "aside.pools",
+      link: "/app/pools",
       icon: "carbon:load-balancer-pool",
     },
     {
-      title: "aside.pools",
-      link: "/app/pools",
+      title: "aside.my_pools",
+      link: "/app/mypools",
       icon: "carbon:load-balancer-pool",
     },
   ];

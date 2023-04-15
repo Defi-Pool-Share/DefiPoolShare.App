@@ -17,20 +17,34 @@
       </a>
     </div>
 
-    <div class="grid-x2">
-      <div>
-        <div class="title">{{ $t("pool.form.label.amount") }}</div>
-        <div class="volume">
-          {{ props.loan.loanAmount }}
-          {{
-            getCurrencyByAddress(props.loan.acceptedToken)?.symbol.toUpperCase()
-          }}
+    <div class="field">
+      <div class="grid-x2">
+        <div>
+          <div class="title">{{ $t("pool.form.label.amount") }}</div>
+          <div class="volume">
+            {{ props.loan.loanAmount }}
+            {{
+              getCurrencyByAddress(
+                props.loan.acceptedToken
+              )?.symbol.toUpperCase()
+            }}
+          </div>
+        </div>
+        <div>
+          <div class="title">{{ $t("pool.form.label.duration") }}</div>
+          <div class="volume">{{ dayjs(startTime?.to(endTime)) }}</div>
         </div>
       </div>
-      <div>
-        <div class="title">{{ $t("pool.form.label.duration") }}</div>
-        <div class="volume">{{ dayjs(startTime?.to(endTime)) }}</div>
-      </div>
+    </div>
+
+    <div class="field">
+      <AppBanner v-bind="borrowFeedback" v-if="borrowFeedback.text !== ''">{{
+        borrowFeedback.text
+      }}</AppBanner>
+
+      <button class="btn" :disabled="!isBuyable" @click="handleBuy">
+        {{ $t("pool.item.cta.borrow") }}
+      </button>
     </div>
   </div>
 </template>
@@ -38,8 +52,9 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { TokenAmount, Loan } from "~/lib/data/types";
+import { TokenAmount, Loan, Feedback } from "~/lib/data/types";
 import { getCurrencyByAddress } from "@/lib/data/currencies";
+import { useUserStore } from "~/stores/user";
 
 dayjs.extend(relativeTime);
 
@@ -55,12 +70,81 @@ type Props = {
 
 const props = defineProps<Props>();
 
+const userStore = useUserStore();
+
+const { borrowNFT, getProvider } = useContractLending();
+const { isApprovalForAll, setApprovalForAll } = useContractUniswap();
+
+const borrowFeedback: Feedback = reactive({
+  text: "",
+  loading: false,
+  type: "info",
+});
+
 const startTime = computed(
   () => props.loan && dayjs(props.loan.startTime.toString())
 );
 const endTime = computed(
   () => props.loan && dayjs(props.loan.endTime.toString())
 );
+const isBuyable = computed(
+  () =>
+    props.loan && userStore.user && props.loan.lender !== userStore.user.address
+);
+
+async function handleBuy() {
+  const provider = await getProvider();
+
+  if (!props.loan || !provider || !userStore.user) {
+    return;
+  }
+
+  try {
+    borrowFeedback.loading = true;
+    borrowFeedback.type = "info";
+    borrowFeedback.text = "Checking approval for your pool NFT.";
+    let isApproved = await isApprovalForAll(userStore.user.address);
+
+    if (isApproved !== null && !isApproved) {
+      borrowFeedback.text = "Setting approval for your pool NFT.";
+      const res = await setApprovalForAll(userStore.user.address);
+      if (res) {
+        await provider.waitForTransaction(res.hash, 1);
+        borrowFeedback.text = "Re-Checking approval for your pool NFT.";
+      }
+
+      isApproved = await isApprovalForAll(userStore.user.address);
+    }
+
+    if (isApproved !== null && isApproved) {
+      borrowFeedback.text = "Borrow of your pool NFT in progress.";
+      const res2 = await borrowNFT(props.loan.loanIndex);
+
+      if (res2) {
+        borrowFeedback.text = "Waiting for transaction confirmation.";
+        await provider.waitForTransaction(res2.hash, 1);
+        borrowFeedback.type = "success";
+        borrowFeedback.text = "Borrow successful !";
+
+        setTimeout(() => {
+          document.body.dispatchEvent(new Event("needRefreshData"));
+        }, 1000);
+      }
+    }
+  } catch (e: any) {
+    borrowFeedback.type = "danger";
+
+    if (e.error && e.error.message) {
+      borrowFeedback.text = e.error.message;
+    } else if (e.message) {
+      borrowFeedback.text = e.message;
+    } else {
+      (borrowFeedback.text = "Error : "), e;
+    }
+  }
+
+  borrowFeedback.loading = false;
+}
 </script>
 
 <style lang="scss">

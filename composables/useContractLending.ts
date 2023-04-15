@@ -153,19 +153,19 @@ export const useContractLending = () => {
       return null;
     }
 
-    const res: Loan[] = [];
-    for (let index = 0; index < 1; index++) {
+    const loans: Loan[] = [];
+    for (let index = 0; index < 4; index++) {
       const loan = await getLoanInfo(index);
-      if (loan) {
-        res.push(loan);
+
+      if (loan && loan.isActive) {
+        loans.push(loan);
       }
     }
 
-    let tokenIds = res.map((loan) => loan.tokenId.toString());
+    let tokenIds = loans.map((loan) => loan.tokenId.toString());
 
     const pools = await getPoolsByIds(tokenIds);
-
-    const poolsWithLoan: UniPool[] = mergePoolsAndLoans(pools, res, true);
+    const poolsWithLoan: UniPool[] = mergePoolsAndLoans(pools, loans);
 
     return poolsWithLoan;
   };
@@ -178,7 +178,27 @@ export const useContractLending = () => {
 
     const res = await contract.getLoanByBorrowersByAddress(owner);
 
-    return res;
+    const loans: Loan[] = [];
+
+    if (res) {
+      const promises: Promise<Loan | null>[] = [];
+      res.forEach((index: BigNumber) => {
+        promises.push(getLoanInfo(parseInt(index.toString(), 10)));
+      });
+      const tempLoans = await Promise.all(promises);
+      tempLoans.forEach((tempLoan) => {
+        if (tempLoan && tempLoan.isActive) {
+          loans.push(tempLoan);
+        }
+      });
+    }
+
+    const tokenIds = loans.map((loan) => loan.tokenId.toString());
+
+    const pools = await getPoolsByIds(tokenIds);
+    const poolsWithLoan: UniPool[] = mergePoolsAndLoans(pools, loans);
+
+    return poolsWithLoan;
   };
 
   const getLoansByLenders = async (owner: string) => {
@@ -198,7 +218,7 @@ export const useContractLending = () => {
       });
       const tempLoans = await Promise.all(promises);
       tempLoans.forEach((tempLoan) => {
-        if (tempLoan) {
+        if (tempLoan && tempLoan.isActive) {
           loans.push(tempLoan);
         }
       });
@@ -207,24 +227,20 @@ export const useContractLending = () => {
     const tokenIds = loans.map((loan) => loan.tokenId.toString());
 
     const pools = await getPoolsByIds(tokenIds);
-    const poolsWithLoan: UniPool[] = mergePoolsAndLoans(pools, loans, false);
+    const poolsWithLoan: UniPool[] = mergePoolsAndLoans(pools, loans);
 
     return poolsWithLoan;
   };
 
-  const mergePoolsAndLoans = (
-    pools: UniPool[],
-    loans: Loan[],
-    onlyActive: boolean
-  ) => {
+  const mergePoolsAndLoans = (pools: UniPool[], loans: Loan[]) => {
     let poolsWithLoan: UniPool[] = [];
 
     pools.forEach((pool) => {
-      const matchingLoan = loans.find(
+      const matchingLoan = loans.findLast(
         (loan) => loan.tokenId.toString() === pool.id.toString()
       );
 
-      if (matchingLoan && matchingLoan.isActive) {
+      if (matchingLoan) {
         poolsWithLoan.push({
           ...pool,
           loan: matchingLoan,

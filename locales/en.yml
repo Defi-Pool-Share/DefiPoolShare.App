@@ -127,8 +127,9 @@ pool:
     uniswap: Your Uniswap pools
     lenders: Your lended pools
     loaned: Your loaned pools
+    borrowers: Your borrowed pools
   list:
-    empty: No pools avaiable at the moment.
+    empty: No pools available at the moment.
   item:
     title:
       personal: Owned pool
@@ -142,6 +143,7 @@ pool:
       claim: Claim
       submit: Submit
       withdraw: Withdraw your pool NFT
+      borrow: Borrow
   form:
     label:
       amount: Price

@@ -60,6 +60,35 @@
             <AppBanner type="warning">{{ $t("pool.list.empty") }}</AppBanner>
           </div>
         </div>
+
+        <div class="app-hr"></div>
+
+        <div class="defi-Pools-section">
+          <h2 class="h2">{{ $t("pool.title.borrowers") }}</h2>
+          <div class="app-paragraphe">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Perspiciatis reprehenderit eum, neque voluptas possimus quidem
+              libero praesentium sed earum saepe doloremque architecto aliquid
+              consequatur vitae dolorem alias quod temporibus voluptate!
+            </p>
+          </div>
+          <div class="defi-Pools-list" v-if="myBorrowedPools.length">
+            <div class="grid-x2">
+              <div :key="index" v-for="(pool, index) in myBorrowedPools">
+                <PoolLendedItem v-bind="pool" :owned="true" />
+              </div>
+            </div>
+          </div>
+          <div class="defi-Pools-loading" v-else-if="isLoading">
+            <AppBanner type="info" :loading="true">{{
+              $t("global.loading")
+            }}</AppBanner>
+          </div>
+          <div class="defi-Pools-empty" v-else>
+            <AppBanner type="warning">{{ $t("pool.list.empty") }}</AppBanner>
+          </div>
+        </div>
       </div>
     </AppGuard>
   </div>
@@ -71,10 +100,11 @@ import { UniPool } from "~/lib/data/types";
 
 const userStore = useUserStore();
 const { getMyPools } = useUniswap();
-const { getLoansByLenders } = useContractLending();
+const { getLoansByLenders, getLoansByBorrowers } = useContractLending();
 
 const myUniswapPools: Ref<UniPool[]> = ref([]);
 const myLendedPools: Ref<UniPool[]> = ref([]);
+const myBorrowedPools: Ref<UniPool[]> = ref([]);
 const isLoading = ref(false);
 
 async function refreshData() {
@@ -87,6 +117,8 @@ async function refreshData() {
   myUniswapPools.value = await getMyPools(userStore.user.address);
   myLendedPools.value = [];
   myLendedPools.value = await getLoansByLenders(userStore.user.address);
+  myBorrowedPools.value = [];
+  myBorrowedPools.value = await getLoansByBorrowers(userStore.user.address);
   isLoading.value = false;
 }
 

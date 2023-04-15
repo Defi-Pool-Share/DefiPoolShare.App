@@ -33,7 +33,7 @@
       withdrawFeedback.text
     }}</AppBanner>
 
-    <button class="btn" @click="handleWithdraw">
+    <button class="btn" @click="handleWithdraw" :disabled="!isWithdrawable">
       {{ $t("pool.item.cta.withdraw") }}
     </button>
   </div>
@@ -62,6 +62,8 @@ const withdrawFeedback: Feedback = reactive({
   loading: false,
   type: "info",
 });
+
+const isWithdrawable = computed(() => true); // @TODO
 
 dayjs.extend(relativeTime);
 

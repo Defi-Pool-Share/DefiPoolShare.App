@@ -43,23 +43,35 @@ const { getAllPoolsWithLoan } = useContractLending();
 const allPoolsByLoan: Ref<UniPool[]> = ref([]);
 const isLoading = ref(false);
 
+async function refreshData() {
+  isLoading.value = true;
+  const pools = await getAllPoolsWithLoan();
+
+  if (pools) {
+    allPoolsByLoan.value = pools;
+  }
+  isLoading.value = false;
+}
+
 watch(
   () => userStore.user,
   async (newUser) => {
     if (newUser && newUser.address) {
-      isLoading.value = true;
-      const pools = await getAllPoolsWithLoan();
-
-      if (pools) {
-        allPoolsByLoan.value = pools;
-      }
-      isLoading.value = false;
+      refreshData();
     }
   },
   {
     immediate: true,
   }
 );
+
+onMounted(() => {
+  document.body.addEventListener("needRefreshData", refreshData);
+});
+
+onUnmounted(() => {
+  document.body.removeEventListener("needRefreshData", refreshData);
+});
 </script>
 
 <style lang="scss" scoped>
