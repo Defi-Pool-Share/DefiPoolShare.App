@@ -76,7 +76,7 @@
           <div class="defi-Pools-list" v-if="myBorrowedPools.length">
             <div class="grid-x2">
               <div :key="index" v-for="(pool, index) in myBorrowedPools">
-                <PoolLendedItem v-bind="pool" :owned="true" />
+                <PoolBorrowedItem v-bind="pool" :owned="true" />
               </div>
             </div>
           </div>

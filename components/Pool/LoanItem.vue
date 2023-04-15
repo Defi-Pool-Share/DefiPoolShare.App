@@ -73,7 +73,7 @@ const props = defineProps<Props>();
 const userStore = useUserStore();
 
 const { borrowNFT, getProvider } = useContractLending();
-const { isApprovalForAll, setApprovalForAll } = useContractUniswap();
+const { approve } = useContractDPST();
 
 const borrowFeedback: Feedback = reactive({
   text: "",
@@ -81,11 +81,11 @@ const borrowFeedback: Feedback = reactive({
   type: "info",
 });
 
-const startTime = computed(
-  () => props.loan && dayjs(props.loan.startTime.toString())
-);
 const endTime = computed(
-  () => props.loan && dayjs(props.loan.endTime.toString())
+  () => props.loan && dayjs(parseInt(props.loan.endTime.toString(), 10))
+);
+const startTime = computed(
+  () => props.loan && dayjs(parseInt(props.loan.startTime.toString(), 10))
 );
 const isBuyable = computed(
   () =>
@@ -102,21 +102,12 @@ async function handleBuy() {
   try {
     borrowFeedback.loading = true;
     borrowFeedback.type = "info";
-    borrowFeedback.text = "Checking approval for your pool NFT.";
-    let isApproved = await isApprovalForAll(userStore.user.address);
+    borrowFeedback.text = "Request approval for currency transfer.";
+    let res = await approve(props.loan.loanAmount);
+    borrowFeedback.text = "Waiting for approval confirmation.";
+    await provider.waitForTransaction(res.hash, 1);
 
-    if (isApproved !== null && !isApproved) {
-      borrowFeedback.text = "Setting approval for your pool NFT.";
-      const res = await setApprovalForAll(userStore.user.address);
-      if (res) {
-        await provider.waitForTransaction(res.hash, 1);
-        borrowFeedback.text = "Re-Checking approval for your pool NFT.";
-      }
-
-      isApproved = await isApprovalForAll(userStore.user.address);
-    }
-
-    if (isApproved !== null && isApproved) {
+    if (res) {
       borrowFeedback.text = "Borrow of your pool NFT in progress.";
       const res2 = await borrowNFT(props.loan.loanIndex);
 

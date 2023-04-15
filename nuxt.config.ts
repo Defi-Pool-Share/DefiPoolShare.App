@@ -11,6 +11,7 @@ export default defineNuxtConfig({
       contract: {
         lending: process.env.LENDING_CONTRACT_ADDRESS,
         uniswap: process.env.UNISWAP_CONTRACT_ADDRESS,
+        dpst: process.env.DPST_CONTRACT_ADDRESS,
       },
     },
   },

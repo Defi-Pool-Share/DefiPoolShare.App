@@ -131,7 +131,7 @@ export const useContractLending = () => {
       return null;
     }
 
-    const res = await contract.getLoanInfo(loanIndex);
+    const res = await contract.canClaimFees(loanIndex);
 
     return res;
   };
@@ -186,8 +186,9 @@ export const useContractLending = () => {
         promises.push(getLoanInfo(parseInt(index.toString(), 10)));
       });
       const tempLoans = await Promise.all(promises);
+
       tempLoans.forEach((tempLoan) => {
-        if (tempLoan && tempLoan.isActive) {
+        if (tempLoan) {
           loans.push(tempLoan);
         }
       });
