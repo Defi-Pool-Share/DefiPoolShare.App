@@ -17,6 +17,20 @@
       </a>
     </div>
 
+
+<div class="field">
+  <DoubleCurrencies
+    :title="$t('pool.item.label.interests')"
+    :display-volume="true"
+    :display-balance="true"
+    :first-currency="poolFees.token0"
+    :second-currency="poolFees.token1"
+  />
+</div>
+
+<div class="app-hr"></div>
+
+
     <p class="app-paragraphe">
       <ul>
         <li>
@@ -59,6 +73,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const { claimFees, canClaimFees, getProvider } = useContractLending();
+const { getUnclaimedFees } = useContractUniswap();
 
 const claimFeedback: Feedback = reactive({
   text: "",
@@ -69,12 +84,21 @@ const claimFeedback: Feedback = reactive({
 const isClaimable = ref(false);
 
 const endTime = computed(() => props.loan && dayjs.unix(props.loan.endTime));
-const startTime = computed(
-  () => props.loan && dayjs.unix(props.loan.startTime)
-);
-const creationTime = computed(
-  () => props.loan && dayjs.unix(props.loan.creationTime)
-);
+
+
+const poolFees: {
+  token0: TokenAmount;
+  token1: TokenAmount;
+} = reactive({
+  token0: {
+    token: props.token0.token,
+    value: 0,
+  },
+  token1: {
+    token: props.token1.token,
+    value: 0,
+  },
+});
 
 async function handleClaim() {
   const provider = await getProvider();
@@ -120,6 +144,12 @@ onMounted(async () => {
   }
 
   isClaimable.value = await canClaimFees(props.loan.loanIndex);
+
+  const fees = await getUnclaimedFees(props);
+  if (fees) {
+    poolFees.token0.value = parseFloat(fees.amount0);
+    poolFees.token1.value = parseFloat(fees.amount1);
+  }
 });
 </script>
 

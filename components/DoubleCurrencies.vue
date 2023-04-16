@@ -16,7 +16,7 @@
           <span>{{ props.firstCurrency.token.symbol.toUpperCase() }}</span>
         </div>
         <div class="right">
-          <span>{{ displayCryptoPrice(props.firstCurrency.value) }}</span>
+          <span>{{ props.firstCurrency.value }}</span>
         </div>
       </div>
 
@@ -33,7 +33,7 @@
           <span>{{ props.secondCurrency.token.symbol.toUpperCase() }}</span>
         </div>
         <div class="right">
-          <span>{{ displayCryptoPrice(props.secondCurrency.value) }}</span>
+          <span>{{ props.secondCurrency.value }}</span>
         </div>
       </div>
     </div>

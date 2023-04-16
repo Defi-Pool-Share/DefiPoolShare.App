@@ -1,5 +1,6 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import contractUniswapV3Abi from "@/lib/contracts/contractUniswapV3Abi.json";
+import { UniPool } from "~/lib/data/types";
 
 export const useContractUniswap = () => {
   const config = useRuntimeConfig();
@@ -61,18 +62,47 @@ export const useContractUniswap = () => {
 
     const res = await contract.setApprovalForAll(
       config.public.contract.lending,
-      true,
-      {
-        from: owner,
-      }
+      true
     );
 
     return res;
+  };
+
+  const getUnclaimedFees = async (pool: UniPool) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const MAX = ethers.BigNumber.from(2).pow(128).sub(1).toString(); // "340282366920938463463374607431768211455"
+
+    const encoded = {
+      tokenId: pool.id,
+      recipient: pool.owner,
+      amount0Max: MAX,
+      amount1Max: MAX,
+    };
+
+    const trx = await contract.callStatic.collect(encoded);
+
+    const formatUnits = (amt: BigNumber, units?: number): string =>
+      ethers.utils
+        .formatUnits(ethers.BigNumber.from(amt).toString(), units || 18)
+        .toString();
+
+    const amount0 = formatUnits(trx.amount0);
+    const amount1 = formatUnits(trx.amount1);
+
+    return {
+      amount0,
+      amount1,
+    };
   };
 
   return {
     isApprovalForAll,
     setApprovalForAll,
     getProvider,
+    getUnclaimedFees,
   };
 };

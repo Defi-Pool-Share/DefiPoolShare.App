@@ -27,38 +27,19 @@
       />
     </div>
 
-    <!-- <hr class="app-hr" v-if="props.owned" />
+    <div class="app-hr"></div>
 
     <div class="field">
       <DoubleCurrencies
-        :display-volume="true"
         :title="$t('pool.item.label.interests')"
-        v-bind="props.interests"
+        :display-volume="true"
+        :display-balance="true"
+        :first-currency="poolFees.token0"
+        :second-currency="poolFees.token1"
       />
     </div>
 
-    <button
-      class="btn"
-      :disabled="
-        !(
-          props.interests.firstCurrency.value ||
-          props.interests.secondCurrency.value
-        )
-      "
-    >
-      {{ $t("pool.item.cta.claim") }}
-    </button> -->
-
-    <!-- <hr class="app-hr" v-if="!props.owned" />
-
-    <div class="app-paragraphe" v-if="!props.owned">
-      <ul>
-        <li>
-          {{ $t("pool.item.label.end_loan") }} :
-          <span class="grad-1">{{ dayjs(props.rent.endDate).fromNow() }}</span>
-        </li>
-      </ul>
-    </div> -->
+    <div class="app-hr"></div>
 
     <template v-if="displayForm">
       <hr class="app-hr" v-if="props.owned" />
@@ -89,9 +70,33 @@ type Props = {
 
 const props = defineProps<Props>();
 
+const { getUnclaimedFees } = useContractUniswap();
+
 const displayForm = ref(false);
 
+const poolFees: {
+  token0: TokenAmount;
+  token1: TokenAmount;
+} = reactive({
+  token0: {
+    token: props.token0.token,
+    value: 0,
+  },
+  token1: {
+    token: props.token1.token,
+    value: 0,
+  },
+});
+
 dayjs.extend(relativeTime);
+
+onMounted(async () => {
+  const fees = await getUnclaimedFees(props);
+  if (fees) {
+    poolFees.token0.value = parseFloat(fees.amount0);
+    poolFees.token1.value = parseFloat(fees.amount1);
+  }
+});
 </script>
 
 <style lang="scss">

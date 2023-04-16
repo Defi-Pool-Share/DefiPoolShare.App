@@ -27,6 +27,18 @@
       />
     </div>
 
+    <div class="app-hr"></div>
+
+<div class="field">
+  <DoubleCurrencies
+    :title="$t('pool.item.label.interests')"
+    :display-volume="true"
+    :display-balance="true"
+    :first-currency="poolFees.token0"
+    :second-currency="poolFees.token1"
+  />
+</div>
+
     <template v-if="!props.loan.isActive">
 
 <p class="app-paragraphe">
@@ -79,6 +91,8 @@ type Props = {
 const props = defineProps<Props>();
 
 const { withdrawNFT, getProvider } = useContractLending();
+const { getUnclaimedFees } = useContractUniswap();
+
 
 const withdrawFeedback: Feedback = reactive({
   text: "",
@@ -89,6 +103,21 @@ const withdrawFeedback: Feedback = reactive({
 const isWithdrawable = computed(() => dayjs().diff(endTime.value) > 0);
 
 const endTime = computed(() => props.loan && dayjs.unix(props.loan.endTime));
+
+const poolFees: {
+  token0: TokenAmount;
+  token1: TokenAmount;
+} = reactive({
+  token0: {
+    token: props.token0.token,
+    value: 0,
+  },
+  token1: {
+    token: props.token1.token,
+    value: 0,
+  },
+});
+
 
 dayjs.extend(relativeTime);
 
@@ -129,6 +158,14 @@ async function handleWithdraw() {
 
   withdrawFeedback.loading = false;
 }
+
+onMounted(async () => {
+  const fees = await getUnclaimedFees(props);
+  if (fees) {
+    poolFees.token0.value = parseFloat(fees.amount0);
+    poolFees.token1.value = parseFloat(fees.amount1);
+  }
+});
 </script>
 
 <style lang="scss">
