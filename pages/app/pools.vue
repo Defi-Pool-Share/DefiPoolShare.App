@@ -48,6 +48,7 @@ async function refreshData() {
   const pools = await getAllPoolsWithLoan();
 
   if (pools) {
+    allPoolsByLoan.value = [];
     allPoolsByLoan.value = pools;
   }
   isLoading.value = false;

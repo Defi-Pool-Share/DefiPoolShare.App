@@ -17,20 +17,23 @@
       </a>
     </div>
 
-    <div class="field">
-      startTime : {{ startTime }}<br /><br />
-      endTime : {{ endTime }}<br /><br />
-      creationTime : {{ creationTime }}<br /><br />
-    </div>
-
-    <hr class="app-hr" />
+    <p class="app-paragraphe">
+      <ul>
+        <li>
+          {{ $t('pool.item.label.end_loan') }} :
+          <span class="grad-1">{{
+            dayjs().to(endTime)
+          }}</span>
+        </li>
+      </ul>
+    </p>
 
     <AppBanner v-bind="claimFeedback" v-if="claimFeedback.text !== ''">{{
       claimFeedback.text
     }}</AppBanner>
 
     <button class="btn" @click="handleClaim" :disabled="!isClaimable">
-      {{ $t("pool.item.cta.claim") }}
+      {{ $t("pool.item.cta.claim_fees") }}
     </button>
   </div>
 </template>
@@ -38,7 +41,11 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
 import { Loan, TokenAmount, Feedback } from "~/lib/data/types";
+
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
 
 // type Pool
 type Props = {
@@ -61,17 +68,13 @@ const claimFeedback: Feedback = reactive({
 
 const isClaimable = ref(false);
 
-const endTime = computed(
-  () => props.loan && dayjs(parseInt(props.loan.endTime.toString(), 10))
-);
+const endTime = computed(() => props.loan && dayjs.unix(props.loan.endTime));
 const startTime = computed(
-  () => props.loan && dayjs(parseInt(props.loan.startTime.toString(), 10))
+  () => props.loan && dayjs.unix(props.loan.startTime)
 );
 const creationTime = computed(
-  () => props.loan && dayjs(parseInt(props.loan.creationTime.toString(), 10))
+  () => props.loan && dayjs.unix(props.loan.creationTime)
 );
-
-dayjs.extend(relativeTime);
 
 async function handleClaim() {
   const provider = await getProvider();

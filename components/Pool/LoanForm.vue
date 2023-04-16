@@ -30,8 +30,11 @@
             v-model="currency"
             :value="input.value"
           />
-          <span>
+          <span v-if="input.label !== 'cryptocurrency:dpst'">
             <IconCSS class="icon" :name="input.label"></IconCSS>
+          </span>
+          <span v-else>
+            <SvgSigle />
           </span>
         </label>
       </div>
@@ -109,7 +112,13 @@
       </template>
       <template #actions>
         <button @click="closePopin" class="btn">Close</button>
-        <button @click="handleSubmit" class="btn-success">Confirm</button>
+        <button
+          @click="handleSubmit"
+          class="btn-success"
+          :disabled="depositFeedback.loading"
+        >
+          Confirm
+        </button>
       </template>
     </AppPopin>
   </div>
@@ -117,10 +126,14 @@
 
 <script setup lang="ts">
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { whitelistedTokens, getCurrencyByAddress } from "@/lib/data/currencies";
 import { isValue } from "~/lib/modules/definition";
 import { useUserStore } from "~/stores/user";
 import { Feedback } from "@/lib/data/types";
+import { ethers } from "ethers";
+
+dayjs.extend(utc);
 
 type Props = {
   tokenId: number;
@@ -189,7 +202,7 @@ async function handleSubmit() {
   }
 
   const tokenId = props.tokenId; // NFT id of the Uniswap V3 pool representation
-  const wantedDuration = dayjs().add(3, "minute").valueOf();
+  const wantedDuration = dayjs().utc().add(10, "minute").unix(); // @TODO
 
   const provider = await getProvider();
 
@@ -289,6 +302,12 @@ async function handleSubmit() {
       font-size: 24px;
     }
 
+    .sigle {
+      width: 24px;
+      height: auto;
+      filter: grayscale(1);
+    }
+
     input {
       display: none;
 
@@ -298,6 +317,10 @@ async function handleSubmit() {
 
         .icon {
           background-color: var(--color-1);
+        }
+
+        .sigle {
+          filter: grayscale(0);
         }
       }
     }

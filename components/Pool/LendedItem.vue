@@ -27,15 +27,38 @@
       />
     </div>
 
-    <hr class="app-hr" />
+    <template v-if="!props.loan.isActive">
 
-    <AppBanner v-bind="withdrawFeedback" v-if="withdrawFeedback.text !== ''">{{
-      withdrawFeedback.text
-    }}</AppBanner>
+<p class="app-paragraphe">
+  <ul>
+    <li>
+      {{ $t('pool.item.label.end_loan') }} :
+      <span class="grad-1">{{
+        dayjs().to(endTime)
+      }}</span>
+    </li>
+  </ul>
+</p>
 
-    <button class="btn" @click="handleWithdraw" :disabled="!isWithdrawable">
-      {{ $t("pool.item.cta.withdraw") }}
-    </button>
+<AppBanner v-bind="withdrawFeedback" v-if="withdrawFeedback.text !== ''">{{
+  withdrawFeedback.text
+}}</AppBanner>
+
+<button class="btn" @click="handleWithdraw" :disabled="!isWithdrawable">
+  {{ $t("pool.item.cta.withdraw") }}
+</button>
+    </template>
+    <template v-else>
+      <p class="app-paragraphe">
+  <ul>
+    <li>
+      Loan not borrowed yet.
+    </li>
+  </ul>
+</p>
+    </template>
+
+
   </div>
 </template>
 
@@ -63,7 +86,9 @@ const withdrawFeedback: Feedback = reactive({
   type: "info",
 });
 
-const isWithdrawable = computed(() => true); // @TODO
+const isWithdrawable = computed(() => dayjs().diff(endTime.value) > 0);
+
+const endTime = computed(() => props.loan && dayjs.unix(props.loan.endTime));
 
 dayjs.extend(relativeTime);
 

@@ -22,7 +22,7 @@
         <div>
           <div class="title">{{ $t("pool.form.label.amount") }}</div>
           <div class="volume">
-            {{ props.loan.loanAmount }}
+            {{ ethers.utils.formatEther(props.loan.loanAmount) }}
             {{
               getCurrencyByAddress(
                 props.loan.acceptedToken
@@ -32,12 +32,12 @@
         </div>
         <div>
           <div class="title">{{ $t("pool.form.label.duration") }}</div>
-          <div class="volume">{{ dayjs(startTime?.to(endTime)) }}</div>
+          <div class="volume">{{ dayjs(creationTime).to(endTime, true) }}</div>
         </div>
       </div>
     </div>
 
-    <div class="field">
+    <div class="field" v-if="!isMine">
       <AppBanner v-bind="borrowFeedback" v-if="borrowFeedback.text !== ''">{{
         borrowFeedback.text
       }}</AppBanner>
@@ -55,6 +55,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { TokenAmount, Loan, Feedback } from "~/lib/data/types";
 import { getCurrencyByAddress } from "@/lib/data/currencies";
 import { useUserStore } from "~/stores/user";
+import { ethers } from "ethers";
 
 dayjs.extend(relativeTime);
 
@@ -81,15 +82,18 @@ const borrowFeedback: Feedback = reactive({
   type: "info",
 });
 
-const endTime = computed(
-  () => props.loan && dayjs(parseInt(props.loan.endTime.toString(), 10))
+const endTime = computed(() => props.loan && dayjs.unix(props.loan.endTime));
+const creationTime = computed(
+  () => props.loan && dayjs.unix(props.loan.creationTime)
 );
-const startTime = computed(
-  () => props.loan && dayjs(parseInt(props.loan.startTime.toString(), 10))
-);
+
 const isBuyable = computed(
   () =>
     props.loan && userStore.user && props.loan.lender !== userStore.user.address
+);
+const isMine = computed(
+  () =>
+    props.loan?.lender.toLowerCase() === userStore.user?.address.toLowerCase()
 );
 
 async function handleBuy() {

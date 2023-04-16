@@ -76,7 +76,7 @@ export const useContractLending = () => {
 
     const res = await contract.depositNFT(
       tokenId,
-      loanAmount,
+      ethers.utils.parseUnits(loanAmount.toString(), "ether"),
       loanDuration,
       acceptedToken
     );
@@ -154,12 +154,14 @@ export const useContractLending = () => {
     }
 
     const loans: Loan[] = [];
-    for (let index = 0; index < 4; index++) {
-      const loan = await getLoanInfo(index);
+    for (let index = 0; index < 20; index++) {
+      try {
+        const loan = await getLoanInfo(index);
 
-      if (loan && loan.isActive) {
-        loans.push(loan);
-      }
+        if (loan && loan.isActive) {
+          loans.push(loan);
+        }
+      } catch (e) {}
     }
 
     let tokenIds = loans.map((loan) => loan.tokenId.toString());
@@ -219,7 +221,7 @@ export const useContractLending = () => {
       });
       const tempLoans = await Promise.all(promises);
       tempLoans.forEach((tempLoan) => {
-        if (tempLoan && tempLoan.isActive) {
+        if (tempLoan) {
           loans.push(tempLoan);
         }
       });

@@ -60,11 +60,16 @@
       </ul>
     </div> -->
 
-    <hr class="app-hr" v-if="props.owned" />
+    <template v-if="displayForm">
+      <hr class="app-hr" v-if="props.owned" />
 
-    <div class="field" v-if="props.owned">
-      <PoolLoanForm :token-id="props.id" />
-    </div>
+      <div class="field" v-if="props.owned">
+        <PoolLoanForm :token-id="props.id" />
+      </div>
+    </template>
+    <button class="btn" v-else @click="displayForm = true">
+      {{ $t("pool.item.cta.loan") }}
+    </button>
   </div>
 </template>
 
@@ -83,6 +88,8 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+
+const displayForm = ref(false);
 
 dayjs.extend(relativeTime);
 </script>

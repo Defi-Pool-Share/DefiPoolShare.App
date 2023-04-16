@@ -141,9 +141,11 @@ pool:
       end_loan: End of loan
     cta:
       claim: Claim
+      claim_fees: Claim fees
       submit: Submit
       withdraw: Withdraw your pool NFT
       borrow: Borrow
+      loan: Loan
   form:
     label:
       amount: Price
