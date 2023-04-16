@@ -6,12 +6,6 @@ const glq: Currency = {
   address: "0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24",
 };
 
-const btc: Currency = {
-  id: "bitcoin",
-  symbol: "btc",
-  address: "",
-};
-
 const usdc: Currency = {
   id: "usd-coin",
   symbol: "usdc",
@@ -48,4 +42,12 @@ function getCurrencyByAddress(address: string) {
   return whitelistedTokens.find((token) => token.address === address);
 }
 
-export { weth, glq, btc, whitelistedTokens, getCurrencyByAddress };
+export {
+  dpst,
+  usdt,
+  usdc,
+  weth,
+  wbtc,
+  whitelistedTokens,
+  getCurrencyByAddress,
+};

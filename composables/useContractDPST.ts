@@ -52,8 +52,20 @@ export const useContractDPST = () => {
     return res;
   };
 
+  const getBalance = async (owner: string) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract.balanceOf(owner);
+
+    return res;
+  };
+
   return {
     getProvider,
+    getBalance,
     approve,
   };
 };

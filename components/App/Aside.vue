@@ -15,6 +15,16 @@
       </ul>
     </nav>
 
+    <div class="aside-landing">
+      <NuxtLink to="/" class="btn">
+        <span>Website</span>
+      </NuxtLink>
+    </div>
+
+    <div class="aside-balances">
+      <AppBalances />
+    </div>
+
     <div class="aside-bottom">
       <div class="aside-profil" v-if="userStore.user?.isConnected">
         <div class="aside-profil-photo">

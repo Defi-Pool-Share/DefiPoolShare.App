@@ -149,7 +149,7 @@ pool:
   form:
     label:
       amount: Price
-      currency: Currency
+      currency: Accepted currency
       duration: Duration
     popin:
       title: Loan summary
@@ -157,3 +157,6 @@ pool:
 
 global:
   loading: Loading in progress
+  protocol:
+    version: Procotol v1
+    name: DeFi Pool Share Contract

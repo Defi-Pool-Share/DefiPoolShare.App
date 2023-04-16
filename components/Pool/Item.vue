@@ -42,8 +42,6 @@
     <div class="app-hr"></div>
 
     <template v-if="displayForm">
-      <hr class="app-hr" v-if="props.owned" />
-
       <div class="field" v-if="props.owned">
         <PoolLoanForm :token-id="props.id" />
       </div>

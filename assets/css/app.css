@@ -96,8 +96,11 @@ html::-webkit-scrollbar-thumb {
   font-size: 1.3em;
 }
 
-.aside-bottom {
+.aside-landing {
   margin-top: auto;
+}
+.aside-landing a {
+  width: 100%;
 }
 
 .aside-profil {

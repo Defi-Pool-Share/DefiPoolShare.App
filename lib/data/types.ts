@@ -23,24 +23,6 @@ export type CurrencyAmount = {
   value: number;
 };
 
-// export type Pool = {
-//   rented: boolean;
-//   shared: number;
-//   balance: {
-//     firstCurrency: CurrencyAmount;
-//     secondCurrency: CurrencyAmount;
-//   };
-//   interests: {
-//     firstCurrency: CurrencyAmount;
-//     secondCurrency: CurrencyAmount;
-//   };
-//   price: CurrencyAmount;
-//   rent: {
-//     monthsDuration: number;
-//     endDate: Date;
-//   };
-// };
-
 export type Token = {
   address: string;
   name: string;
