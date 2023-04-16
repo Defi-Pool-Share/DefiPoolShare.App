@@ -44,7 +44,7 @@ step:
 
 roadmap:
   sub: Discover our <strong>roadmap</strong>
-  title: Our Roadmap for Success
+  title: "Where We're Headed: The Protocol's Growth Plan"
   q1: [
     "Launch the DeFi Pool Share platform, with initial support for Uniswap V3 pool shares and&nbsp;lending.",
     "Begin marketing and outreach efforts to attract early adopters and liquidity&nbsp;providers.",
@@ -68,7 +68,7 @@ roadmap:
 
 tokenomics:
   sub: <strong>Tokenomics</strong> for the community
-  title: Our Vision for Sustainable Ecosystem
+  title: Our Vision for a Sustainable Ecosystem
   total: |
     Total Supply:
   liquidity: |
@@ -98,6 +98,7 @@ team:
     dev: Developer Blockchain
     cmo: Marketing Lead
     cm: Community Manager
+    webdev: Web3 Developer
 
 footer:
   desc: |
