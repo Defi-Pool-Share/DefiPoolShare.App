@@ -14,7 +14,7 @@ const { toggleNav } = useNav();
     </div>
     <div class="right">
       <Nav />
-      <NuxtLink to="/app/home" class="btn">
+      <NuxtLink to="/app/pools" class="btn">
         <span>Launch App</span>
       </NuxtLink>
       <button class="btn bnv" @click="toggleNav(true)">

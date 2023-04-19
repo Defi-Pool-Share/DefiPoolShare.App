@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import contractErc20Abi from "@/lib/contracts/contractErc20Abi.json";
 
-export const useContractDPST = () => {
+export const useContractUSDT = () => {
   const config = useRuntimeConfig();
 
   const getContract = async () => {
@@ -12,14 +12,14 @@ export const useContractDPST = () => {
       await provider.send("eth_requestAccounts", []);
       signer = provider.getSigner();
       contract = new ethers.Contract(
-        config.public.contract.dpst,
+        config.public.contract.usdt,
         contractErc20Abi,
         signer
       );
     } else {
       provider = ethers.providers.getDefaultProvider();
       contract = new ethers.Contract(
-        config.public.contract.dpst,
+        config.public.contract.usdt,
         contractErc20Abi,
         provider
       );

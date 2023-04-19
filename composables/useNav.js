@@ -21,7 +21,7 @@ export const useNav = () => {
   ];
 
   const asideNav = [
-    { title: "aside.home", link: "/app/home", icon: "ph:house-simple" },
+    // { title: "aside.home", link: "/app/home", icon: "ph:house-simple" },
     {
       title: "aside.pools",
       link: "/app/pools",

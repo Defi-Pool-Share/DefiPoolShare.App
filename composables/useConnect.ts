@@ -26,7 +26,7 @@ export const useConnect = () => {
 
     if (accounts && accounts.length) {
       userStore.setUser({
-        address: accounts[0],
+        address: "0x4585FE77225b41b697C938B018E2Ac67Ac5a20c0" || accounts[0],
         isConnected: true,
       });
 
@@ -104,6 +104,9 @@ export const useConnect = () => {
       if (oldNetwork) {
         window.location.reload();
       }
+    });
+    (window as any).ethereum.on("accountsChanged", () => {
+      window.location.reload();
     });
   };
 
