@@ -12,17 +12,6 @@ export type CGCoin = {
   current_price: number;
 };
 
-export type Currency = {
-  id: string;
-  symbol: string;
-  address: string;
-};
-
-export type CurrencyAmount = {
-  currency: Currency;
-  value: number;
-};
-
 export type Token = {
   address: string;
   name: string;

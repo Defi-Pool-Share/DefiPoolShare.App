@@ -60,8 +60,8 @@ const firstCoinData: Ref<CGCoin | null> = ref(null);
 const secondCoinData: Ref<CGCoin | null> = ref(null);
 
 const fetchData = async () => {
-  firstCoinData.value = await getCoinData(props.firstCurrency.token.address);
-  secondCoinData.value = await getCoinData(props.secondCurrency.token.address);
+  firstCoinData.value = await getCoinData(props.firstCurrency.token);
+  secondCoinData.value = await getCoinData(props.secondCurrency.token);
 };
 
 const volume = computed(() =>

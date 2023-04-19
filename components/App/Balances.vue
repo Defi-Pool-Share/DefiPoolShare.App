@@ -27,9 +27,9 @@
 <script lang="ts" setup>
 import { dpst, usdt, usdc, weth, wbtc } from "@/lib/data/currencies";
 import { useUserStore } from "~/stores/user";
-import { Currency } from "~/lib/data/types";
+import { Token } from "~/lib/data/types";
 
-const { getCoinData } = useCoinGecko();
+const { getCoinData, fetchAllCoinsData } = useCoinGecko();
 
 const isLoading = ref(false);
 
@@ -55,7 +55,7 @@ const currencies = computed(() => [
 ]);
 
 const displayPrice = (currency: {
-  token: Currency;
+  token: Token;
   value: number;
   img: string;
 }) => {
@@ -91,6 +91,12 @@ async function refreshData() {
   isLoading.value = true;
 
   try {
+    await fetchAllCoinsData();
+  } catch (e) {
+    console.error(e);
+  }
+
+  try {
     const [dpstValue, usdtValue, usdcValue, wethValue, wbtcValue] =
       await Promise.all([
         getBalanceDPST(userStore.user.address),
@@ -112,11 +118,11 @@ async function refreshData() {
   try {
     const [dpstData, usdtData, usdcData, wethData, wbtcData] =
       await Promise.all([
-        getCoinData(DPSTcurrency.token.address),
-        getCoinData(USDTcurrency.token.address),
-        getCoinData(USDCcurrency.token.address),
-        getCoinData(WETHcurrency.token.address),
-        getCoinData(WBTCcurrency.token.address),
+        getCoinData(DPSTcurrency.token),
+        getCoinData(USDTcurrency.token),
+        getCoinData(USDCcurrency.token),
+        getCoinData(WETHcurrency.token),
+        getCoinData(WBTCcurrency.token),
       ]);
 
     if (dpstData) {

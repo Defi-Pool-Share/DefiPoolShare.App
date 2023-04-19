@@ -1,7 +1,7 @@
-import { CurrencyAmount } from "~/lib/data/types";
+import { TokenAmount } from "~/lib/data/types";
 
-const currencyToDollar = (currency: CurrencyAmount) => {
-  return currency.value / 10;
+const currencyToDollar = (token: TokenAmount) => {
+  return token.value / 10;
 };
 
 const displayCryptoPrice = (price: number) => {

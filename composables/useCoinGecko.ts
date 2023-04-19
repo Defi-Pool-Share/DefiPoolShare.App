@@ -1,6 +1,6 @@
 import { useCoinsStore } from "~/stores/coins";
 import { isValue } from "~/lib/modules/definition";
-import { CGCoin } from "~/lib/data/types";
+import { CGCoin, Token } from "~/lib/data/types";
 
 export const useCoinGecko = () => {
   const config = useRuntimeConfig();
@@ -18,8 +18,8 @@ export const useCoinGecko = () => {
     second: Coin;
   };
 
-  const getAllCoinsData = () => {
-    fetch(
+  const fetchAllCoinsData = async () => {
+    await fetch(
       baseUrl +
         "/coins/markets?" +
         new URLSearchParams({
@@ -45,16 +45,20 @@ export const useCoinGecko = () => {
       });
   };
 
-  const getCoinData = async (address: string) => {
-    let coin = coinsStore.data.find((coin) => coin.address === address);
+  const getCoinData = async (token: Token) => {
+    let coin = coinsStore.data.find((coin) => coin.symbol === token.symbol);
 
     if (!isValue(coin)) {
-      const res = await fetch(baseUrl + "/coins/ethereum/contract/" + address, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "GET",
-      });
+      console.log("ii");
+      const res = await fetch(
+        baseUrl + "/coins/ethereum/contract/" + token.address,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "GET",
+        }
+      );
       const data = await res.json();
 
       if (data && !data.error) {
@@ -64,6 +68,7 @@ export const useCoinGecko = () => {
           name: data.name,
           image: data.image.small,
           current_price: data.market_data.current_price.usd,
+          address: data.contract_address,
         };
 
         coinsStore.addCoinData(newCoin);
@@ -92,7 +97,7 @@ export const useCoinGecko = () => {
   };
 
   return {
-    getAllCoinsData,
+    fetchAllCoinsData,
     coinsStore,
     getCoinData,
     getCoinVolume,
