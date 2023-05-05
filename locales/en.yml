@@ -93,10 +93,12 @@ team:
   sub: A team <strong>cohesion</strong>
   title: Meet the DeFi Pool Share team
   role:
-    ceo: Blockchain Developer
+    ceo: Blockchain Lead
     cto: CTO
     dev: Developer Blockchain
     cmo: Marketing Lead
+    business: Ecosystem & Business Lead
+    pub: Public relation lead
     cm: Community Manager
     webdev: Web3 Developer
 
