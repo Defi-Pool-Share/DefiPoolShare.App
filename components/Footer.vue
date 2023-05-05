@@ -22,7 +22,7 @@
               <span class="grad-1">{{ $t('footer.nav') }}</span>
             </li>
             <li v-for="nav in navs">
-              <a :data-go="nav.section" :title="$t(nav.title)" @click="stateNav = false">
+              <a :href="nav.link" :title="$t(nav.title)" @click="stateNav = false">
                 <span class="grad-1">{{ $t(nav.title) }}</span>
               </a>
             </li>

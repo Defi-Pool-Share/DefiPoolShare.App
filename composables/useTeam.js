@@ -2,11 +2,11 @@ export const useTeam = () => {
 
   const team = [
     { name: 'Frédérick MARINHO', role: 'team.role.ceo',
-     photo: 'https://media.licdn.com/dms/image/C4E03AQFJgIIIwyREAg/profile-displayphoto-shrink_800_800/0/1658602220370?e=1685577600&v=beta&t=QLk4BNXE--p0DMmbc7EOfkmUtvhSrWEFDjN05YlwyfI',
+     photo: 'https://cdn.defipoolshare.io/fred.jpg',
     linkedin: 'https://www.linkedin.com/in/fr%C3%A9d%C3%A9rick-marinho-4ba80761/'
     },
     { name: 'Rishabh Anand', role: 'team.role.business',
-     photo: 'https://media.licdn.com/dms/image/D4D03AQGC1hKW14GTwg/profile-displayphoto-shrink_800_800/0/1682066940778?e=2147483647&v=beta&t=39lFNhXrxmvkNlobQrSb7LtO864jXes1HSlS76-DTc4',
+     photo: 'https://cdn.defipoolshare.io/rish.jpg',
      linkedin: 'https://www.linkedin.com/in/therishabhanand/'
      },
      { name: 'Brandon Hill', role: 'team.role.cm',

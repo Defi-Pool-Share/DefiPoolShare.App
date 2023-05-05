@@ -21,30 +21,6 @@
 
     // Active nav
 
-    const links = qsa('#n [data-go]')
-    const removeActive = () => {
-      links.forEach(link => link.classList.remove('active'))
-    }
-    
-    navs.forEach(nav => {
-      const link = qs(`#n [data-go="${nav.section}"]`)
-      ScrollTrigger.create({
-        trigger: nav.section,
-        start: 'top top',
-        onEnter: () => {
-          removeActive()
-          link.classList.add('active')
-        }
-      })
-      ScrollTrigger.create({
-        trigger: nav.section,
-        start: 'bottom top',
-        onLeaveBack: () => {
-          removeActive()
-          link.classList.add('active')
-        }
-      })
-    })
 
   })
 </script>
@@ -53,7 +29,7 @@
   <nav id="n">
     <ul>
       <li v-for="nav in navs">
-        <a :data-go="nav.section" :title="$t(nav.title)" :class="{ active: nav.section === '#hm' }" @click="stateNav = false">
+        <a :href="nav.link" target="_blank" :title="$t(nav.title)" :class="'#hm' " @click="stateNav = false">
           <span class="grad-1">{{ $t(nav.title) }}</span>
         </a>
       </li>

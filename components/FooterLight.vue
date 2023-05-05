@@ -19,7 +19,7 @@ const { subNav, navs } = useNav();
             </li>
             <li v-for="nav in navs">
               <a
-                :data-go="nav.section"
+                :href="nav.link"
                 :title="$t(nav.title)"
                 @click="stateNav = false"
               >

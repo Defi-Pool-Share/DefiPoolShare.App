@@ -8,10 +8,10 @@ meta:
 
 nav:
   home: Home
-  about: About us
-  roadmap: Roadmap
-  tokenomics: Tokenomics
-  team: Our team
+  paper: Technical Paper
+  roadmap: Telegram
+  tokenomics: Documentation
+  team: Github
 
 subnav:
   app: App
@@ -121,7 +121,7 @@ aside:
 network:
   mainnet:
     true: Mainnet network
-    false: Not on Mainnet network
+    false: v0.5 not available yet
   guard:
     not_connected: You're currently not connected, please login.
 
@@ -161,5 +161,5 @@ pool:
 global:
   loading: Loading in progress
   protocol:
-    version: Procotol v1
+    version: Procotol v0.5
     name: DeFi Pool Share Contract

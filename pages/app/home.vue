@@ -6,10 +6,7 @@
     <AppGuard>
       <div class="app-paragraphe">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-          reprehenderit eum, neque voluptas possimus quidem libero praesentium
-          sed earum saepe doloremque architecto aliquid consequatur vitae
-          dolorem alias quod temporibus voluptate!
+          You can see all active pools borrowable here directly on the home-page, the current version of the protocol only support Uniswap V3 liquidity pool.
         </p>
       </div>
     </AppGuard>

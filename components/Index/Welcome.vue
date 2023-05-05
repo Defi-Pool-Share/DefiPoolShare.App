@@ -38,7 +38,7 @@
         <p v-html="$t('welcome.txt')"></p>
       </div>
       <div class="button" data-reveal>
-        <NuxtLink to="/" class="btn">
+        <NuxtLink to="/app/pools" class="btn">
           <span>Launch App</span>
         </NuxtLink>
       </div>
