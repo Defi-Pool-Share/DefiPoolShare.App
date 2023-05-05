@@ -1,42 +1,61 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
+      networkId: process.env.NETWORK_ID,
+      api: {
+        uniswap: process.env.UNISWAP_API,
+        coingecko: process.env.COINGECKO_API,
+      },
+      contract: {
+        lending: process.env.LENDING_CONTRACT_ADDRESS,
+        uniswap: process.env.UNISWAP_CONTRACT_ADDRESS,
+        dpst: process.env.DPST_CONTRACT_ADDRESS,
+        usdt: process.env.USDT_CONTRACT_ADDRESS,
+        usdc: process.env.USDC_CONTRACT_ADDRESS,
+        weth: process.env.WETH_CONTRACT_ADDRESS,
+        wbtc: process.env.WBTC_CONTRACT_ADDRESS,
+      },
+    },
+  },
 
-  css: [
-    '@/assets/css/main.css'
-  ],
+  plugins: [{ src: "~/plugins/global.client.js" }],
+
+  css: ["@/assets/css/main.css"],
 
   modules: [
-    '@vueuse/nuxt',
-    '@nuxtjs/device',
-    'nuxt-icon',
-    'nuxt-swiper',
+    "@vueuse/nuxt",
+    "@nuxtjs/device",
+    "@pinia/nuxt",
+    "nuxt-icon",
+    "nuxt-swiper",
     [
-      '@nuxtjs/i18n',
+      "@nuxtjs/i18n",
       {
         lazy: true,
-        langDir: 'locales/',
-        defaultLocale: 'en',
-        strategy: 'prefix_except_default',
+        langDir: "locales/",
+        defaultLocale: "en",
+        strategy: "prefix_except_default",
         seo: true,
-        baseUrl: 'http://defipoolshare.io/',
+        baseUrl: "http://defipoolshare.io/",
         vueI18nLoader: true,
         vueI18n: {
-          fallbackLocale: 'en'
+          fallbackLocale: "en",
         },
         locales: [
           {
-            code: 'en',
-            name: 'English',
-            iso: 'en-US',
-            file: 'en.yml'
-          }
-        ]
-      }
-    ]
+            code: "en",
+            name: "English",
+            iso: "en-US",
+            file: "en.yml",
+          },
+        ],
+      },
+    ],
   ],
 
   typescript: {
-    strict: true
-  }
-
-})
+    strict: true,
+  },
+});

@@ -1,6 +1,6 @@
 <script setup>
-  const localePath = useLocalePath()
-  const { toggleNav } = useNav()
+const localePath = useLocalePath();
+const { toggleNav } = useNav();
 </script>
 
 <template>
@@ -14,7 +14,7 @@
     </div>
     <div class="right">
       <Nav />
-      <NuxtLink to="/app" class="btn">
+      <NuxtLink to="/app/pools" class="btn">
         <span>Launch App</span>
       </NuxtLink>
       <button class="btn bnv" @click="toggleNav(true)">

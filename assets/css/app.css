@@ -4,14 +4,14 @@
   --aside: calc(270px + 35 * (100vw - 320px) / 1080);
   --aside-padding: calc(20px + 10 * (100vw - 320px) / 1080);
   --aside-gutter: calc(13px + 2 * (100vw - 320px) / 1080);
-  --aside-radius: .7em;
+  --aside-radius: 0.7em;
 
   --main-padding: var(--aside-padding);
   --main-gap: calc(var(--main-padding) / 2);
-  --main-radius: .6em;
+  --main-radius: 0.6em;
 }
 
-html{
+html {
   overflow-y: auto;
   min-height: 100%;
   height: auto;
@@ -20,7 +20,7 @@ html{
   scrollbar-width: thin;
 }
 
-html.stop{
+html.stop {
   overflow: bhidden;
 }
 
@@ -83,21 +83,24 @@ html::-webkit-scrollbar-thumb {
 }
 
 .aside-nav li > *:hover {
-  background-color: rgba(var(--bg-2-rgb),.3);
+  background-color: rgba(var(--bg-2-rgb), 0.3);
 }
 
 .aside-nav li > *.router-link-exact-active:first-of-type {
-  background-color: rgba(var(--bg-2-rgb),.6);
+  background-color: rgba(var(--bg-2-rgb), 0.6);
 }
 
 .aside-nav .icon {
   background: var(--gradient-1);
-  margin-right: .8em;
+  margin-right: 0.8em;
   font-size: 1.3em;
 }
 
-.aside-bottom {
+.aside-landing {
   margin-top: auto;
+}
+.aside-landing a {
+  width: 100%;
 }
 
 .aside-profil {
@@ -105,7 +108,7 @@ html::-webkit-scrollbar-thumb {
 
   display: flex;
   align-items: center;
-  background-color: rgba(var(--bg-2-rgb),.6);
+  background-color: rgba(var(--bg-2-rgb), 0.6);
   padding: var(--aside-gutter);
   border-radius: var(--aside-radius);
   gap: calc(var(--aside-gutter) / 1.5);
@@ -129,7 +132,7 @@ html::-webkit-scrollbar-thumb {
 
 .aside-profil-right {
   flex: 1;
-  font-size: .85rem;
+  font-size: 0.85rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -137,20 +140,31 @@ html::-webkit-scrollbar-thumb {
 
 .aside-profil-right address {
   display: block;
-  width: calc(var(--aside) - var(--aside-padding) * 2 - var(--photo) - var(--aside-gutter) * 3);
+  width: calc(
+    var(--aside) - var(--aside-padding) * 2 - var(--photo) - var(--aside-gutter) *
+      3
+  );
   overflow: hidden;
   text-overflow: ellipsis;
   top: 0;
 }
 
+.aside-profil-network {
+  margin-top: 4px;
+  color: green;
+}
+
+.aside-profil-network[data-error] {
+  color: red;
+}
 .logout {
   font-weight: bold;
-  font-size: .8rem;
+  font-size: 0.8rem;
   margin-top: calc(var(--aside-gutter) / 3);
 }
 
 .logout svg {
-  margin-left: .4em;
+  margin-left: 0.4em;
 }
 
 /* Main app */
@@ -183,7 +197,7 @@ html::-webkit-scrollbar-thumb {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  margin: calc(var(--gap) * -.5);
+  margin: calc(var(--gap) * -0.5);
 }
 
 [class*="grid"] > * {
@@ -224,7 +238,8 @@ html::-webkit-scrollbar-thumb {
   font-weight: bold;
 }
 
-.app-paragraphe ul, .app-paragraphe ol {
+.app-paragraphe ul,
+.app-paragraphe ol {
   display: flex;
   flex-direction: column;
   gap: calc(var(--main-gap) / 2);
@@ -235,7 +250,7 @@ html::-webkit-scrollbar-thumb {
 }
 
 .app-paragraphe li::before {
-  content: '•';
+  content: "•";
   position: absolute;
   left: 0;
   transform: scale(2);
@@ -269,12 +284,13 @@ html::-webkit-scrollbar-thumb {
   gap: calc(var(--padding) / 2);
 }
 
-.field-input input, .field-input textarea {
-  transition: border-color .3s;
+.field-input input,
+.field-input textarea {
+  transition: border-color 0.3s;
   width: 100%;
   height: var(--height);
   background: transparent;
-  border: 2px solid rgb(var(--bg-2-rgb),.75);
+  border: 2px solid rgb(var(--bg-2-rgb), 0.75);
   color: var(--txt-1);
   border-radius: calc(var(--height) / 5);
   flex: 1;
@@ -304,26 +320,34 @@ html::-webkit-scrollbar-thumb {
 }
 
 .field-input svg + * {
-  padding-left: calc(var(--height) - .2em);
+  padding-left: calc(var(--height) - 0.2em);
 }
 
 .field-input textarea::-webkit-scrollbar {
   display: none;
 }
 
-.field-input input::placeholder, .field-input textarea::placeholder {
-  opacity: .5;
+.field-input input[readonly] {
+  cursor: initial;
 }
 
-.field-input input:not([disabled]):hover, .field-input textarea:not([disabled]):hover {
+.field-input input::placeholder,
+.field-input textarea::placeholder {
+  opacity: 0.5;
+}
+
+.field-input input:not([disabled]):hover,
+.field-input textarea:not([disabled]):hover {
   border-color: var(--bg-2);
 }
 
-.field-input input:not([disabled]):focus, .field-input textarea:not([disabled]):focus {
+.field-input input:not([disabled]):focus,
+.field-input textarea:not([disabled]):focus {
   border-color: var(--txt-2);
 }
 
-.field-input input[disabled], .field-input textarea[disabled] {
+.field-input input[disabled],
+.field-input textarea[disabled] {
   border-style: dotted;
   border-color: var(--bg-2);
 }
@@ -337,10 +361,10 @@ html::-webkit-scrollbar-thumb {
 }
 
 .check label {
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   padding-left: calc(var(--width) * 1.8);
   cursor: pointer;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .check input:checked + label {
@@ -348,8 +372,8 @@ html::-webkit-scrollbar-thumb {
 }
 
 .check label::before {
-  transition: .3s;
-  content: '';
+  transition: 0.3s;
+  content: "";
   width: var(--width);
   height: var(--width);
   border: 2px solid var(--bg-2);
@@ -369,18 +393,14 @@ html::-webkit-scrollbar-thumb {
   border-radius: 50%;
 }
 
-
 /* Media Queries */
 
 @media screen and (max-width: 1200px) {
-
   [class*="grid"][class*="x4"] {
     --col: 3;
   }
-
 }
 @media screen and (max-width: 950px) {
-
   .aside {
     transition: transform var(--transi);
     transform: translateX(-100%);
@@ -391,7 +411,7 @@ html::-webkit-scrollbar-thumb {
   }
 
   .bnv {
-    --w: calc(50px + 5 * (100vw - 320px) / 1080); 
+    --w: calc(50px + 5 * (100vw - 320px) / 1080);
 
     display: flex;
     position: fixed;
@@ -408,7 +428,7 @@ html::-webkit-scrollbar-thumb {
   }
 
   .open-nav .main-app {
-    opacity: .2;
+    opacity: 0.2;
     filter: blur(3px);
   }
 
@@ -420,32 +440,22 @@ html::-webkit-scrollbar-thumb {
   [class*="grid"][class*="x4"] {
     --col: 4;
   }
-
 }
 @media screen and (max-width: 800px) {
-
   [class*="grid"][class*="x4"] {
     --col: 3;
   }
-
 }
 @media screen and (max-width: 650px) {
-
   [class*="grid"],
   [class*="grid"][class*="x4"] {
     --col: 2;
   }
-
 }
 @media screen and (max-width: 400px) {
-
   [class*="grid"],
   [class*="grid"][class*="x4"],
   [class*="grid"][class*="x2"] {
     --col: 1;
   }
-
 }
-
-
-

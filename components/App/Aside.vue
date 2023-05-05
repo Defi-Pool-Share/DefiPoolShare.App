@@ -1,7 +1,3 @@
-<script setup>
-  const { asideNav, toggleNav } = useNav()
-</script>
-
 <template>
   <aside class="aside">
     <NuxtLink to="/" class="aside-logo">
@@ -18,15 +14,44 @@
         </li>
       </ul>
     </nav>
+
+    <div class="aside-landing">
+      <NuxtLink to="/" class="btn">
+        <span>Website</span>
+      </NuxtLink>
+    </div>
+
+    <div class="aside-balances">
+      <AppBalances />
+    </div>
+
     <div class="aside-bottom">
-      <div class="aside-profil">
+      <div class="aside-profil" v-if="userStore.user?.isConnected">
         <div class="aside-profil-photo">
           <Icon name="mdi:ethereum" />
         </div>
         <div class="aside-profil-right">
-          <address class="grad-1">0xDeFE33795803f2353C69FD8cdb432F9d5cEE6762</address>
-          <button class="logout">
-            <span>Logout</span>
+          <address class="grad-1">{{ userStore.user?.address }}</address>
+          <span
+            class="aside-profil-network"
+            data-success
+            v-if="userStore.isOnMainnet"
+            >{{ $t("network.mainnet.true") }}</span
+          >
+          <span class="aside-profil-network" data-error v-else>{{
+            $t("network.mainnet.false")
+          }}</span>
+        </div>
+      </div>
+
+      <div class="aside-profil" v-else>
+        <div class="aside-profil-photo">
+          <Icon name="mdi:ethereum" />
+        </div>
+        <div class="aside-profil-right">
+          <address class="grad-1">Not connected</address>
+          <button class="logout" @click="connect">
+            <span>Connect</span>
             <Icon name="material-symbols:exit-to-app-rounded" />
           </button>
         </div>
@@ -41,3 +66,11 @@
     </svg>
   </button>
 </template>
+
+<script setup>
+import { useUserStore } from "~/stores/user";
+
+const { asideNav, toggleNav } = useNav();
+const userStore = useUserStore();
+const { connect } = useConnect();
+</script>
