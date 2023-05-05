@@ -44,29 +44,6 @@ step:
 
 roadmap:
   sub: Discover our <strong>roadmap</strong>
-<<<<<<< HEAD
-  title: "Where We're Headed: The Protocol's Growth Plan"
-  q1: [
-    "Launch the DeFi Pool Share platform, with initial support for Uniswap V3 pool shares and&nbsp;lending.",
-    "Begin marketing and outreach efforts to attract early adopters and liquidity&nbsp;providers.",
-    "Launch a token associated with the DeFi Pool Share platform to provide users with additional benefits and&nbsp;features.",
-  ]
-  q2: [
-    "Introduce a staking mechanism to allow users to earn additional yield on their NFT pool&nbsp;shares.",
-    "Expand the platform to support additional lending protocols, such as SushiSwap and&nbsp;Curve.",
-    "Introduce a governance mechanism to allow users to vote on important platform&nbsp;decisions."
-  ]
-  q3: [
-    "Begin building partnerships with other companies in the DeFi space to expand the platform's&nbsp;reach.",
-    "Introduce a fee-sharing mechanism to distribute a portion of the platform's revenue to token&nbsp;holders.",
-    "Expand the platform to support additional DeFi services, such as margin lending and decentralized&nbsp;insurance."
-  ]
-  q4: [
-    "Launch a mobile app for DeFi Pool Share to make the lending process even more accessible and&nbsp;user-friendly.",
-    "Continue building partnerships with other companies in the DeFi space to expand the platform's reach and&nbsp;capabilities.",
-    "Launch a marketing campaign to attract a wider audience of investors and liquidity&nbsp;providers."
-  ]
-=======
   title: Our Roadmap for Success
   q1:
     [
@@ -92,7 +69,6 @@ roadmap:
       "Continue building partnerships with other companies in the DeFi space to expand the platform's reach and&nbsp;capabilities.",
       "Launch a marketing campaign to attract a wider audience of investors and liquidity&nbsp;providers.",
     ]
->>>>>>> feat/functionalities
 
 tokenomics:
   sub: <strong>Tokenomics</strong> for the community
