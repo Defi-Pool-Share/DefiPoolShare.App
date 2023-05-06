@@ -49,7 +49,6 @@ export const useCoinGecko = () => {
     let coin = coinsStore.data.find((coin) => coin.symbol === token.symbol);
 
     if (!isValue(coin)) {
-      console.log("ii");
       const res = await fetch(
         baseUrl + "/coins/ethereum/contract/" + token.address,
         {

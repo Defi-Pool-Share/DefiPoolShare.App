@@ -68,7 +68,7 @@ export const useContractUniswap = () => {
     return res;
   };
 
-  const getUnclaimedFees = async (pool: UniPool) => {
+  const getPersonalUnclaimedFees = async (pool: UniPool) => {
     const contract = await getContract();
     if (!contract) {
       return null;
@@ -103,6 +103,6 @@ export const useContractUniswap = () => {
     isApprovalForAll,
     setApprovalForAll,
     getProvider,
-    getUnclaimedFees,
+    getPersonalUnclaimedFees,
   };
 };

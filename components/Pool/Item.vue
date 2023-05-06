@@ -68,7 +68,7 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const { getUnclaimedFees } = useContractUniswap();
+const { getPersonalUnclaimedFees } = useContractUniswap();
 
 const displayForm = ref(false);
 
@@ -89,7 +89,7 @@ const poolFees: {
 dayjs.extend(relativeTime);
 
 onMounted(async () => {
-  const fees = await getUnclaimedFees(props);
+  const fees = await getPersonalUnclaimedFees(props);
   if (fees) {
     poolFees.token0.value = parseFloat(fees.amount0);
     poolFees.token1.value = parseFloat(fees.amount1);

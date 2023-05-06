@@ -136,6 +136,19 @@ export const useContractLending = () => {
     return res;
   };
 
+  const getClaimableFees = async (loanIndex: number) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract.getClaimableFees(loanIndex);
+
+    console.log(res);
+
+    return res;
+  };
+
   const getLoanInfo = async (loanIndex: number) => {
     const contract = await getContract();
     if (!contract) {
@@ -263,6 +276,7 @@ export const useContractLending = () => {
     whitelistToken,
     withdrawNFT,
     canClaimFees,
+    getClaimableFees,
     getLoanInfo,
     getAllPoolsWithLoan,
     getLoansByBorrowers,

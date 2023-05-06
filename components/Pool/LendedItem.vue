@@ -90,8 +90,7 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const { withdrawNFT, getProvider } = useContractLending();
-const { getUnclaimedFees } = useContractUniswap();
+const { withdrawNFT, getProvider, getClaimableFees } = useContractLending();
 
 
 const withdrawFeedback: Feedback = reactive({
@@ -160,10 +159,13 @@ async function handleWithdraw() {
 }
 
 onMounted(async () => {
-  const fees = await getUnclaimedFees(props);
-  if (fees) {
-    poolFees.token0.value = parseFloat(fees.amount0);
-    poolFees.token1.value = parseFloat(fees.amount1);
+  if (props.loan) {
+    const fees = await getClaimableFees(props.loan.loanIndex);
+
+    if (fees) {
+      poolFees.token0.value = parseFloat(fees.amount0);
+      poolFees.token1.value = parseFloat(fees.amount1);
+    }
   }
 });
 </script>

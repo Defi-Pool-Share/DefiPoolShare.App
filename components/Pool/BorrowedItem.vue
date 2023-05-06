@@ -72,8 +72,7 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const { claimFees, canClaimFees, getProvider } = useContractLending();
-const { getUnclaimedFees } = useContractUniswap();
+const { claimFees, canClaimFees, getProvider, getClaimableFees } = useContractLending();
 
 const claimFeedback: Feedback = reactive({
   text: "",
@@ -145,10 +144,13 @@ onMounted(async () => {
 
   isClaimable.value = await canClaimFees(props.loan.loanIndex);
 
-  const fees = await getUnclaimedFees(props);
-  if (fees) {
-    poolFees.token0.value = parseFloat(fees.amount0);
-    poolFees.token1.value = parseFloat(fees.amount1);
+  if (props.loan) {
+    const fees = await getClaimableFees(props.loan.loanIndex);
+
+    if (fees) {
+      poolFees.token0.value = parseFloat(fees[0].toString());
+      poolFees.token1.value = parseFloat(fees[1].toString());
+    }
   }
 });
 </script>
