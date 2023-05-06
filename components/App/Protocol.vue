@@ -30,6 +30,10 @@ const config = useRuntimeConfig();
   border-radius: var(--aside-radius);
   font-size: 12px;
 
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+
   .sep {
     width: 8px;
     height: 1px;
