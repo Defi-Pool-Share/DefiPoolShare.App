@@ -40,36 +40,34 @@
 </div>
 
     <template v-if="!props.loan.isActive">
-
-<p class="app-paragraphe">
-  <ul>
-    <li>
-      {{ $t('pool.item.label.end_loan') }} :
-      <span class="grad-1">{{
-        dayjs().to(endTime)
-      }}</span>
-    </li>
-  </ul>
-</p>
-
-<AppBanner v-bind="withdrawFeedback" v-if="withdrawFeedback.text !== ''">{{
-  withdrawFeedback.text
-}}</AppBanner>
-
-<button class="btn" @click="handleWithdraw" :disabled="!isWithdrawable">
-  {{ $t("pool.item.cta.withdraw") }}
-</button>
+      <p class="app-paragraphe">
+        <ul>
+          <li>
+            {{ $t('pool.item.label.end_loan') }} :
+            <span class="grad-1">{{
+              dayjs().to(endTime)
+            }}</span>
+          </li>
+        </ul>
+      </p>
     </template>
     <template v-else>
       <p class="app-paragraphe">
-  <ul>
-    <li>
-      Loan not borrowed yet.
-    </li>
-  </ul>
-</p>
+        <ul>
+          <li>
+            Loan not borrowed yet.
+          </li>
+        </ul>
+      </p>
     </template>
 
+    <AppBanner v-bind="withdrawFeedback" v-if="withdrawFeedback.text !== ''">{{
+        withdrawFeedback.text
+      }}</AppBanner>
+
+    <button class="btn" @click="handleWithdraw" :disabled="!isWithdrawable">
+        {{ $t("pool.item.cta.withdraw") }}
+      </button>
 
   </div>
 </template>
@@ -99,7 +97,7 @@ const withdrawFeedback: Feedback = reactive({
   type: "info",
 });
 
-const isWithdrawable = computed(() => dayjs().diff(endTime.value) > 0);
+const isWithdrawable = computed(() => dayjs().diff(endTime.value) > 0 || (props.loan && props.loan.isActive));
 
 const endTime = computed(() => props.loan && dayjs.unix(props.loan.endTime));
 

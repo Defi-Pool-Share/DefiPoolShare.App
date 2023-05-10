@@ -39,7 +39,9 @@ const dpst: Token = {
 const whitelistedTokens = [dpst, usdt, usdc, weth, wbtc];
 
 function getCurrencyByAddress(address: string) {
-  return whitelistedTokens.find((token) => token.address === address);
+  return whitelistedTokens.find(
+    (token) => token.address.toLowerCase() === address.toLowerCase()
+  );
 }
 
 export {

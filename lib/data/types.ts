@@ -35,7 +35,7 @@ export type Loan = {
   lender: string; // address
   borrower: string; // address
   tokenId: number; // uniswap pool ID
-  loanAmount: number;
+  loanAmount: number | string;
   creationTime: number; // timestamp
   startTime: number; // timestamp
   endTime: number; // timestamp

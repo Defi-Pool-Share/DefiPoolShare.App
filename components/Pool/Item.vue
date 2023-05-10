@@ -89,10 +89,14 @@ const poolFees: {
 dayjs.extend(relativeTime);
 
 onMounted(async () => {
-  const fees = await getPersonalUnclaimedFees(props);
-  if (fees) {
-    poolFees.token0.value = parseFloat(fees.amount0);
-    poolFees.token1.value = parseFloat(fees.amount1);
+  try {
+    const fees = await getPersonalUnclaimedFees(props);
+    if (fees) {
+      poolFees.token0.value = parseFloat(fees.amount0);
+      poolFees.token1.value = parseFloat(fees.amount1);
+    }
+  } catch (e) {
+    console.error(e);
   }
 });
 </script>

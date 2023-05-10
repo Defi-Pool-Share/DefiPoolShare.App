@@ -5,6 +5,7 @@ export default defineNuxtConfig({
       walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
       networkId: process.env.NETWORK_ID,
       api: {
+        app: process.env.APP_API,
         uniswap: process.env.UNISWAP_API,
         coingecko: process.env.COINGECKO_API,
       },

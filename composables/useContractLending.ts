@@ -5,6 +5,7 @@ import { Loan, UniPool } from "@/lib/data/types";
 export const useContractLending = () => {
   const config = useRuntimeConfig();
   const { getPoolsByIds } = useUniswap();
+  const { getAllLoans } = useAppApi();
 
   const getContract = async () => {
     let provider, signer, contract;
@@ -142,8 +143,11 @@ export const useContractLending = () => {
       return null;
     }
 
-    const res = await contract.getClaimableFees(loanIndex);
+    return null; //TEMP
 
+    const res = await contract.callStatic.claimFees(loanIndex);
+
+    console.log("---");
     console.log(res);
 
     return res;
@@ -166,16 +170,7 @@ export const useContractLending = () => {
       return null;
     }
 
-    const loans: Loan[] = [];
-    for (let index = 0; index < 20; index++) {
-      try {
-        const loan = await getLoanInfo(index);
-
-        if (loan && loan.isActive) {
-          loans.push(loan);
-        }
-      } catch (e) {}
-    }
+    const loans: Loan[] = await getAllLoans();
 
     let tokenIds = loans.map((loan) => loan.tokenId.toString());
 

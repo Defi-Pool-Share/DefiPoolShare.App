@@ -56,6 +56,7 @@ import { TokenAmount, Loan, Feedback } from "~/lib/data/types";
 import { getCurrencyByAddress } from "@/lib/data/currencies";
 import { useUserStore } from "~/stores/user";
 import { ethers } from "ethers";
+import { isString } from "~/lib/modules/definition";
 
 dayjs.extend(relativeTime);
 
@@ -107,7 +108,11 @@ async function handleBuy() {
     borrowFeedback.loading = true;
     borrowFeedback.type = "info";
     borrowFeedback.text = "Request approval for currency transfer.";
-    let res = await approve(props.loan.loanAmount);
+    let res = await approve(
+      isString(props.loan.loanAmount)
+        ? parseFloat(props.loan.loanAmount)
+        : props.loan.loanAmount
+    );
     borrowFeedback.text = "Waiting for approval confirmation.";
     await provider.waitForTransaction(res.hash, 1);
 

@@ -7,9 +7,15 @@
       <div class="defi-Pools-section">
         <div class="app-paragraphe">
           <p>
-             Here on the app's homepage, you can view all available Uniswap V3 liquidity pools for borrowing. Use filters to sort through active, waiting, or ended pools. It's important to check the pool details on the official LP AMM provider's website for accurate information about the NFT content. This helps you make informed decisions when interacting with pools in the marketplace.
+            Here on the app's homepage, you can view all available Uniswap V3
+            liquidity pools for borrowing. Use filters to sort through active,
+            waiting, or ended pools. It's important to check the pool details on
+            the official LP AMM provider's website for accurate information
+            about the NFT content. This helps you make informed decisions when
+            interacting with pools in the marketplace.
           </p>
         </div>
+        <AppStats />
         <div class="defi-Pools-list" v-if="allPoolsByLoan.length">
           <div class="grid-x2">
             <div :key="index" v-for="(pool, index) in allPoolsByLoan">
@@ -42,12 +48,19 @@ const isLoading = ref(false);
 
 async function refreshData() {
   isLoading.value = true;
-  const pools = await getAllPoolsWithLoan();
+  try {
+    const pools = await getAllPoolsWithLoan();
 
-  if (pools) {
-    allPoolsByLoan.value = [];
-    allPoolsByLoan.value = pools;
+    console.log(pools);
+
+    if (pools) {
+      allPoolsByLoan.value = [];
+      allPoolsByLoan.value = pools;
+    }
+  } catch (e) {
+    console.error(e);
   }
+
   isLoading.value = false;
 }
 
