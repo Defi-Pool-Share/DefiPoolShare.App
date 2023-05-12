@@ -45,9 +45,13 @@ export const useContractDPST = () => {
       return null;
     }
 
-    const res = await contract.approve(config.public.contract.lending, amount, {
-      gasLimit: 400000,
-    });
+    const res = await contract.approve(
+      config.public.contract.lending,
+      amount.toString(),
+      {
+        gasLimit: 400000,
+      }
+    );
 
     return res;
   };
