@@ -143,14 +143,24 @@ export const useContractLending = () => {
       return null;
     }
 
-    return null; //TEMP
+    const trx = await contract.callStatic.claimFees(loanIndex);
 
-    const res = await contract.callStatic.claimFees(loanIndex);
+    if (trx && trx.length) {
+      const formatUnits = (amt: BigNumber, units?: number): string =>
+        ethers.utils
+          .formatUnits(ethers.BigNumber.from(amt).toString(), units || 18)
+          .toString();
 
-    console.log("---");
-    console.log(res);
+      const amount0 = formatUnits(trx[0], 12);
+      const amount1 = formatUnits(trx[1]);
 
-    return res;
+      return {
+        amount0,
+        amount1,
+      };
+    }
+
+    return null;
   };
 
   const getLoanInfo = async (loanIndex: number) => {

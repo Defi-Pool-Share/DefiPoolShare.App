@@ -43,6 +43,19 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_loanIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "LoanWithdraw",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "_dpstDeployer",
     "outputs": [
@@ -240,7 +253,18 @@
       }
     ],
     "name": "claimFees",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },

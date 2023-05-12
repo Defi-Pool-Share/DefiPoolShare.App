@@ -1,5 +1,6 @@
 import { isValue } from "~/lib/modules/definition";
 import { UniPool, Loan } from "~/lib/data/types";
+import { ssrContextKey } from "nuxt/dist/app/compat/capi";
 
 export const useAppApi = () => {
   const config = useRuntimeConfig();
@@ -7,20 +8,7 @@ export const useAppApi = () => {
   const baseUrl = config.public.api.app;
 
   const getAllLoans = async () => {
-    let loans: Loan[] = [
-      {
-        lender: "0x05a32581e517c872f78e9c58ab7828e1b10ac140",
-        borrower: "0x0000000000000000000000000000000000000000",
-        tokenId: 63697,
-        loanAmount: "10000000000000000000",
-        creationTime: 1683645912,
-        startTime: 0,
-        endTime: 1683646501,
-        acceptedToken: "0x0cb80b1c0e6aebb031a7ec26219ab162f0f9bc2b",
-        isActive: true,
-        loanIndex: 9,
-      },
-    ];
+    let loans: Loan[] = [];
 
     try {
       const res = await fetch(baseUrl + "loan", {
@@ -31,11 +19,16 @@ export const useAppApi = () => {
       });
 
       const data = await res.json();
-      console.log(data);
+      data.forEach((loan) => {
+        let newData = {};
+        Object.keys(loan).map((key) => {
+          newData[camelize(key)] = loan[key];
+        });
 
-      if (data) {
-        loans = data;
-      }
+        if (newData) {
+          loans.push(newData);
+        }
+      });
     } catch (e) {
       console.log(e);
     }
@@ -65,6 +58,14 @@ export const useAppApi = () => {
       },
     };
   };
+
+  function camelize(str) {
+    return str
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+        return index === 0 ? word.toLowerCase() : word.toUpperCase();
+      })
+      .replace(/\s+/g, "");
+  }
 
   return {
     getAllLoans,
