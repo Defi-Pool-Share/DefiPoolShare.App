@@ -36,30 +36,7 @@ export const useAppApi = () => {
     return loans;
   };
 
-  const mapUniPool = (pool) => {
-    return {
-      id: parseInt(pool.id, 10),
-      owner: pool.owner,
-      token0: {
-        token: {
-          address: pool.token0.id,
-          name: pool.token0.name,
-          symbol: pool.token0.symbol,
-        },
-        value: parseFloat(pool.depositedToken0),
-      },
-      token1: {
-        token: {
-          address: pool.token1.id,
-          name: pool.token1.name,
-          symbol: pool.token1.symbol,
-        },
-        value: parseFloat(pool.depositedToken1),
-      },
-    };
-  };
-
-  function camelize(str) {
+  function camelize(str: string) {
     return str
       .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
         return index === 0 ? word.toLowerCase() : word.toUpperCase();

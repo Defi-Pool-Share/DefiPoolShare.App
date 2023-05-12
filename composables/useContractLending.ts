@@ -180,7 +180,9 @@ export const useContractLending = () => {
       return null;
     }
 
-    const loans: Loan[] = await getAllLoans();
+    const allLoans: Loan[] = await getAllLoans();
+
+    const loans = allLoans.filter((loan) => loan.isActive);
 
     let tokenIds = loans.map((loan) => loan.tokenId.toString());
 
