@@ -51,8 +51,6 @@ async function refreshData() {
   try {
     const pools = await getAllPoolsWithLoan();
 
-    console.log(pools);
-
     if (pools) {
       allPoolsByLoan.value = [];
       allPoolsByLoan.value = pools;

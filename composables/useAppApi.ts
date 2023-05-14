@@ -30,7 +30,7 @@ export const useAppApi = () => {
         }
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
 
     return loans;
