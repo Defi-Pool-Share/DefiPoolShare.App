@@ -146,10 +146,11 @@ onMounted(async () => {
 
   if (props.loan) {
     const fees = await getClaimableFees(props.loan.loanIndex);
+    console.log(fees);
 
     if (fees) {
-      poolFees.token0.value = parseFloat(fees[0].toString());
-      poolFees.token1.value = parseFloat(fees[1].toString());
+      poolFees.token0.value = parseFloat(fees.amount0);
+      poolFees.token1.value = parseFloat(fees.amount1);
     }
   }
 });

@@ -151,7 +151,7 @@ export const useContractLending = () => {
           .formatUnits(ethers.BigNumber.from(amt).toString(), units || 18)
           .toString();
 
-      const amount0 = formatUnits(trx[0], 12);
+      const amount0 = formatUnits(trx[0], 18);
       const amount1 = formatUnits(trx[1]);
 
       return {
