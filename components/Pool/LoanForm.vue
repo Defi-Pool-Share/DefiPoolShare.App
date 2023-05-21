@@ -168,10 +168,15 @@ const { isApprovalForAll, setApprovalForAll, getProvider } =
 const userStore = useUserStore();
 
 const currencyInputs = computed(() =>
-  whitelistedTokens.map((token) => ({
-    label: `cryptocurrency:${token.symbol}`,
-    value: token.address,
-  }))
+  whitelistedTokens.map((token) => {
+    if (token.symbol === "weth") {
+      token.symbol = "eth";
+    }
+    return {
+      label: `cryptocurrency:${token.symbol}`,
+      value: token.address,
+    };
+  })
 );
 
 const durationInputs = [

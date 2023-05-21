@@ -146,7 +146,6 @@ onMounted(async () => {
 
   if (props.loan) {
     const fees = await getClaimableFees(props.loan.loanIndex);
-    console.log(fees);
 
     if (fees) {
       poolFees.token0.value = parseFloat(fees.amount0);
