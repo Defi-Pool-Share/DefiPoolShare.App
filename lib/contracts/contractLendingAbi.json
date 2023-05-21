@@ -272,6 +272,30 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "loanIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "claimFeesLender",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
       },

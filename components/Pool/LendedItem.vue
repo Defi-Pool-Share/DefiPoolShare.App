@@ -39,6 +39,17 @@
   />
 </div>
 
+<AppBanner v-bind="claimFeedback" v-if="claimFeedback.text !== ''">{{
+      claimFeedback.text
+    }}</AppBanner>
+
+<button class="btn" @click="handleClaim" :disabled="!isWithdrawable">
+        {{ $t("pool.item.cta.claim_fees") }}
+      </button>
+
+<div class="app-hr"></div>
+
+
     <template v-if="!props.loan.isActive">
       <p class="app-paragraphe">
         <ul>
@@ -88,8 +99,13 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const { withdrawNFT, getProvider, getClaimableFees } = useContractLending();
+const { withdrawNFT, getProvider, getClaimableFeesLender, claimFeesLender } = useContractLending();
 
+const claimFeedback: Feedback = reactive({
+  text: "",
+  loading: false,
+  type: "info",
+});
 
 const withdrawFeedback: Feedback = reactive({
   text: "",
@@ -117,6 +133,45 @@ const poolFees: {
 
 
 dayjs.extend(relativeTime);
+
+async function handleClaim() {
+  const provider = await getProvider();
+
+  if (!props.loan || !provider) {
+    return;
+  }
+
+  try {
+    claimFeedback.loading = true;
+    claimFeedback.type = "info";
+    claimFeedback.text = "Claim your fees in progress.";
+    const res = await claimFeesLender(props.loan.loanIndex);
+
+    if (res) {
+      claimFeedback.text = "Waiting for transaction confirmation.";
+      await provider.waitForTransaction(res.hash, 1);
+      claimFeedback.type = "success";
+      claimFeedback.text = "Claim successful !";
+
+      setTimeout(() => {
+        document.body.dispatchEvent(new Event("needRefreshData"));
+      }, 1000);
+    }
+  } catch (e: any) {
+    claimFeedback.type = "danger";
+
+    if (e.error && e.error.message) {
+      claimFeedback.text = e.error.message;
+    } else if (e.message) {
+      claimFeedback.text = e.message;
+    } else {
+      (claimFeedback.text = "Error : "), e;
+    }
+  }
+
+  claimFeedback.loading = false;
+}
+
 
 async function handleWithdraw() {
   const provider = await getProvider();
@@ -158,7 +213,7 @@ async function handleWithdraw() {
 
 onMounted(async () => {
   if (props.loan) {
-    const fees = await getClaimableFees(props.loan.loanIndex);
+    const fees = await getClaimableFeesLender(props.loan.loanIndex);
 
     if (fees) {
       poolFees.token0.value = parseFloat(fees.amount0);

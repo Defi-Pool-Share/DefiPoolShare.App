@@ -64,6 +64,17 @@ export const useContractLending = () => {
     return res;
   };
 
+  const claimFeesLender = async (loanIndex: number) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const res = await contract.claimFeesLender(loanIndex);
+
+    return res;
+  };
+
   const depositNFT = async (
     tokenId: number,
     loanAmount: number,
@@ -144,6 +155,32 @@ export const useContractLending = () => {
     }
 
     const trx = await contract.callStatic.claimFees(loanIndex);
+
+    if (trx && trx.length) {
+      const formatUnits = (amt: BigNumber, units?: number): string =>
+        ethers.utils
+          .formatUnits(ethers.BigNumber.from(amt).toString(), units || 18)
+          .toString();
+
+      const amount0 = formatUnits(trx[0], 18);
+      const amount1 = formatUnits(trx[1]);
+
+      return {
+        amount0,
+        amount1,
+      };
+    }
+
+    return null;
+  };
+
+  const getClaimableFeesLender = async (loanIndex: number) => {
+    const contract = await getContract();
+    if (!contract) {
+      return null;
+    }
+
+    const trx = await contract.callStatic.claimFeesLender(loanIndex);
 
     if (trx && trx.length) {
       const formatUnits = (amt: BigNumber, units?: number): string =>
@@ -278,12 +315,14 @@ export const useContractLending = () => {
     getProvider,
     borrowNFT,
     claimFees,
+    claimFeesLender,
     depositNFT,
     reactivateLoan,
     whitelistToken,
     withdrawNFT,
     canClaimFees,
     getClaimableFees,
+    getClaimableFeesLender,
     getLoanInfo,
     getAllPoolsWithLoan,
     getLoansByBorrowers,
