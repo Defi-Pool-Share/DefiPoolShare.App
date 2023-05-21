@@ -127,6 +127,8 @@ async function refreshData() {
 
     if (dpstData) {
       DPSTcurrency.img = dpstData.image;
+    } else {
+      DPSTcurrency.img = "/img/sigle.svg";
     }
     if (usdtData) {
       USDTcurrency.img = usdtData.image;
