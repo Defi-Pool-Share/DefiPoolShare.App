@@ -33,16 +33,13 @@ function generateUrl() {
   const hex = hexKeys[Math.round(Math.random() * (hexKeys.length - 1))].value;
   const uuid = generateUUID();
 
-  const desc = `Here's my proof of registration of unlocking the potential of V3 Liquidity Pools  💱💲💸
+  const desc = `Here's my proof of registration for unlocking the potential of V3 Liquidity Pools 💱💲💸
 
-My registration code for Phase 1: 0x${hex}_${uuid} 👨🏼‍💻🔶
+My registration code for #DeFiPoolShare Phase 1: 0x${hex}_${uuid} 👨🏼‍💻🔶
 
-Join me in this journey with @DefiPoolShare 🚀
-`;
+Join me in this journey with @DefiPoolShare 🚀`;
 
-const tags = ['DeFiPoolShare'];
-
-url.value = `https://twitter.com/intent/tweet?text=${encodeURI(desc)}&hashtags=${tags.join(',')}`;
+url.value = `https://twitter.com/intent/tweet?text=${encodeURIComponent(desc)}`;
 }
 
 onMounted(() => {
