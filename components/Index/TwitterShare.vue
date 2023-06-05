@@ -37,9 +37,12 @@ function generateUrl() {
 
 My registration code for Phase 1: 0x${hex}_${uuid} 👨🏼‍💻🔶
 
-Join me in this journey with @DefiPoolShare 🚀`;
+Join me in this journey with @DefiPoolShare 🚀
+`;
 
-url.value = `https://twitter.com/intent/tweet?text=${encodeURI(desc)}`;
+const tags = ['DeFiPoolShare'];
+
+url.value = `https://twitter.com/intent/tweet?text=${encodeURI(desc)}&hashtags=${tags.join(',')}`;
 }
 
 onMounted(() => {

@@ -75,22 +75,28 @@ tokenomics:
   title: Our Vision for a Sustainable Ecosystem
   total: |
     Total Supply:
-  liquidity: |
-    {percent} of the total supply is reserved for private/public sale and liquidity provision
+  seed: |
+    {percent} of the total supply is reserved for seed round, with 2 months cliff followed by a linear vesting period of 18 months
+  sale: |
+    {percent} of the total supply is reserved for public sale, with a linear vesting period of 9 months
   team: |
-    {percent} of the total supply is reserved for team members and advisors, with a vesting period of 2 years
+    {percent} of the total supply is reserved for team members and advisors, with a linear vesting period of 24 months
   marketing: |
-    {percent} of the total supply is reserved for future development and marketing
-  collaboration: |
-    {percent} of the total supply is reserved for strategic partnerships and collaborations
-  reward: |
-    {percent} of the total supply is reserved for early adopters and liquidity providers, to be distributed through a reward system
+    {percent} of the total supply is reserved for future development and marketing, with a linear vesting period of 24 months
+  partners: |
+    {percent} of the total supply is reserved for strategic partnerships and collaborations, with 3 months cliff followed by a linear vesting period of 10 months
+  liquidity: |
+    {percent} of the total supply is reserved for liquidity provision, with 3 months linear vesting
+  early: |
+    {percent} of the total supply is reserved for early adopters and liquidity providers, to be distributed through a reward system, with a linear vesting period of 9 months
+  foundation: |
+    {percent} of the total supply is reserved for the foundation for future developments, with 6 months cliff followed by a linear vesting period of 36 months
   left: |
-    <p>The DeFi Pool Share Token (DPST) is an ERC20 token that serves as the governance and utility token for the DeFi Pool Share platform. DPST can be used to vote on important platform decisions, access premium features and services, and receive a portion of the platform's revenue.</p>
-    <p>DPST holders can participate in the governance of the DeFi Pool Share platform by voting on proposals related to changes in the lending fee structure, the addition of new features or services, and other important decisions. DPST holders can also access premium features and services such as discounted lending fees, priority access to new investment opportunities, and additional support from the platform team.</p>
+    <p><strong>Governance</strong>: DPST holders can participate in the governance of the DeFi Pool Share platform by voting on proposals related to changes in the lending fee structure, the addition of new features or services, and other important decisions.</p>
+    <p><strong>Rewards</strong>: In order to provide an incentive for early adoption and liquidity provision, the DeFi Pool Share platform will distribute 5% of the total supply of DPST tokens to early adopters and liquidity providers through a reward system. This will help to bootstrap liquidity and adoption of the platform in the early stages of its development.</p>
   right: |
-    <p>DPST holders that stake their share will also be eligible to receive a portion of the platform's revenue through a fee-sharing mechanism. This mechanism will distribute a portion of the platform's revenue to DPST stakers, providing a potentially significant source of passive income for long-term token holders.</p>
-    <p>In order to provide an incentive for early adoption and liquidity provision, the DeFi Pool Share platform will distribute 5% of the total supply of DPST tokens to early adopters and liquidity providers through a reward system. This will help to bootstrap liquidity and adoption of the platform in the early stages of its development.</p>
+    <p><strong>Staking</strong>: DPST holders that stake their DPST will also be eligible to receive a portion of the platform's revenue through a fee-sharing mechanism. This mechanism will distribute a portion of the platform's revenue to DPST stakers, providing a potentially significant source of passive income for long-term token holders.</p>
+    <p><strong>Premium access</strong>: DPST holders can also access premium features and services such as discounted lending fees.</p>
     <p>Overall, the DeFi Pool Share Token (DPST) is designed to provide a variety of benefits and opportunities to its holders, while also serving as a key component of the DeFi Pool Share platform's governance and revenue model.</p>
 
 team:
