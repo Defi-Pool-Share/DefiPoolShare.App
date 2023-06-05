@@ -76,21 +76,21 @@ tokenomics:
   total: |
     Total Supply:
   seed: |
-    {percent} of the total supply is reserved for seed round, with 2 months cliff followed by a linear vesting period of 18 months
+    {percent} of the total supply is reserved for seed round
   sale: |
-    {percent} of the total supply is reserved for public sale, with a linear vesting period of 9 months
+    {percent} of the total supply is reserved for public sale
   team: |
-    {percent} of the total supply is reserved for team members and advisors, with a linear vesting period of 24 months
+    {percent} of the total supply is reserved for team members and advisors
   marketing: |
-    {percent} of the total supply is reserved for future development and marketing, with a linear vesting period of 24 months
+    {percent} of the total supply is reserved for future development and marketing
   partners: |
-    {percent} of the total supply is reserved for strategic partnerships and collaborations, with 3 months cliff followed by a linear vesting period of 10 months
+    {percent} of the total supply is reserved for strategic partnerships and collaborations
   liquidity: |
-    {percent} of the total supply is reserved for liquidity provision, with 3 months linear vesting
+    {percent} of the total supply is reserved for liquidity provision
   early: |
-    {percent} of the total supply is reserved for early adopters and liquidity providers, to be distributed through a reward system, with a linear vesting period of 9 months
+    {percent} of the total supply is reserved for early adopters and liquidity providers
   foundation: |
-    {percent} of the total supply is reserved for the foundation for future developments, with 6 months cliff followed by a linear vesting period of 36 months
+    {percent} of the total supply is reserved for the foundation for future developments
   left: |
     <p><strong>Governance</strong>: DPST holders can participate in the governance of the DeFi Pool Share platform by voting on proposals related to changes in the lending fee structure, the addition of new features or services, and other important decisions.</p>
     <p><strong>Rewards</strong>: In order to provide an incentive for early adoption and liquidity provision, the DeFi Pool Share platform will distribute 5% of the total supply of DPST tokens to early adopters and liquidity providers through a reward system. This will help to bootstrap liquidity and adoption of the platform in the early stages of its development.</p>
