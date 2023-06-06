@@ -5,7 +5,7 @@
       <div class="defi-Stats-nb grad-1" v-else>
         {{ waitingPoolsNb }}
       </div>
-      <div class="defi-Stats-label">waiting pools</div>
+      <div class="defi-Stats-label">waiting positions</div>
     </div>
     <div class="defi-Stats-item">
       <SvgSpinner v-if="isLoading" />

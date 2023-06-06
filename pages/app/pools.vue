@@ -7,12 +7,11 @@
       <div class="defi-Pools-section">
         <div class="app-paragraphe">
           <p>
-            Here on the app's homepage, you can view all available Uniswap V3
-            liquidity pools for borrowing. Use filters to sort through active,
-            waiting, or ended pools. It's important to check the pool details on
-            the official LP AMM provider's website for accurate information
-            about the NFT content. This helps you make informed decisions when
-            interacting with pools in the marketplace.
+            Here on the app’s homepage, you can view all available Uniswap V3
+            liquidity positions for borrowing. It’s important to check the
+            position details on the official LP AMM provider’s website for
+            accurate information about the NFT content. This helps you make
+            informed decisions when interacting with positions on the app.
           </p>
         </div>
         <AppStats />
