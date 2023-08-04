@@ -21,6 +21,18 @@ export const useTeam = () => {
      photo: 'https://i.imgur.com/rIv4m09.png',
      linkedin: 'https://www.linkedin.com/in/vansh-jolly-25285b18a/'
      },
+     { name: 'Sarv', role: 'team.role.analyst',
+     photo: 'https://i.imgur.com/UzhkoTq.jpg',
+     linkedin: ''
+     },
+     { name: 'Nilesh Vohra', role: 'team.role.advisor',
+     photo: 'https://i.imgur.com/dVHoqfH.jpg',
+     linkedin: ''
+     },
+     { name: 'Rhicc', role: 'team.role.advisor',
+     photo: 'https://i.imgur.com/10RCqFl.png',
+     linkedin: ''
+     },
 
   ]
 

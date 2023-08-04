@@ -116,6 +116,8 @@ team:
     pub: Public relation lead
     cm: Community Manager
     webdev: Web3 Developer
+    analyst: Analyst
+    advisor: Advisor
 
 footer:
   desc: |
