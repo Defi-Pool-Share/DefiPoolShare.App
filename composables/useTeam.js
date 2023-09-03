@@ -33,6 +33,10 @@ export const useTeam = () => {
      photo: 'https://i.imgur.com/10RCqFl.png',
      linkedin: ''
      },
+     { name: 'Kevin Arens', role: 'team.role.advisor',
+     photo: 'https://i.imgur.com/jxxjOjM.jpeg',
+     linkedin: ''
+     },
 
   ]
 
