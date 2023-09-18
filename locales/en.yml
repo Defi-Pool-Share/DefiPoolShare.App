@@ -169,7 +169,7 @@ pool:
       duration: Duration
     popin:
       title: Loan summary
-      warning: You will set your ownership on loan for a certain duration in-wait for someone to buy it.
+      warning: You will set your ownership on loan for a certain duration in-wait for someone to borrow it.
   text:
     uniswap: |
       Below, you'll find a list of the Uniswap LP NFTs in your possession. When you contribute liquidity to a trading pair on Uniswap, you are given an NFT that signifies your stake in that specific pool. This NFT can be loaned out on DeFi Pool Share. To determine a suitable borrowing price for prospective borrowers, it's important to know the percentage of the initial pool that you own, as this will give you an idea of your LP NFT's lending value.
