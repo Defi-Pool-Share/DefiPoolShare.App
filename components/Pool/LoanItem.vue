@@ -108,11 +108,8 @@ async function handleBuy() {
     borrowFeedback.loading = true;
     borrowFeedback.type = "info";
     borrowFeedback.text = "Request approval for currency transfer.";
-    let res = await approve(
-      isString(props.loan.loanAmount)
-        ? parseFloat(props.loan.loanAmount)
-        : props.loan.loanAmount
-    );
+    
+    let res = await approve(props.loan.loanAmount.toString());
     borrowFeedback.text = "Waiting for approval confirmation.";
     await provider.waitForTransaction(res.hash, 1);
 

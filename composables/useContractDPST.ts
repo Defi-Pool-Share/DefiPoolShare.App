@@ -39,7 +39,7 @@ export const useContractDPST = () => {
     return contract.provider;
   };
 
-  const approve = async (amount: number) => {
+  const approve = async (amount: string) => {
     const contract = await getContract();
     if (!contract) {
       return null;
@@ -47,7 +47,7 @@ export const useContractDPST = () => {
 
     const res = await contract.approve(
       config.public.contract.lending,
-      amount.toString(),
+      amount,
       {
         gasLimit: 400000,
       }
