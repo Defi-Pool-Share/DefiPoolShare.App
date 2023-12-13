@@ -45,35 +45,57 @@ step:
 roadmap:
   sub: Discover our <strong>roadmap</strong>
   title: Our Roadmap for Success
-  q1:
-    [
-      "Begin outreach efforts to attract early adopters and liquidity providers.",
-      "Conduct market research to identify potential integration opportunities with other DeFi protocols.",
-      "Collaborate with industry influencers and thought leaders to raise awareness about DeFi Pool Share.",
-    ]
-  q2:
-    [
-      "Launch DeFi Pool Share on Goerli testnet, with initial support for Uniswap V3 pool positions.",
-      "Introduce a native token associated with the DeFi Pool Share protocol.",
-      "Implement a staking mechanism to allow users to earn additional yield on their Pool Positions NFT.",
-      "Launch the DeFi Pool Share on Ethereum mainnet",
-      "Token TGE & Listing",
-      "Uniswap listing for token & CEX Listings",
-      "Listing on CoinMarketCap, Coingecko etc.",
-    ]
-  q3:
-    [
-      "Begin building strategic partnerships with other projects in the DeFi space to expand the platform's reach.",
-      "Introduce a governance mechanism to enable users to participate in important platform decisions.",
-      "Integrate available chains in Uniswap V3 on DeFi Pool Share to increase the market for liquidity positions lending and borrowing.",
-    ]
-  q4:
-    [
-      "Expand the platform to support additional DeFi services.",
-      "Further enhance the platform by integrating with additional lending protocols, offering users more options for lending and borrowing.",
-      "Continue building partnerships with prominent DeFi protocols to foster interoperability and expand the network.",
-      "Conduct a comprehensive marketing campaign to attract a wider audience of DeFi users and increase platform adoption.",
-    ]
+  2023:
+    q1:
+      [
+        "Begin outreach efforts to attract early adopters and liquidity providers.",
+        "Conduct market research to identify potential integration opportunities with other DeFi protocols.",
+        "Collaborate with industry influencers and thought leaders to raise awareness about DeFi Pool Share.",
+      ]
+    q2:
+      [
+        "Launch DeFi Pool Share on Goerli testnet, with initial support for Uniswap V3 pool positions.",
+        "Introduce a native token associated with the DeFi Pool Share protocol.",
+        "Launch the DeFi Pool Share on Ethereum Goerli Testnet.",
+        "Release DeFi Pool Share's First Technical Paper.",
+      ]
+    q3:
+      [
+        "Begin building strategic partnerships with other projects in the DeFi space to expand the platform's reach.",
+        "Integrate available chains in Uniswap V3 on DeFi Pool Share to increase the market for liquidity positions lending and borrowing.",
+      ]
+    q4:
+      [
+        "Continue building partnerships with prominent DeFi protocols to foster interoperability, expanding the network, & increased TVL on mainnet launch.",
+        "Conduct a comprehensive marketing campaign to attract a wider audience of DeFi users and increase platform adoption.",
+        "Participated & Won in Gitcoin Grant for Fantom Foundation.",
+      ]
+  2024:
+    q1:
+      [
+        "Onboard more DeFi focused Advisors & KOLs to support launch",
+        "Airdrop for early community & supporters",
+        "Token TGE & Listing",
+        "Uniswap listing for token & Top Tier CEX Listings",
+        "Listing on CoinMarketCap, Coingecko, Mobula etc.",
+        "Launch the DeFi Pool Share mainnet on Ethereum, Polygon & Fantom",
+      ]
+    q2:
+      [
+        "Implement a staking mechanism to allow users to earn additional yield on their Pool Positions NFT",
+        "Launch Phase I's complete version of the protocol",
+        "Implement Governance",
+      ]
+    q3:
+      [
+        "Launch Beta of Phase II of the protocol for fractional LP Borrowing",
+        "Onboarding projects and their communities to participate in fractional LP Borrowing with extra rewards and yields",
+      ]
+    q4:
+      [
+        "Introducing Active LP Management Strategies on the protocol, with blue-chip LPs & institutional borrowing",
+        "Expanding to more DeFi Services for wider usability of the protocol",
+      ]
 
 tokenomics:
   sub: <strong>Tokenomics</strong> for the community
