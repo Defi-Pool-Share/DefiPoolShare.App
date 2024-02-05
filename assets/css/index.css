@@ -53,7 +53,7 @@
 #we .round-eth{top:83.5%;left:30.1%}
 #we .round-dps{--m:1.3;top:64%;left:52.8%}
 #we .round-nft{--m:.9;top:20%;left:65.5%}
-#we .round svg{width:100%;}
+#we .round svg{width:100%;height:100%;max-width:55px;max-height:55px;filter:grayscale(1)}
 #we .round svg *{fill:var(--bg-1);}
 
 @keyframes dash {
