@@ -165,7 +165,7 @@ html .swiper-pagination > *:before{content:'';inset:0;border-radius:inherit;back
 
 /* Footer */
 
-#f{margin-top:calc(var(--top-section) / 1.5);padding-bottom:var(--ct-padding);}
+#f{position:relative;z-index:1;margin-top:calc(var(--top-section) / 1.5);padding-bottom:var(--ct-padding);}
 #f .logo{display:flex;align-items:center;height:calc(50px + 20 * (100vw - 320px) / 1080);}
 #f .logo .lg{height:65%;margin-left:calc(var(--header-logo) / 3);}
 #f .logo .sigle{height:100%}

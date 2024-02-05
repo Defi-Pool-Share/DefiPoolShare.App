@@ -8,9 +8,10 @@
   <Smooth>
     <IndexWelcome />
     <IndexStep />
-    <IndexRoadmap />
+    <IndexBacked/>
+    <!--<IndexRoadmap />
     <IndexTokenomics />
-    <IndexTeam />
+    <IndexTeam />-->
     <Footer />
   </Smooth>
 </template>
