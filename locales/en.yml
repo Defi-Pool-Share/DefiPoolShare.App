@@ -42,7 +42,7 @@ step:
     3:
       title: Yield Casing
       txt: |
-        Categorising Pool Positions in terms of Potential & Risk so you can make more informed decisions.
+        LP Pool positions are analyzed by our partner LLM agents on various metrics like the estimated yield that can be generated in the loan duration based on historical data, market sentiments, how much total liquidity is there on the specific pool, volatility, lending terms etc. Then the LLM categorizes these Pool Positions in terms of Potential & Risk so you can make more informed decisions.
 
 roadmap:
   sub: Discover our <strong>roadmap</strong>

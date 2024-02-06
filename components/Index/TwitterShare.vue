@@ -1,6 +1,6 @@
 <template>
   <div class="defi-TwitterShare">
-    <a :href="url" class="btn" target="_blank" @click="generateUrl">Unlock the potential</a>
+    <div class="btn" target="_blank" @click="generateUrl">LBP on Fjord Foundry (Soon)</div>
   </div>
 </template>
 

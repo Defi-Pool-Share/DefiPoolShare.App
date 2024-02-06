@@ -11,14 +11,14 @@ export const useNav = () => {
     { title: "nav.docs", link: "https://docs.defipoolshare.io" },
     { title: "nav.testnet", link: "#" },
     { title: "nav.github", link: "https://github.com/Defi-Pool-Share" },
-    { title: "nav.team", link: "https://t.me/DefiPoolShare" },
+    { title: "nav.team", link: "https://docs.defipoolshare.io/team/our-team" },
   ];
 
   const subNav = [
     { title: "nav.paper", link: "https://cdn.defipoolshare.io/DeFiPoolShare_Whitepaper_V0.5.pdf" },
     { title: "nav.docs", link: "https://docs.defipoolshare.io" },
     { title: "nav.github", link: "https://github.com/Defi-Pool-Share" },
-    { title: "nav.contact", link: "" },
+    { title: "nav.contact", link: "mailto:info@defipoolshare.io" },
   ];
 
   const asideNav = [
