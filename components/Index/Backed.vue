@@ -15,10 +15,10 @@ const backers = [
     height: 'auto'
   },
   {
-    photo: 'https://i.imgur.com/5DflSy6.png',
+    photo: 'https://i.imgur.com/9xxgPPx.png',
     name: 'Re:base',
     link: "https://rebase.vc/",
-    width: '90px',
+    width: '170px',
     height: 'auto'
   },
   {
