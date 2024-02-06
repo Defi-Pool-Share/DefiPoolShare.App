@@ -1,51 +1,46 @@
 <script setup>
-  const backers = [
-    {
-      photo: 'https://i.imgur.com/dDj5gcF.jpg',
-      name: '3poch'
-    },
-    {
-      photo: 'https://i.imgur.com/M3tQszy.jpg',
-      name: 'Re:base'
-    },
-    {
-      photo: 'https://i.imgur.com/hactMnk.jpg',
-      name: 'Fantom'
-    },
-    {
-      photo: 'https://i.imgur.com/DVJA1cj.jpg',
-      name: 'Merkle Tech Capital'
-    }
-  ]
-
-  const breakpointsSwiper = {
-    850: {
-      slidesPerView: 3
-    },
-    500: {
-      slidesPerView: 2
-    }
+const backers = [
+  {
+    photo: 'https://i.imgur.com/FYQ4hOv.png',
+    name: '3poch'
+  },
+  {
+    photo: 'https://i.imgur.com/w9VOt7F.png',
+    name: 'DWF Labs'
+  },
+  {
+    photo: 'https://i.imgur.com/5DflSy6.png',
+    name: 'Re:base'
+  },
+  {
+    photo: 'https://i.imgur.com/pIXdZu2.png',
+    name: 'Fantom'
+  },
+  {
+    photo: 'https://i.imgur.com/nMRc0u8.png',
+    name: 'Merkle Tech Capital'
   }
+]
+
+const breakpointsSwiper = {
+  850: {
+    slidesPerView: 3
+  },
+  500: {
+    slidesPerView: 2
+  }
+}
 </script>
 
 <template>
-  <div id="team">
+  <div id="backers">
     <div class="ct">
       <Heading h2="backed.title" />
-      <Swiper :slides-per-view="1" :slides-per-group="1" :modules="[SwiperPagination]" :pagination="{ clickable: true }" :breakpoints="breakpointsSwiper">
-        <SwiperSlide v-for="member, slide in backers" :key="slide">
-          <div class="member" data-reveal>
-            <div class="photo">
-              <img :src="member.photo" alt="">
-              <SvgSigle />
-            </div>
-            <div class="name">
-              <strong class="grad-1">{{ member.name }}</strong>
-            </div>
-          </div>
-        </SwiperSlide>
-      </Swiper>
-      <div class="line"></div>
+      <div class="backers" data-reveal>
+        <div v-for="backer, slide in backers" :key="slide" class="backer">
+          <img :src="backer.photo" alt="">
+        </div>
+      </div>
     </div>
   </div>
 </template>
