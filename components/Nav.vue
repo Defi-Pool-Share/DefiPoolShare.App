@@ -29,7 +29,7 @@
   <nav id="n">
     <ul>
       <li v-for="nav in navs">
-        <a :href="nav.link" target="_blank" :title="$t(nav.title)" :class="'#hm' " @click="stateNav = false">
+        <a :href="nav.link" :target="nav.link !== '#' ? '_blank' : ''" :title="$t(nav.title)" :class="'#hm' " @click="stateNav = false">
           <span class="grad-1">{{ $t(nav.title) }}</span>
         </a>
       </li>
