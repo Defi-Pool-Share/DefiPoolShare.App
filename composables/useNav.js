@@ -7,7 +7,7 @@ export const useNav = () => {
 
   const navs = [
     { title: "nav.home", section: "#hm" },
-    { title: "nav.paper", link: "https://cdn.defipoolshare.io/DeFiPoolShare_Whitepaper_V0.5.pdf" },
+    { title: "nav.paper", link: "https://github.com/Defi-Pool-Share/DefiPoolShare.Docs/blob/main/DeFi_Pool_Share_Whitepaper_V0.5.pdf" },
     { title: "nav.docs", link: "https://docs.defipoolshare.io" },
     { title: "nav.testnet", link: "#" },
     { title: "nav.github", link: "https://github.com/Defi-Pool-Share" },
@@ -15,7 +15,7 @@ export const useNav = () => {
   ];
 
   const subNav = [
-    { title: "nav.paper", link: "https://cdn.defipoolshare.io/DeFiPoolShare_Whitepaper_V0.5.pdf" },
+    { title: "nav.paper", link: "https://github.com/Defi-Pool-Share/DefiPoolShare.Docs/blob/main/DeFi_Pool_Share_Whitepaper_V0.5.pdf" },
     { title: "nav.docs", link: "https://docs.defipoolshare.io" },
     { title: "nav.github", link: "https://github.com/Defi-Pool-Share" },
     { title: "nav.contact", link: "mailto:info@defipoolshare.io" },
